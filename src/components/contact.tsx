@@ -167,7 +167,7 @@ const TerminalResponse = ({ containerRef }: { containerRef: MutableRefObject<HTM
         { type: 'command', text: '> Attempting to process anyway...' },
         { type: 'error', text: 'FATAL: Server running on hopes and dreams only' },
         { type: 'success', text: '> Message saved to /dev/null' },
-        { type: 'info', text: 'For actual inquiries, please email crspy8687@gmail.com' },
+        { type: 'info', text: 'For actual inquiries, please contact me via Discord, Telegram or email at crspy8687@gmail.com' },
     ];
 
     useEffect(() => {

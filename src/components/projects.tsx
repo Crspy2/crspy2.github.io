@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils.ts"
 import { WebScreenshot } from "./ui/web-screenshot.tsx"
 import { IconType } from "react-icons"
 import { FiEye } from "react-icons/fi"
+import { FaDiagramProject } from "react-icons/fa6"
 
 import DiscordJS from "@/assets/logos/discordjs.svg"
 import Mintlify from "@/assets/logos/mintlify.svg"
@@ -18,11 +19,16 @@ export const Projects = memo(() => {
   const [featureInView, setFeatureInView] = useState<ProjectType>(features[0])
 
   return (
-    <section id="projects" className="relative mx-auto max-w-7xl">
+  <section id="projects" className="relative mx-auto max-w-7xl">
       <div className="mt-28 mb-36 md:mb-0 flex items-center justify-center">
-        <h3 className="text-white text-5xl font-bold font-poppins">
-          My Projects
-        </h3>
+        <div className="flex flex-col items-center justify-center mb-8">
+          <span className="mx-auto mb-3 block w-fit rounded bg-gradient-to-br from-slate-800 to-slate-950 p-3 text-3xl shadow-md shadow-blue-900">
+            <FaDiagramProject />
+          </span>
+          <h3 className="text-white text-3xl md:text-5xl font-light italic font-moranga">
+            My Projects
+          </h3>
+        </div>
       </div>
       <div className="-mt-32">
         <SlidingFeatureDisplay featureInView={featureInView} />
@@ -105,10 +111,10 @@ const Content = memo(({
             className="flex flex-col gap-3"
           >
             <div>
-              <a href={featureInView.url} target="_blank" className="rounded-full bg-blue-600 px-2 py-1.5 text-xs font-medium text-white">
+              <a href={featureInView.url} target="_blank" className="rounded-full bg-blue-600 px-2 py-1.5 text-xs font-light text-white">
                 {featureInView.title}
               </a>
-              <p className="my-3 text-3xl sm:text-4xl md:text-5xl text-neutral-200 font-poppins font-bold">{featureInView.title}</p>
+              <p className="my-3 text-3xl sm:text-4xl md:text-5xl text-neutral-200 font-poppins font-semibold">{featureInView.title}</p>
               <p className="text-neutral-400">{featureInView.description}</p>
             </div>
             <div className="flex flex-row gap-3 items-center">
@@ -161,8 +167,8 @@ const features: ProjectType[] = [
     id: 1,
     title: "Sellix Documentation",
     description:
-        "The documentation website for Sellix.io. Contains detailed explanations on how to get started using their API and how to access features on their dashboard.",
-    url: "https://docs.sellix.io",
+        "The documentation website for Sellix.io. Contains detailed explanations on how to get use their API and how to access and configure features on their dashboard.",
+    url: "https://docs.sellix.io/api-reference/introduction",
     contentPosition: "l",
     icon: FiEye,
     tools: [

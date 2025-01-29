@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer.tsx"
 
 function App() {
     return (
-        <div className="bg-slate-950 min-h-screen max-w-screen text-neutral-200">
+        <div className="min-h-screen max-w-screen text-neutral-200">
             <Menu />
             <Intro />
             <About />

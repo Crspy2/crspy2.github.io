@@ -13,24 +13,6 @@
 
 @font-face {
   font-family: "Moranga";
-  src:local("Moranga-Bold");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-  src: url("./assets/fonts/moranga/Bold.ttf");
-}
-
-@font-face {
-  font-family: "Moranga";
-  src:local("Moranga-Medium");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  src: url("./assets/fonts/moranga/Medium.ttf");
-}
-
-@font-face {
-  font-family: "Moranga";
   src:local("Moranga-Regular");
   font-weight: 400;
   font-style: normal;
@@ -38,51 +20,6 @@
   src: url("./assets/fonts/moranga/Regular.ttf");
 }
 
-@font-face {
-  font-family: "Moranga";
-  src:local("Moranga-Light");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  usrc: url("./assets/fonts/moranga/Light.ttf");
-}
-
-@font-face {
-  font-family: "Moranga";
-  src:local("Moranga-Black-Italic");
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-  src: url("./assets/fonts/moranga/Black-italic.ttf");
-}
-
-@font-face {
-  font-family: "Moranga";
-  src:local("Moranga-Bold-Italic");
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-  src: url("./assets/fonts/moranga/Bold-italic.ttf");
-}
-
-
-@font-face {
-  font-family: "Moranga";
-  src:local("Moranga-Medium-Italic");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-  src: url("./assets/fonts/moranga/Medium-italic.ttf");
-}
-
-@font-face {
-  font-family: "Moranga";
-  src:local("Moranga-Regular-Italic");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-  src: url("./assets/fonts/moranga/Regular-italic.ttf");
-}
 @font-face {
   font-family: "Moranga";
   src:local("Moranga-Light-Italic");

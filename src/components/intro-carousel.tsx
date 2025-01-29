@@ -66,7 +66,7 @@ const carouselSections: CarouselSection[] = [
                                         <img
                                             src={b.src}
                                             alt={b.name}
-                                            className="size-5"
+                                            className="size-6"
                                         />
                                     </AnimatedTooltip>
                                 ))}

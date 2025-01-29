@@ -21,8 +21,9 @@ export const Intro = memo(() => {
                     animate={{ scale: 1, opacity: 1 }}
                     className="text-neutral-200 font-poppins max-w-xl indent-4">
                     I am web developer based in California, United Stated, studying Computer Science and Computer
-                    Engineering at university. I'm an experienced web developer and enjoy making user-friendly UIs
-                    and creating backends.
+                    Engineering at university. I have a passion for building cool stuff. My main tech stack is React,
+                    Tailwind CSS, Framer Motion and, if a backend is needed, NextJS. I can get so much work done with this
+                    stack that almost all of my projects are done with it. I also like Rock Climbing, Skiing and
                 </motion.p>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">

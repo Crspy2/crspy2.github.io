@@ -94,7 +94,7 @@ export const LinkPreview = memo(({
             >
                 <HoverCardPrimitive.Trigger
                     onMouseMove={handleMouseMove}
-                    className={cn("text-black dark:text-white font-bold underline underline-offset-2 hover:underline-offset-4 transition-all decoration-blue-500", className)}
+                    className={cn("text-white font-bold underline underline-offset-2 hover:underline-offset-4 transition-all decoration-blue-500", className)}
                     href={url}
                 >
                     {children}

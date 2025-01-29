@@ -20,7 +20,7 @@ const LinksOverlay = memo(({
   setActive: Dispatch<SetStateAction<boolean>>
 }) => {
   return (
-    <nav className="fixed right-4 top-4 z-40 h-[calc(100vh_-_32px)] w-[calc(100%_-_32px)] overflow-hidden">
+    <nav className="fixed right-4 top-4 z-40 h-[calc(100dvh_-_32px)] w-[calc(100%_-_32px)] overflow-hidden">
       <LinksContainer setActive={setActive} />
       <FooterCTAs />
     </nav>
@@ -212,7 +212,7 @@ const SOCIAL_CTAS = [
 const UNDERLAY_VARIANTS = {
   open: {
     width: "calc(100% - 32px)",
-    height: "calc(100vh - 32px)",
+    height: "calc(100dvh - 32px)",
     transition: { type: "spring", mass: 3, stiffness: 400, damping: 50 },
   },
   closed: {

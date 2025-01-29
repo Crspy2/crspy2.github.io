@@ -1,6 +1,6 @@
 import { Dispatch, memo, ReactNode, SetStateAction, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { SiDiscord, SiX, SiGithub } from "react-icons/si"
+import { SiDiscord, SiGithub, SiTelegram, SiX } from "react-icons/si"
 import { FiArrowRight } from "react-icons/fi"
 
 export const Menu = memo(() => {
@@ -198,6 +198,10 @@ const SOCIAL_CTAS = [
   {
     Component: SiGithub,
     href: "https://github.com/crspy2",
+  },
+  {
+    Component: SiTelegram,
+    href: "https://t.me/crs_py",
   },
   {
     Component: SiX,

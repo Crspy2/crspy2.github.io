@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { DripButton } from "./ui/drip-btn.tsx"
 import { EncryptButton } from "./ui/encrypt-btn.tsx"
 import { IntroTabs } from "@/components/intro-carousel.tsx"
+import {LinkPreview} from "@/components/ui/link-preview.tsx";
 
 
 export const Intro = memo(() => {
@@ -20,10 +21,23 @@ export const Intro = memo(() => {
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     className="text-neutral-200 font-poppins text-sm mx-2 sm:mx-0 md:text-base max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
-                    I am web developer based in California, United Stated, studying Computer Science and Computer
-                    Engineering at university. I have a passion for building cool stuff. My main tech stack is React,
-                    Tailwind CSS, Framer Motion and, if a backend is needed, NextJS. I can get so much work done with this
-                    stack that almost all of my projects are done with it. I also like rock climbing, skiing and video games.
+                    I am a web developer based in California, United States, studying Computer Science and Computer
+                    Engineering at university. For frontend development, I work with{" "}
+                    <LinkPreview url="https://react.dev">React</LinkPreview>,{" "}
+                    <LinkPreview url="https://tailwindcss.com">Tailwind CSS</LinkPreview>,{" "}
+                    and{" "}
+                    <LinkPreview url="https://motion.dev">
+                        Framer Motion
+                    </LinkPreview>.{" "}
+                    For backend development, I primarily use{" "}
+                    <LinkPreview url="https://nextjs.org">
+                        NextJS
+                    </LinkPreview>{" "}
+                    and{" "}
+                    <LinkPreview url="https://go.dev">
+                        Go
+                    </LinkPreview>.{" "}
+                    I also like rock climbing, skiing, and video games.
                 </motion.p>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">

@@ -14,12 +14,12 @@ export const Intro = memo(() => {
                     animate={{ scale: 1, opacity: 1 }}
                     className="flex flex-col justify-center items-center select-none">
                     <h3 className="font-moranga font-normal text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-400">Web Developer</h3>
-                    <h1 className="font-moranga text-white font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl">Hi, I'm Crspy!</h1>
+                    <h1 className="font-moranga text-white font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-nowrap">Hi, I'm Crspy!</h1>
                 </motion.div>
                 <motion.p
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="text-neutral-200 font-poppins max-w-3xl indent-8">
+                    className="text-neutral-200 font-poppins text-sm mx-2 sm:mx-0 md:text-base max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl indent-8">
                     I am web developer based in California, United Stated, studying Computer Science and Computer
                     Engineering at university. I have a passion for building cool stuff. My main tech stack is React,
                     Tailwind CSS, Framer Motion and, if a backend is needed, NextJS. I can get so much work done with this

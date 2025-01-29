@@ -110,7 +110,7 @@ const technologies: TechnologyIcon[] = [
 
 export const Tools = () => {
     return (
-        <div className="px-4 py-12">
+        <div id="tools" className="px-4 py-12">
             <div className="flex items-center justify-center mb-8">
                 <h3 className="text-white text-5xl font-bold font-poppins">
                     What I work with!

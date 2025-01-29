@@ -60,7 +60,7 @@ const carouselSections: CarouselSection[] = [
                                 <h2 className="line-clamp-1 break-all font-medium font-chillax leading-tight lg:text-lg text-white">Crspy</h2>
                                 <p className="text-zinc-400 text-xs lg:text-sm">@crs.py</p>
                             </div>
-                            <div className="flex flex-row gap-0.5 items-center">
+                            <div className="hidden sm:flex flex-row gap-0.5 items-center">
                                 {badges.map((b, idx) => (
                                     <AnimatedTooltip key={idx} hoverText={b.name}>
                                         <img
@@ -133,55 +133,59 @@ export const IntroTabs = memo(() => {
     }, [goToNextSlide])
 
     return (
-        <div className="flex flex-col justify-center items-center overflow-x-hidden">
-            <AnimatePresence initial={true} custom={direction} mode="wait">
-                <motion.div
-                    key={currentIndex}
-                    custom={direction}
-                    variants={slideVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                        x: { type: "spring", stiffness: 300, damping: 30 },
-                        opacity: { duration: 0.2 }
-                    }}
-                    className="h-42"
-                >
-                    {carouselSections[currentIndex].component}
-                </motion.div>
-            </AnimatePresence>
-
-            <div className="bottom-40 left-0 right-0">
-                <div className="flex justify-center gap-2 px-4">
-                    {carouselSections.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => goToSlide(index)}
-                            className="h-2 relative"
-                            aria-label={`Go to tab ${index + 1}`}
-                        >
-                            {/* Background track */}
-                            <div
-                                className={`h-full transition-all duration-300 rounded-full bg-zinc-600 ${
-                                    index === currentIndex ? 'w-16' : 'w-8 hover:w-12'
-                                }`}
-                            />
-
-                            {/* Progress fill */}
-                            {index === currentIndex && (
+        <>
+            <div className="hidden md:flex flex-col justify-center items-center overflow-x-hidden">
+                <AnimatePresence initial={true} custom={direction} mode="wait">
+                    <motion.div
+                        key={currentIndex}
+                        custom={direction}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                            x: { type: "spring", stiffness: 300, damping: 30 },
+                            opacity: { duration: 0.2 }
+                        }}
+                        className="h-42"
+                    >
+                        {carouselSections[currentIndex].component}
+                    </motion.div>
+                </AnimatePresence>
+                <div className="bottom-40 left-0 right-0">
+                    <div className="flex justify-center gap-2 px-4">
+                        {carouselSections.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => goToSlide(index)}
+                                className="h-2 relative"
+                                aria-label={`Go to tab ${index + 1}`}
+                            >
+                                {/* Background track */}
                                 <div
-                                    className="absolute top-0 left-0 h-full rounded-full bg-zinc-300 transition-all duration-100"
-                                    style={{
-                                        width: `${progress}%`,
-                                        maxWidth: '64px' // equivalent to w-16
-                                    }}
+                                    className={`h-full transition-all duration-300 rounded-full bg-zinc-600 ${
+                                        index === currentIndex ? 'w-16' : 'w-8 hover:w-12'
+                                    }`}
                                 />
-                            )}
-                        </button>
-                    ))}
+
+                                {/* Progress fill */}
+                                {index === currentIndex && (
+                                    <div
+                                        className="absolute top-0 left-0 h-full rounded-full bg-zinc-300 transition-all duration-100"
+                                        style={{
+                                            width: `${progress}%`,
+                                            maxWidth: '64px' // equivalent to w-16
+                                        }}
+                                    />
+                                )}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className="flex md:hidden">
+                {carouselSections[0].component}
+            </div>
+        </>
     )
 })

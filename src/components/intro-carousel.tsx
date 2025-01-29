@@ -9,8 +9,16 @@ import Nitro from "@/assets/discord/discordnitro.svg"
 import Boost from "@/assets/discord/discordboost3.svg"
 import Username from "@/assets/discord/username.png"
 import Quest from "@/assets/discord/quest.png"
+import {AnimatedTooltip} from "@/components/ui/animated-tooltip.tsx";
 
-const badges = [Hypesquad, ActiveDev, Nitro, Boost, Username, Quest]
+const badges = [
+    { src: Hypesquad, name: "HypeSquad Balance" },
+    { src: ActiveDev, name: "Active Developer" },
+    { src: Nitro, name: "Subscriber since Oct 12, 2024" },
+    { src: Boost, name: "Server boosting since Oct 12, 2024" },
+    { src: Username, name: "Originally known as Crspy#1794" },
+    { src: Quest, name: "Completed a Quest" }
+]
 
 type CarouselSection = {
     component: ReactNode;
@@ -53,12 +61,14 @@ const carouselSections: CarouselSection[] = [
                                 <p className="text-zinc-400 text-xs lg:text-sm">@crs.py</p>
                             </div>
                             <div className="flex flex-row gap-0.5 items-center">
-                                {badges.map(b => (
-                                    <img
-                                        src={b}
-                                        alt={b}
-                                        className="size-5"
-                                    />
+                                {badges.map((b, idx) => (
+                                    <AnimatedTooltip key={idx} hoverText={b.name}>
+                                        <img
+                                            src={b.src}
+                                            alt={b.name}
+                                            className="size-5"
+                                        />
+                                    </AnimatedTooltip>
                                 ))}
                             </div>
                         </div>

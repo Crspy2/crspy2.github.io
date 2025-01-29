@@ -1,7 +1,7 @@
-import {memo, useState, ReactNode, useEffect, useCallback} from 'react';
-import { motion, AnimatePresence } from "framer-motion";
-import LinkButton from "@/components/ui/link-btn.tsx";
-import GitHubCalendar from "react-github-calendar";
+import {memo, useState, ReactNode, useEffect, useCallback} from 'react'
+import { motion, AnimatePresence } from "framer-motion"
+import { LinkButton } from "@/components/ui/link-btn.tsx"
+import GitHubCalendar from "react-github-calendar"
 import DiscordDND from "@/assets/discord/dnd.png"
 import Hypesquad from "@/assets/discord/hypesquadbalance.svg"
 import ActiveDev from "@/assets/discord/activedeveloper.svg"
@@ -9,7 +9,7 @@ import Nitro from "@/assets/discord/discordnitro.svg"
 import Boost from "@/assets/discord/discordboost3.svg"
 import Username from "@/assets/discord/username.png"
 import Quest from "@/assets/discord/quest.png"
-import {AnimatedTooltip} from "@/components/ui/animated-tooltip.tsx";
+import {AnimatedTooltip} from "@/components/ui/animated-tooltip.tsx"
 
 const badges = [
     { src: Hypesquad, name: "HypeSquad Balance" },
@@ -21,8 +21,8 @@ const badges = [
 ]
 
 type CarouselSection = {
-    component: ReactNode;
-};
+    component: ReactNode
+}
 
 const carouselSections: CarouselSection[] = [
     {
@@ -83,7 +83,7 @@ const carouselSections: CarouselSection[] = [
             <GitHubCalendar username="crspy2" fontSize={16} throwOnError />
         )
     }
-];
+]
 
 const slideVariants = {
     enter: (direction: number) => ({
@@ -100,37 +100,37 @@ const slideVariants = {
         x: direction < 0 ? 1000 : -1000,
         opacity: 0
     })
-};
+}
 
 export const IntroTabs = memo(() => {
-    const [[currentIndex, direction], setPage] = useState([0, 0]);
-    const [progress, setProgress] = useState(0);
+    const [[currentIndex, direction], setPage] = useState([0, 0])
+    const [progress, setProgress] = useState(0)
 
     const goToSlide = useCallback((index: number) => {
-        const newDirection = index > currentIndex ? 1 : -1;
-        setPage([index, newDirection]);
-        setProgress(0); // Reset progress when manually switching
-    }, [currentIndex]);
+        const newDirection = index > currentIndex ? 1 : -1
+        setPage([index, newDirection])
+        setProgress(0) // Reset progress when manually switching
+    }, [currentIndex])
 
     const goToNextSlide = useCallback(() => {
-        const nextIndex = (currentIndex + 1) % carouselSections.length;
-        goToSlide(nextIndex);
-    }, [currentIndex, goToSlide]);
+        const nextIndex = (currentIndex + 1) % carouselSections.length
+        goToSlide(nextIndex)
+    }, [currentIndex, goToSlide])
 
     // Auto-switch effect
     useEffect(() => {
         const timer = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) {
-                    goToNextSlide();
-                    return 0;
+                    goToNextSlide()
+                    return 0
                 }
-                return prev + 1;
-            });
-        }, 100); // Update progress every 100ms
+                return prev + 1
+            })
+        }, 100) // Update progress every 100ms
 
-        return () => clearInterval(timer);
-    }, [goToNextSlide]);
+        return () => clearInterval(timer)
+    }, [goToNextSlide])
 
     return (
         <div className="flex flex-col justify-center items-center overflow-x-hidden">
@@ -183,5 +183,5 @@ export const IntroTabs = memo(() => {
                 </div>
             </div>
         </div>
-    );
-});
+    )
+})

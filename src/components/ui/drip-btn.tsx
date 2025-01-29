@@ -1,5 +1,5 @@
+import { memo, PropsWithChildren } from "react"
 import { motion } from "framer-motion"
-import { PropsWithChildren } from "react"
 
 export const DripButton = ({ children }: PropsWithChildren) => {
   return (
@@ -10,16 +10,16 @@ export const DripButton = ({ children }: PropsWithChildren) => {
       <Drip left="57%" height={10} delay={4.25} />
       <Drip left="85%" height={16} delay={1.5} />
     </button>
-  );
-};
-
-interface DripProps {
-  left: string;
-  height: number;
-  delay: number;
+  )
 }
 
-const Drip = ({ left, height, delay }: DripProps) => {
+interface DripProps {
+  left: string
+  height: number
+  delay: number
+}
+
+const Drip = memo(({ left, height, delay }: DripProps) => {
   return (
     <motion.div
       className="absolute top-[99%] origin-top"
@@ -112,5 +112,5 @@ const Drip = ({ left, height, delay }: DripProps) => {
         className="absolute top-full h-2 w-2 rounded-full bg-blue-500 transition-colors group-hover:bg-blue-600"
       />
     </motion.div>
-  );
-};
+  )
+})

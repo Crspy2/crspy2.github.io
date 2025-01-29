@@ -2,6 +2,7 @@ import { MotionProps, motion } from "framer-motion"
 import { cn } from "@/lib/utils.ts"
 import { LinkPreview } from "@/components/ui/link-preview.tsx"
 import { IoIosMore } from "react-icons/io"
+import { GrTechnology } from "react-icons/gr"
 
 import DiscordJS from "@/assets/logos/discordjs.svg"
 import DiscordPy from "@/assets/logos/discordpy.png"
@@ -111,8 +112,11 @@ const technologies: TechnologyIcon[] = [
 export const Tools = () => {
     return (
         <div id="tools" className="px-4 py-12">
-            <div className="flex items-center justify-center mb-8">
-                <h3 className="text-white text-5xl font-bold font-poppins">
+            <div className="flex flex-col items-center justify-center mb-8">
+                <span className="mx-auto mb-3 block w-fit rounded bg-gradient-to-br from-slate-800 to-slate-950 p-3 text-3xl shadow-md shadow-blue-900">
+                    <GrTechnology />
+                </span>
+                <h3 className="text-white text-3xl md:text-5xl font-light italic font-moranga">
                     What I work with!
                 </h3>
             </div>
@@ -201,7 +205,7 @@ const TechnologiesBlock = () => (
 
 const HeaderBlock = () => (
     <Block className="col-span-12 row-span-2 md:col-span-6">
-        <h4 className="mb-12 text-4xl font-medium leading-tight">
+        <h4 className="mb-12 text-3xl font-poppins font-medium leading-tight">
             Tools and technologies I use to{" "}
             <span className="text-zinc-400">
                 build cool websites like this one.

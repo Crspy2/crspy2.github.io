@@ -19,11 +19,11 @@ export const Intro = memo(() => {
                 <motion.p
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="text-neutral-200 font-poppins text-sm mx-2 sm:mx-0 md:text-base max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl indent-8">
+                    className="text-neutral-200 font-poppins text-sm mx-2 sm:mx-0 md:text-base max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
                     I am web developer based in California, United Stated, studying Computer Science and Computer
                     Engineering at university. I have a passion for building cool stuff. My main tech stack is React,
                     Tailwind CSS, Framer Motion and, if a backend is needed, NextJS. I can get so much work done with this
-                    stack that almost all of my projects are done with it. I also like rock climbing, skiing and
+                    stack that almost all of my projects are done with it. I also like rock climbing, skiing and video games.
                 </motion.p>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">

@@ -93,7 +93,7 @@
 }
 
 :root {
-  @apply scroll-smooth bg-slate-950
+  @apply bg-slate-950
 }
 
 .font-moranga {

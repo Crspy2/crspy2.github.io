@@ -1,6 +1,6 @@
 import { Dispatch, memo, ReactNode, SetStateAction, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { SiInstagram, SiLinkedin, SiX, SiGithub } from "react-icons/si"
+import { SiLinkedin, SiX, SiGithub } from "react-icons/si"
 import { FiArrowRight } from "react-icons/fi"
 
 export const Menu = () => {
@@ -131,6 +131,7 @@ const FooterCTAs = () => {
           return (
             <motion.a
               key={idx}
+              target="_blank"
               href={l.href}
               initial={{ opacity: 0, y: -8 }}
               animate={{
@@ -192,15 +193,11 @@ const LINKS = [
 const SOCIAL_CTAS = [
   {
     Component: SiX,
-    href: "#",
-  },
-  {
-    Component: SiInstagram,
-    href: "#",
+    href: "https://x.com/imlacrspy",
   },
   {
     Component: SiLinkedin,
-    href: "#",
+    href: "https://www.linkedin.com/in/leo-ghanem-8992012b9/",
   },
   {
     Component: SiGithub,

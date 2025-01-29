@@ -105,9 +105,9 @@ const Content = memo(({
             className="flex flex-col gap-3"
           >
             <div>
-              <span className="rounded-full bg-blue-600 px-2 py-1.5 text-xs font-medium text-white">
+              <a href={featureInView.url} target="_blank" className="rounded-full bg-blue-600 px-2 py-1.5 text-xs font-medium text-white">
                 {featureInView.title}
-              </span>
+              </a>
               <p className="my-3 text-5xl text-neutral-200 font-poppins font-bold">{featureInView.title}</p>
               <p className="text-neutral-400">{featureInView.description}</p>
             </div>

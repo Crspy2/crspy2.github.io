@@ -96,6 +96,10 @@
   @apply bg-slate-950
 }
 
+button {
+  @apply cursor-pointer;
+}
+
 .font-moranga {
   @apply font-['Moranga']
 }

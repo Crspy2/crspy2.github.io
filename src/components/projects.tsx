@@ -19,7 +19,7 @@ export const Projects = memo(() => {
 
   return (
     <section id="projects" className="relative mx-auto max-w-7xl">
-      <div className="flex items-center justify-center">
+      <div className="mt-28 mb-36 md:mb-0 flex items-center justify-center">
         <h3 className="text-white text-5xl font-bold font-poppins">
           My Projects
         </h3>
@@ -108,7 +108,7 @@ const Content = memo(({
               <a href={featureInView.url} target="_blank" className="rounded-full bg-blue-600 px-2 py-1.5 text-xs font-medium text-white">
                 {featureInView.title}
               </a>
-              <p className="my-3 text-5xl text-neutral-200 font-poppins font-bold">{featureInView.title}</p>
+              <p className="my-3 text-3xl sm:text-4xl md:text-5xl text-neutral-200 font-poppins font-bold">{featureInView.title}</p>
               <p className="text-neutral-400">{featureInView.description}</p>
             </div>
             <div className="flex flex-row gap-3 items-center">

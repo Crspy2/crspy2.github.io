@@ -1,7 +1,8 @@
-import { About } from './components/about'
-import { Intro } from './components/intro'
-import { Menu } from './components/menu'
-import { Projects } from './components/projects'
+import { Menu } from '@/components/menu'
+import { Intro } from '@/components/intro'
+import { About } from '@/components/about'
+import { Tools } from "@/components/tools.tsx"
+import { Projects } from "@/components/projects"
 import { Footer } from "@/components/footer.tsx"
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
             <Menu />
             <Intro />
             <About />
+            <Tools />
             <Projects />
             <Footer />
         </div>

@@ -15,7 +15,7 @@ import Tailwind from "@/assets/logos/tailwind.svg"
 
 
 export const Projects = memo(() => {
-  const [featureInView, setFeatureInView] = useState<ProjectType>(features[0]);
+  const [featureInView, setFeatureInView] = useState<ProjectType>(features[0])
 
   return (
     <section id="projects" className="relative mx-auto max-w-7xl">
@@ -39,13 +39,13 @@ export const Projects = memo(() => {
         ))}
       </div>
     </section>
-  );
+  )
 })
 
 const SlidingFeatureDisplay = memo(({
   featureInView,
 }: {
-  featureInView: ProjectType;
+  featureInView: ProjectType
 }) => {
   return (
     <div
@@ -67,26 +67,26 @@ const SlidingFeatureDisplay = memo(({
         <WebScreenshot url={featureInView.url} width={400} height={250} />
       </motion.div>
     </div>
-  );
+  )
 })
 
 const Content = memo(({
   setFeatureInView,
   featureInView,
 }: {
-  setFeatureInView: Dispatch<SetStateAction<ProjectType>>;
-  featureInView: ProjectType;
+  setFeatureInView: Dispatch<SetStateAction<ProjectType>>
+  featureInView: ProjectType
 }) => {
-  const ref = useRef(null);
+  const ref = useRef(null)
   const isInView = useInView(ref, {
     margin: "-150px",
-  });
+  })
 
   useEffect(() => {
     if (isInView) {
-      setFeatureInView(featureInView);
+      setFeatureInView(featureInView)
     }
-  }, [isInView]);
+  }, [isInView])
 
   return (
     <section
@@ -127,15 +127,15 @@ const Content = memo(({
         </motion.div>
       </div>
     </section>
-  );
+  )
 })
 
 interface ProjectType {
-  id: number;
-  title: string;
-  description: string;
-  url: string;
-  contentPosition: "l" | "r";
+  id: number
+  title: string
+  description: string
+  url: string
+  contentPosition: "l" | "r"
   icon: IconType
   tools: { name: string, icon: string, className?: string }[]
 }
@@ -183,4 +183,4 @@ const features: ProjectType[] = [
       { name: "Sanity", icon: Sanity, className: "rounded-md" },
     ],
   },
-];
+]

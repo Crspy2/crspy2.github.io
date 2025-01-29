@@ -1,7 +1,7 @@
 "use client"
+import { memo, MouseEvent, ReactNode, useEffect, useState } from "react"
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card"
 import { encode } from "qss"
-import React from "react"
 import {
     AnimatePresence,
     motion,
@@ -11,7 +11,7 @@ import {
 import { cn } from "@/lib/utils"
 
 type LinkPreviewProps = {
-    children: React.ReactNode
+    children: ReactNode
     url: string
     className?: string
     width?: number
@@ -20,11 +20,11 @@ type LinkPreviewProps = {
     layout?: string
     target?: string
 } & (
-    | { isStatic: true; imageSrc: string }
-    | { isStatic?: false; imageSrc?: never }
+    | { isStatic: true, imageSrc: string }
+    | { isStatic?: false, imageSrc?: never }
     )
 
-export const LinkPreview = ({
+export const LinkPreview = memo(({
                                 children,
                                 url,
                                 className,
@@ -52,11 +52,11 @@ export const LinkPreview = ({
         src = imageSrc
     }
 
-    const [isOpen, setOpen] = React.useState(false)
+    const [isOpen, setOpen] = useState(false)
 
-    const [isMounted, setIsMounted] = React.useState(false)
+    const [isMounted, setIsMounted] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         setIsMounted(true)
     }, [])
 
@@ -65,7 +65,7 @@ export const LinkPreview = ({
 
     const translateX = useSpring(x, springConfig)
 
-    const handleMouseMove = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const handleMouseMove = (event: MouseEvent<HTMLAnchorElement>) => {
         const targetRect = (event.target as HTMLElement).getBoundingClientRect()
         const eventOffsetX = event.clientX - targetRect.left
         const offsetFromCenter = (eventOffsetX - targetRect.width / 2) / 2 // Reduce the effect to make it subtle
@@ -147,4 +147,4 @@ export const LinkPreview = ({
             </HoverCardPrimitive.Root>
         </>
     )
-}
+})

@@ -1,3 +1,4 @@
+import { memo } from "react"
 import { encode } from "qss"
 
 interface WebScreenshotProps {
@@ -7,7 +8,7 @@ interface WebScreenshotProps {
     className?: string
 }
 
-export const WebScreenshot = ({ url, width = 200, height = 150, className }: WebScreenshotProps) => {
+export const WebScreenshot = memo(({ url, width = 200, height = 150, className }: WebScreenshotProps) => {
     const params = encode({
         url,
         screenshot: true,
@@ -24,4 +25,4 @@ export const WebScreenshot = ({ url, width = 200, height = 150, className }: Web
     return (
         <img src={src} alt={`Screenshot of ${url}`} className={className} />
     )
-}
+})

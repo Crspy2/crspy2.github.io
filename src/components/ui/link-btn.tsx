@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { memo, ReactNode } from "react"
 import { FiArrowRight } from "react-icons/fi"
 
 interface LinkButtonProps {
@@ -6,7 +6,7 @@ interface LinkButtonProps {
     children: ReactNode
 }
 
-const LinkButton = ({ link, children }: LinkButtonProps) => {
+export const LinkButton = memo(({ link, children }: LinkButtonProps) => {
     return (
         <a href={link} target="_blank" className="grid place-content-center">
             <button className="group flex h-10 items-center gap-2 rounded-full bg-neutral-200 pl-3 pr-4 transition-all duration-300 ease-in-out hover:bg-black hover:pl-2 hover:text-white active:bg-neutral-700">
@@ -17,6 +17,4 @@ const LinkButton = ({ link, children }: LinkButtonProps) => {
             </button>
         </a>
     )
-}
-
-export default LinkButton
+})

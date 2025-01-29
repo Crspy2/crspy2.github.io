@@ -1,55 +1,55 @@
-"use client";
-import React, { useState, ReactNode, useRef, useEffect } from "react";
-import { createPortal } from "react-dom";
+"use client"
+import React, { memo, useState, ReactNode, useRef, useEffect } from "react"
+import { createPortal } from "react-dom"
 import {
     motion,
     useTransform,
     AnimatePresence,
     useMotionValue,
     useSpring,
-} from "framer-motion";
+} from "framer-motion"
 
 interface AnimatedTooltipProps {
-    children: ReactNode;
-    hoverText: string;
+    children: ReactNode
+    hoverText: string
 }
 
-export const AnimatedTooltip = ({ children, hoverText }: AnimatedTooltipProps) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const targetRef = useRef<HTMLDivElement>(null);
-    const springConfig = { stiffness: 100, damping: 5 };
-    const x = useMotionValue(0);
+export const AnimatedTooltip = memo(({ children, hoverText }: AnimatedTooltipProps) => {
+    const [isHovered, setIsHovered] = useState(false)
+    const targetRef = useRef<HTMLDivElement>(null)
+    const springConfig = { stiffness: 100, damping: 5 }
+    const x = useMotionValue(0)
 
     const rotate = useSpring(
         useTransform(x, [-100, 100], [-45, 45]),
         springConfig
-    );
+    )
 
     const translateX = useSpring(
         useTransform(x, [-100, 100], [-50, 50]),
         springConfig
-    );
+    )
 
     const handleMouseMove = (event: React.MouseEvent) => {
-        const rect = targetRef.current?.getBoundingClientRect();
+        const rect = targetRef.current?.getBoundingClientRect()
         if (rect) {
-            const halfWidth = rect.width / 2;
-            x.set(event.clientX - rect.left - halfWidth);
+            const halfWidth = rect.width / 2
+            x.set(event.clientX - rect.left - halfWidth)
         }
-    };
+    }
 
     const Tooltip = () => {
-        const [position, setPosition] = useState({ top: 0, left: 0 });
+        const [position, setPosition] = useState({ top: 0, left: 0 })
 
         useEffect(() => {
             if (targetRef.current) {
-                const rect = targetRef.current.getBoundingClientRect();
+                const rect = targetRef.current.getBoundingClientRect()
                 setPosition({
                     top: rect.top + window.scrollY,
                     left: rect.left + rect.width / 2
-                });
+                })
             }
-        }, []);
+        }, [])
 
         return createPortal(
             <motion.div
@@ -82,8 +82,8 @@ export const AnimatedTooltip = ({ children, hoverText }: AnimatedTooltipProps) =
                 </div>
             </motion.div>,
             document.body
-        );
-    };
+        )
+    }
 
     return (
         <div
@@ -100,5 +100,5 @@ export const AnimatedTooltip = ({ children, hoverText }: AnimatedTooltipProps) =
                 {children}
             </div>
         </div>
-    );
-};
+    )
+})

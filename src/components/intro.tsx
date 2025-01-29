@@ -2,7 +2,7 @@ import { memo } from "react"
 import { motion } from "framer-motion"
 import { DripButton } from "./ui/drip-btn.tsx"
 import { EncryptButton } from "./ui/encrypt-btn.tsx"
-import { IntroTabs } from "@/components/intro-carousel.tsx";
+import { IntroTabs } from "@/components/intro-carousel.tsx"
 
 
 export const Intro = memo(() => {
@@ -19,11 +19,11 @@ export const Intro = memo(() => {
                 <motion.p
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="text-neutral-200 font-poppins max-w-xl indent-4">
+                    className="text-neutral-200 font-poppins max-w-3xl indent-8">
                     I am web developer based in California, United Stated, studying Computer Science and Computer
                     Engineering at university. I have a passion for building cool stuff. My main tech stack is React,
                     Tailwind CSS, Framer Motion and, if a backend is needed, NextJS. I can get so much work done with this
-                    stack that almost all of my projects are done with it. I also like Rock Climbing, Skiing and
+                    stack that almost all of my projects are done with it. I also like rock climbing, skiing and
                 </motion.p>
             </div>
             <div className="flex flex-col items-center justify-center gap-4">

@@ -3,34 +3,34 @@ import { AnimatePresence, motion } from "framer-motion"
 import { SiLinkedin, SiX, SiGithub } from "react-icons/si"
 import { FiArrowRight } from "react-icons/fi"
 
-export const Menu = () => {
-  const [active, setActive] = useState(false);
+export const Menu = memo(() => {
+  const [active, setActive] = useState(false)
 
   return (
     <>
       <HamburgerButton active={active} setActive={setActive} />
       <AnimatePresence>{active && <LinksOverlay setActive={setActive} />}</AnimatePresence>
     </>
-  );
-};
+  )
+})
 
-const LinksOverlay = ({
+const LinksOverlay = memo(({
    setActive
  }: {
-  setActive: Dispatch<SetStateAction<boolean>>;
+  setActive: Dispatch<SetStateAction<boolean>>
 }) => {
   return (
     <nav className="fixed right-4 top-4 z-40 h-[calc(100vh_-_32px)] w-[calc(100%_-_32px)] overflow-hidden">
       <LinksContainer setActive={setActive} />
       <FooterCTAs />
     </nav>
-  );
-};
+  )
+})
 
 const LinksContainer = memo(({
    setActive
   }: {
-  setActive: Dispatch<SetStateAction<boolean>>;
+  setActive: Dispatch<SetStateAction<boolean>>
 }) => {
   return (
     <motion.div className="space-y-4 p-12 pl-4 md:pl-20">
@@ -39,10 +39,10 @@ const LinksContainer = memo(({
           <NavLink key={l.title} href={l.href} idx={idx} onClick={() => setActive(false)}>
             {l.title}
           </NavLink>
-        );
+        )
       })}
     </motion.div>
-  );
+  )
 })
 
 const NavLink = memo(({
@@ -51,9 +51,9 @@ const NavLink = memo(({
   idx,
   onClick,
 }: {
-  children: ReactNode;
-  href: string;
-  idx: number;
+  children: ReactNode
+  href: string
+  idx: number
   onClick?: () => void
 }) => {
   return (
@@ -75,15 +75,15 @@ const NavLink = memo(({
     >
       {children}.
     </motion.a>
-  );
+  )
 })
 
 const HamburgerButton = memo(({
   active,
   setActive,
 }: {
-  active: boolean;
-  setActive: Dispatch<SetStateAction<boolean>>;
+  active: boolean
+  setActive: Dispatch<SetStateAction<boolean>>
 }) => {
   return (
     <>
@@ -120,7 +120,7 @@ const HamburgerButton = memo(({
         />
       </motion.button>
     </>
-  );
+  )
 })
 
 const FooterCTAs = () => {
@@ -147,7 +147,7 @@ const FooterCTAs = () => {
             >
               <l.Component className="text-xl text-white transition-colors hover:text-blue-300" />
             </motion.a>
-          );
+          )
         })}
       </div>
 
@@ -168,8 +168,8 @@ const FooterCTAs = () => {
         <a href="mailto:crspy8687@gmail.com" className="hidden md:block">contact me</a> <FiArrowRight />
       </motion.button>
     </>
-  );
-};
+  )
+}
 
 const LINKS = [
   {
@@ -188,7 +188,7 @@ const LINKS = [
     title: "projects",
     href: "#projects",
   },
-];
+]
 
 const SOCIAL_CTAS = [
   {
@@ -203,7 +203,7 @@ const SOCIAL_CTAS = [
     Component: SiGithub,
     href: "https://github.com/crspy2",
   },
-];
+]
 
 const UNDERLAY_VARIANTS = {
   open: {
@@ -222,7 +222,7 @@ const UNDERLAY_VARIANTS = {
       damping: 50,
     },
   },
-};
+}
 
 const HAMBURGER_VARIANTS = {
   top: {
@@ -255,4 +255,4 @@ const HAMBURGER_VARIANTS = {
       left: "calc(50% + 10px)",
     },
   },
-};
+}

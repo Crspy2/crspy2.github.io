@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=chillax@500&display=swap");
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Black");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Black.ttf");
+}
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Bold");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Bold.ttf");
+}
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Medium");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Medium.ttf");
+}
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Regular");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Regular.ttf");
+}
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Light");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  usrc: url("./assets/fonts/moranga/Light.ttf");
+}
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Black-Italic");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Black-italic.ttf");
+}
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Bold-Italic");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Bold-italic.ttf");
+}
+
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Medium-Italic");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Medium-italic.ttf");
+}
+
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Regular-Italic");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Regular-italic.ttf");
+}
+@font-face {
+  font-family: "Moranga";
+  src:local("Moranga-Light-Italic");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+  src: url("./assets/fonts/moranga/Light-italic.ttf");
+}
+
+:root {
+  @apply scroll-smooth bg-slate-950
+}
+
+.font-moranga {
+  @apply font-['Moranga']
+}
+
+.font-chillax {
+  @apply font-['Chillax']
+}
+
+.font-poppins {
+  @apply font-['Poppins']
+}
+

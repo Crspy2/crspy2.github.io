@@ -18,7 +18,7 @@ export const Contact = () => {
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     return (
-        <div className="mt-12 mb-24">
+        <div id="contact" className="mt-12 mb-24">
             <div className="flex flex-col items-center justify-center mb-8">
                 <span className="mx-auto mb-3 block w-fit rounded bg-gradient-to-br from-slate-800 to-slate-950 p-3 text-3xl shadow-md shadow-blue-900">
                     <MdEmail />
@@ -32,7 +32,7 @@ export const Contact = () => {
                 onClick={() => {
                     inputRef.current?.focus()
                 }}
-                className="h-96 bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll shadow-xl cursor-text font-mono"
+                className="h-96 bg-slate-950/70 backdrop-blur rounded-lg w-full max-w-3xl mx-auto overflow-y-scroll shadow-xl cursor-text font-mono hide-scrollbar border border-slate-800/50"
             >
                 <TerminalHeader />
                 <TerminalBody inputRef={inputRef} containerRef={containerRef} />
@@ -96,7 +96,11 @@ const TerminalBody = ({ containerRef, inputRef }: TerminalBodyProps) => {
                     containerRef={containerRef}
                 />
             ) : (
-                <Summary questions={questions} setQuestions={setQuestions} />
+                <Summary
+                    questions={questions}
+                    setQuestions={setQuestions}
+                    containerRef={containerRef}
+                />
             )}
         </div>
     )
@@ -152,7 +156,7 @@ const CurrentQuestion = ({ curQuestion }: CurrentQuestionProps) => {
     )
 }
 
-const TerminalResponse = () => {
+const TerminalResponse = ({ containerRef }: { containerRef: MutableRefObject<HTMLDivElement | null> }) => {
     const [stage, setStage] = useState(0);
 
     const messages = [
@@ -170,13 +174,23 @@ const TerminalResponse = () => {
         if (stage < messages.length - 1) {
             const timer = setTimeout(() => {
                 setStage(prev => prev + 1);
+                // Add a small delay to ensure the new content is rendered
+                setTimeout(() => {
+                    if (containerRef.current) {
+                        containerRef.current.scrollTo({
+                            top: containerRef.current.scrollHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 50);
             }, 800);
             return () => clearTimeout(timer);
         }
-    }, [stage]);
+    }, [stage, containerRef]);
 
     return (
-        <div className="space-y-2">
+        // Add padding at the bottom to ensure the cursor is visible
+        <div className="space-y-2 pb-6">
             {messages.slice(0, stage + 1).map((msg, idx) => (
                 <p key={idx} className={`font-mono ${
                     msg.type === 'error' ? 'text-red-500' :
@@ -205,7 +219,7 @@ const TerminalResponse = () => {
     );
 };
 
-const Summary = ({ questions, setQuestions }: SummaryProps) => {
+const Summary = ({ questions, setQuestions, containerRef }: SummaryProps) => {
     const [complete, setComplete] = useState(false)
 
     const handleReset = () => {
@@ -234,7 +248,7 @@ const Summary = ({ questions, setQuestions }: SummaryProps) => {
             })}
             <p>Look good?</p>
             {complete ? (
-                <TerminalResponse />
+                <TerminalResponse containerRef={containerRef} />
             ) : (
                 <div className="flex gap-2 mt-2">
                     <button
@@ -254,6 +268,7 @@ const Summary = ({ questions, setQuestions }: SummaryProps) => {
         </>
     )
 }
+
 
 const CurLine = ({
                      text,
@@ -380,6 +395,7 @@ interface PreviousQuestionProps {
 interface SummaryProps {
     questions: QuestionType[]
     setQuestions: Dispatch<SetStateAction<QuestionType[]>>
+    containerRef: MutableRefObject<HTMLDivElement | null>
 }
 
 interface CurrentQuestionProps {

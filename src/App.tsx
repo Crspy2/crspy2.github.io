@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer.tsx"
 
 function App() {
     return (
-        <div className="min-h-screen max-w-screen text-neutral-200">
+        <div className="max-w-screen text-neutral-200">
             <Menu />
             <Intro />
             <About />

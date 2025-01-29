@@ -30,7 +30,7 @@
 }
 
 :root {
-  @apply bg-slate-950
+  @apply bg-slate-950;
 }
 
 button {
@@ -49,3 +49,11 @@ button {
   @apply font-['Poppins']
 }
 
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}

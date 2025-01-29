@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 
 export const DripButton = ({ children }: PropsWithChildren) => {
   return (
-    <button className="group relative rounded bg-blue-500 px-4 py-2.5 font-semibold text-white transition-colors hover:bg-blue-600">
+    <button className="group relative rounded bg-blue-500 shadow-xl shadow-blue-950 px-4 py-2.5 font-semibold text-white transition-colors hover:bg-blue-600">
       {children}
       <Drip left="10%" height={24} delay={0.5} />
       <Drip left="30%" height={20} delay={3} />

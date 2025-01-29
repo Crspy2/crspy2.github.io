@@ -17,10 +17,10 @@ export const About = memo(() => {
           <span className="mx-auto mb-3 block w-fit rounded bg-gradient-to-br from-slate-800 to-slate-950 p-3 text-3xl shadow-md shadow-blue-900">
             <FaCodeCommit />
           </span>
-          <h2 className="mb-3 text-white text-center text-3xl font-bold font-poppins leading-tight sm:text-4xl">
+          <h2 className="mb-3 text-white text-center text-3xl md:text-5xl font-light italic font-moranga leading-tight sm:text-4xl">
             Full-Stack Expertise
           </h2>
-          <p className="max-w-3xl mx-auto mb-6 text-center text-base leading-snug text-neutral-400 sm:text-lg sm:leading-snug md:text-xl md:leading-snug">
+          <p className="max-w-3xl mx-auto mb-6 font-poppins text-center text-base leading-snug text-neutral-400 sm:leading-snug md:text-lg md:leading-snug">
             Experienced across multiple languages and frameworks, from crafting responsive React frontends to building{" "}
             <strong className="text-neutral-200">BLAZINGLY FAST</strong> Go backends. I enjoy building digital experiences that not only look great but
             perform exceptionally well.

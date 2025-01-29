@@ -99,15 +99,18 @@ const Content = memo(({
     >
       <div className="grid h-full w-full place-content-center px-4 py-12 md:w-2/5 md:px-8 md:py-8">
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="flex flex-col gap-3"
           >
-            <span className="rounded-full bg-blue-600 px-2 py-1.5 text-xs font-medium text-white">
-              {featureInView.title}
-            </span>
-            <p className="my-3 text-5xl text-neutral-200 font-poppins font-bold">{featureInView.title}</p>
-            <p className="text-neutral-400">{featureInView.description}</p>
+            <div>
+              <span className="rounded-full bg-blue-600 px-2 py-1.5 text-xs font-medium text-white">
+                {featureInView.title}
+              </span>
+              <p className="my-3 text-5xl text-neutral-200 font-poppins font-bold">{featureInView.title}</p>
+              <p className="text-neutral-400">{featureInView.description}</p>
+            </div>
             <div className="flex flex-row gap-3 items-center">
               {featureInView.tools.map(tool => (
                 <img src={tool.icon} alt={`${tool.name} icon`} className={cn("h-8 w-8", tool.className)}  />

@@ -9,7 +9,7 @@ import { AnimationProps, motion } from "framer-motion"
 import { Highlight } from "prism-react-renderer"
 import { FaCodeCommit } from "react-icons/fa6"
 
-export const CodeBeams = memo(() => {
+export const About = memo(() => {
   return (
     <div id="about" className="relative bg-slate-950 text-neutral-200">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
@@ -17,13 +17,13 @@ export const CodeBeams = memo(() => {
           <span className="mx-auto mb-3 block w-fit rounded bg-gradient-to-br from-slate-800 to-slate-950 p-3 text-3xl shadow-md shadow-blue-900">
             <FaCodeCommit />
           </span>
-          <h2 className="mb-3 text-center text-3xl font-bold font-poppins leading-tight sm:text-4xl">
+          <h2 className="mb-3 text-white text-center text-3xl font-bold font-poppins leading-tight sm:text-4xl">
             Full-Stack Expertise
           </h2>
           <p className="max-w-3xl mx-auto mb-6 text-center text-base leading-snug text-neutral-400 sm:text-lg sm:leading-snug md:text-xl md:leading-snug">
             Experienced across multiple languages and frameworks, from crafting responsive React frontends to building{" "}
-            <strong>BLAZINGLY FAST</strong> Go backends. Each line of code reflects my commitment to clean, efficient,
-            and maintainable solutions.
+            <strong className="text-neutral-200">BLAZINGLY FAST</strong> Go backends. I enjoy building digital experiences that not only look great but
+            perform exceptionally well.
           </p>
           <CodeCard />
         </section>

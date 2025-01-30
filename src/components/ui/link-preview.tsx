@@ -18,7 +18,6 @@ type LinkPreviewProps = {
     height?: number
     quality?: number
     layout?: string
-    target?: string
 } & (
     | { isStatic: true, imageSrc: string }
     | { isStatic?: false, imageSrc?: never }
@@ -32,7 +31,6 @@ export const LinkPreview = memo(({
                                 height = 125,
                                 isStatic = false,
                                 imageSrc = "",
-                                target = "_blank",
                             }: LinkPreviewProps) => {
     let src
     if (!isStatic) {
@@ -130,7 +128,7 @@ export const LinkPreview = memo(({
                                     href={url}
                                     className="block p-1 bg-white border-2 border-transparent shadow rounded-xl hover:border-neutral-200 dark:hover:border-neutral-800"
                                     style={{ fontSize: 0 }}
-                                    target={target}
+                                    target="_blank"
                                 >
                                     <img
                                         src={isStatic ? imageSrc : src}

@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { DripButton } from "./ui/drip-btn.tsx"
 import { EncryptButton } from "./ui/encrypt-btn.tsx"
 import { IntroTabs } from "@/components/intro-carousel.tsx"
-import {LinkPreview} from "@/components/ui/link-preview.tsx";
+import { LinkPreview } from "@/components/ui/link-preview.tsx"
 
 
 export const Intro = memo(() => {

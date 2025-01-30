@@ -18,7 +18,6 @@ import Prisma from "@/assets/logos/prisma.svg"
 import Python from "@/assets/logos/python.png"
 import React from "@/assets/logos/react.png"
 import Redis from "@/assets/logos/redis.svg"
-import Supabase from "@/assets/logos/supabase.jpg"
 import Tailwind from "@/assets/logos/tailwind.svg"
 import Tanstack from "@/assets/logos/tanstack.png"
 import TRPC from "@/assets/logos/trpc.png"
@@ -88,11 +87,6 @@ const technologies: TechnologyIcon[] = [
         src: Drizzle,
         url: "https://orm.drizzle.team/",
         color: "#0000"
-    },
-    {
-        src: Supabase,
-        url: "https://supabase.com/",
-        color: "#3ECF8E"
     },
     {
         src: GORM,

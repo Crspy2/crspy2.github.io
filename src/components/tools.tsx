@@ -6,9 +6,13 @@ import { GrTechnology } from "react-icons/gr"
 
 import DiscordJS from "@/assets/logos/discordjs.svg"
 import DiscordPy from "@/assets/logos/discordpy.png"
+import Drizzle from "@/assets/logos/drizzle.png"
+import Go from "@/assets/logos/go.png"
+import GORM from "@/assets/logos/gorm.png"
 import MongoDB from "@/assets/logos/mongodb.svg"
 import NextJS from "@/assets/logos/nextjs.svg"
 import NodeJS from "@/assets/logos/nodejs.png"
+import Postgres from "@/assets/logos/postgres.png"
 import Postman from "@/assets/logos/postman.png"
 import Prisma from "@/assets/logos/prisma.svg"
 import Python from "@/assets/logos/python.png"
@@ -61,25 +65,9 @@ const technologies: TechnologyIcon[] = [
         color: "#2596BE"
     },
     {
-        src: Prisma,
-        url: "https://www.prisma.io/",
-        color: "#2D3748"
-    },
-    {
-        src: Supabase,
-        url: "https://supabase.com/",
-        color: "#3ECF8E"
-    },
-    {
-        src: NodeJS,
-        url: "https://nodejs.org/",
-        color: "#339933",
-        className: "bg-white rounded-lg p-0.5"
-    },
-    {
-        src: Python,
-        url: "https://www.python.org/",
-        color: "#3776AB"
+        src: Postgres,
+        url: "https://www.postgresql.org/",
+        color: "#7199C1"
     },
     {
         src: MongoDB,
@@ -92,6 +80,43 @@ const technologies: TechnologyIcon[] = [
         color: "#DC382D"
     },
     {
+        src: Prisma,
+        url: "https://www.prisma.io/",
+        color: "#2D3748"
+    },
+    {
+        src: Drizzle,
+        url: "https://orm.drizzle.team/",
+        color: "#0000"
+    },
+    {
+        src: Supabase,
+        url: "https://supabase.com/",
+        color: "#3ECF8E"
+    },
+    {
+        src: GORM,
+        url: "https://gorm.io/",
+        color: "#367B99"
+    },
+    {
+        src: NodeJS,
+        url: "https://nodejs.org/",
+        color: "#339933",
+        className: "bg-black rounded-lg p-1"
+    },
+    {
+        src: Python,
+        url: "https://www.python.org/",
+        color: "#3776AB",
+        className: "bg-black pt-1.5 rounded-lg"
+    },
+    {
+        src: Go,
+        url: "https://go.dev/",
+        color: "#367B99"
+    },
+    {
         src: Postman,
         url: "https://www.postman.com/",
         color: "#FF6C37"
@@ -100,7 +125,7 @@ const technologies: TechnologyIcon[] = [
         src: DiscordJS,
         url: "https://discord.js.org/",
         color: "#5865F2",
-        className: "bg-white rounded-lg p-0.5"
+        className: "bg-black rounded-lg p-0.5"
     },
     {
         src: DiscordPy,
@@ -161,7 +186,7 @@ const Block = ({ className, ...rest }: BlockProps) => {
                 damping: 50,
             }}
             className={cn(
-                "col-span-4 rounded-lg border border-zinc-700 bg-zinc-800 p-6",
+                "col-span-4 rounded-lg border border-neutral-700 bg-neutral-800 p-6",
                 className
             )}
             {...rest}
@@ -184,8 +209,6 @@ const TechnologiesBlock = () => (
 
                 <LinkPreview
                     url={tech.url}
-                    target="_blank"
-                    // rel="noopener noreferrer"
                     className="grid h-full place-content-center p-4"
                 >
                     <img

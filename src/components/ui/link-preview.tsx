@@ -42,8 +42,8 @@ export const LinkPreview = memo(({
             colorScheme: "dark",
             "viewport.isMobile": true,
             "viewport.deviceScaleFactor": 1,
-            "viewport.width": width * 3,
-            "viewport.height": height * 3,
+            "viewport.width": width * 5,
+            "viewport.height": height * 5,
         })
         src = `https://api.microlink.io/?${params}`
     } else {
@@ -94,6 +94,7 @@ export const LinkPreview = memo(({
                     onMouseMove={handleMouseMove}
                     className={cn("text-white font-bold underline underline-offset-2 hover:underline-offset-4 transition-all decoration-blue-500", className)}
                     href={url}
+                    target="_blanks"
                 >
                     {children}
                 </HoverCardPrimitive.Trigger>

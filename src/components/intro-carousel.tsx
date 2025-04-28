@@ -6,16 +6,16 @@ import GitHubCalendar from "react-github-calendar"
 import DiscordDND from "@/assets/discord/dnd.png"
 import Hypesquad from "@/assets/discord/hypesquadbalance.svg"
 import ActiveDev from "@/assets/discord/activedeveloper.svg"
-import Nitro from "@/assets/discord/discordnitro.svg"
-import Boost from "@/assets/discord/discordboost3.svg"
+import Nitro from "@/assets/discord/discordgoldnitro.png"
+import Boost from "@/assets/discord/boost6month.svg"
 import Username from "@/assets/discord/username.png"
 import Quest from "@/assets/discord/quest.png"
 import { cn } from '@/lib/utils'
 
 const badges = [
+    { src: Nitro, name: "Subscriber since 10/12/24" },
     { src: Hypesquad, name: "HypeSquad Balance" },
     { src: ActiveDev, name: "Active Developer" },
-    { src: Nitro, name: "Subscriber since Oct 12, 2024" },
     { src: Boost, name: "Server boosting since Oct 12, 2024" },
     { src: Username, name: "Originally known as Crspy#1794" },
     { src: Quest, name: "Completed a Quest" }

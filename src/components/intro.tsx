@@ -1,7 +1,5 @@
 import { memo } from "react"
 import { motion } from "framer-motion"
-import { DripButton } from "./ui/drip-btn.tsx"
-import { EncryptButton } from "./ui/encrypt-btn.tsx"
 import { IntroTabs } from "@/components/intro-carousel.tsx"
 import { LinkPreview } from "@/components/ui/link-preview.tsx"
 
@@ -9,52 +7,36 @@ import { LinkPreview } from "@/components/ui/link-preview.tsx"
 export const Intro = memo(() => {
     return (
         <div className="h-screen flex flex-col items-center justify-center gap-y-5 overflow-hidden">
-            <div className="flex flex-col gap-y-8 justify-center items-center">
-                <motion.div
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="flex flex-col justify-center items-center select-none">
-                    <h3 className="font-moranga font-normal text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-400">Web Developer</h3>
-                    <h1 className="font-moranga text-white font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-nowrap">Hi, I'm Crspy!</h1>
-                </motion.div>
-                <motion.p
-                    initial={{ scale: 0.5, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="text-neutral-200 font-poppins text-sm mx-2 sm:mx-0 md:text-base max-w-sm sm:max-w-lg md:max-w-2xl lg:max-w-3xl">
-                    I am a web developer based in California, United States, studying Computer Science and Computer
-                    Engineering at university. For frontend development, I work with{" "}
-                    <LinkPreview url="https://react.dev">React</LinkPreview>,{" "}
-                    <LinkPreview url="https://tailwindcss.com">Tailwind CSS</LinkPreview>,{" "}
-                    and{" "}
-                    <LinkPreview url="https://motion.dev">
-                        Framer Motion
-                    </LinkPreview>.{" "}
-                    For backend development, I primarily use{" "}
-                    <LinkPreview url="https://nextjs.org">
-                        NextJS
-                    </LinkPreview>{" "}
-                    and{" "}
-                    <LinkPreview url="https://go.dev">
-                        Go
-                    </LinkPreview>.{" "}
-                    I also like rock climbing, skiing, and video games.
-                </motion.p>
+            <div className="relative flex flex-col gap-y-5 bg-gray-900 py-4 sm:p-8 rounded-lg border border-slate-300/20">
+                <div className="flex flex-col gap-y-4 justify-center items-center">
+                    <motion.div
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="flex flex-col sm:flex-row gap-x-6"
+                        >
+                            <img alt="Avatar" draggable="false" loading="lazy"
+                                 decoding="async" data-nimg="1"
+                                 className="bg-transparent rounded-full size-40 sm:size-30 mx-auto"
+                                 src="https://cdn.discordapp.com/avatars/385568884511473664/d888e0052b5a6b7a8399cd81b4dc251f.webp?size=128"
+                            />
+                            <div className="flex flex-col text-center sm:text-start select-none">
+                                <h3 className="font-moranga font-normal text-lg sm:text-xl lg:text-2xl text-blue-400">Gambling Addict</h3>
+                                <h1 className="font-moranga text-white font-black text-3xl sm:text-4xl md:text-5xl text-nowrap">Hi, I'm Crspy!</h1>
+                                <h4 className="text-gray-400 text-sm">Developer / Support</h4>
+                            </div>
+                    </motion.div>
+                    <motion.p
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="text-neutral-200 font-poppins text-center sm:text-start text-sm md:text-base max-w-sm sm:max-w-lg">
+                        Founder and developer for{" "}
+                        <LinkPreview url="https://alterasms.io">AlteraSMS</LinkPreview>. I am a developer interested in fullstack development, authentication, video game mods, and more...
+                    </motion.p>
+                </div>
+                <div className="flex flex-col items-center justify-center gap-4">
+                    <IntroTabs />
+                </div>
             </div>
-            <div className="flex flex-col items-center justify-center gap-4">
-                <IntroTabs />
-            </div>
-            <motion.div
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="flex gap-x-4 w-full mx-auto justify-center items-center"
-            >
-                <a href="/#projects">
-                    <DripButton>See my work!</DripButton>
-                </a>
-                <a href="/#contact">
-                    <EncryptButton targetText="Contact Me"/>
-                </a>
-            </motion.div>
         </div>
     )
 })

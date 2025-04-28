@@ -2,6 +2,7 @@ import { Dispatch, memo, ReactNode, SetStateAction, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { SiDiscord, SiGithub, SiTelegram, SiX } from "react-icons/si"
 import { FiArrowRight } from "react-icons/fi"
+import { cn } from "@/lib/utils"
 
 export const Menu = memo(() => {
   const [active, setActive] = useState(false)
@@ -99,9 +100,9 @@ const HamburgerButton = memo(({
         initial={false}
         animate={active ? "open" : "closed"}
         onClick={() => setActive((pv) => !pv)}
-        className={`group fixed right-4 top-4 z-50 h-20 w-20 bg-white/0 transition-all hover:bg-white/20 ${
+        className={cn("group fixed right-4 top-4 z-50 h-20 w-20 bg-white/0 transition-all hover:bg-white/20",
           active ? "rounded-bl-xl rounded-tr-xl" : "rounded-xl"
-        }`}
+        )}
       >
         <motion.span
           variants={HAMBURGER_VARIANTS.top}
@@ -173,20 +174,8 @@ const FooterCTAs = () => {
 
 const LINKS = [
   {
-    title: "home",
-    href: "/",
-  },
-  {
-    title: "about",
-    href: "#about",
-  },
-  {
-    title: "tools",
-    href: "#tools",
-  },
-  {
-    title: "projects",
-    href: "#projects",
+    title: "alterasms",
+    href: "https://alterasms.io"
   },
 ]
 

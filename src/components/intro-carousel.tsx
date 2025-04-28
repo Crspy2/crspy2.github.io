@@ -1,6 +1,7 @@
-import {memo, useState, ReactNode, useEffect, useCallback} from 'react'
+import { memo, useState, ReactNode, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from "framer-motion"
 import { LinkButton } from "@/components/ui/link-btn.tsx"
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip.tsx"
 import GitHubCalendar from "react-github-calendar"
 import DiscordDND from "@/assets/discord/dnd.png"
 import Hypesquad from "@/assets/discord/hypesquadbalance.svg"
@@ -9,7 +10,7 @@ import Nitro from "@/assets/discord/discordnitro.svg"
 import Boost from "@/assets/discord/discordboost3.svg"
 import Username from "@/assets/discord/username.png"
 import Quest from "@/assets/discord/quest.png"
-import {AnimatedTooltip} from "@/components/ui/animated-tooltip.tsx"
+import { cn } from '@/lib/utils'
 
 const badges = [
     { src: Hypesquad, name: "HypeSquad Balance" },
@@ -30,7 +31,7 @@ const carouselSections: CarouselSection[] = [
             <motion.div
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-zinc-800/50 py-2.5 px-3 rounded-2xl backdrop-blur-sm max-w-2xl w-fit mx-4"
+                className="bg-zinc-800/50 py-2.5 px-3 rounded-2xl backdrop-blur-sm max-w-2xl w-fit sm:mx-4"
             >
                 <motion.div
                     initial={{y: 20, opacity: 0}}
@@ -72,7 +73,9 @@ const carouselSections: CarouselSection[] = [
                                 ))}
                             </div>
                         </div>
-                        <LinkButton link="https://discord.com/users/385568884511473664">View Profile</LinkButton>
+                        <div className="w-40">
+                            <LinkButton link="https://discord.com/users/385568884511473664">View Profile</LinkButton>
+                        </div>
                     </div>
                 </motion.div>
             </motion.div>
@@ -80,7 +83,9 @@ const carouselSections: CarouselSection[] = [
     },
     {
         component: (
-            <GitHubCalendar username="crspy2" fontSize={16} throwOnError />
+            <div className="scale-65 -mt-6">
+                <GitHubCalendar username="crspy2" fontSize={16} throwOnError />
+            </div>
         )
     }
 ]
@@ -147,7 +152,7 @@ export const IntroTabs = memo(() => {
                             x: { type: "spring", stiffness: 300, damping: 30 },
                             opacity: { duration: 0.2 }
                         }}
-                        className="h-42"
+                        className={cn("h-42", currentIndex == 1 && "-mx-37")}
                     >
                         {carouselSections[currentIndex].component}
                     </motion.div>

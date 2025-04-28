@@ -31,7 +31,7 @@ const carouselSections: CarouselSection[] = [
             <motion.div
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="bg-zinc-800/50 py-2.5 px-3 rounded-2xl backdrop-blur-sm max-w-2xl w-fit sm:mx-4"
+                className="bg-zinc-800/50 py-2.5 px-3 rounded-2xl backdrop-blur-sm max-w-2xl"
             >
                 <motion.div
                     initial={{y: 20, opacity: 0}}

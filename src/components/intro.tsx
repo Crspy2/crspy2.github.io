@@ -33,7 +33,7 @@ export const Intro = memo(() => {
                         <LinkPreview url="https://alterasms.io">AlteraSMS</LinkPreview>. I am a developer interested in fullstack development, authentication, video game mods, and more...
                     </motion.p>
                 </div>
-                <div className="flex flex-col items-center justify-center gap-4">
+                <div className="flex flex-col items-center justify-center gap-4 sm:w-135">
                     <IntroTabs />
                 </div>
             </div>

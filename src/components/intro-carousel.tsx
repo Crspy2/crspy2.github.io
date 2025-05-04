@@ -58,7 +58,7 @@ const carouselSections: CarouselSection[] = [
                     <div className="flex flex-row justify-between gap-12">
                         <div className="flex flex-row gap-3">
                             <div>
-                                <h2 className="line-clamp-1 break-all font-medium font-chillax leading-tight lg:text-lg text-white">Crspy</h2>
+                                <h2 className="font-medium font-chillax leading-tight lg:text-lg text-white">Crspy</h2>
                                 <p className="text-zinc-400 text-xs lg:text-sm">@crs.py</p>
                             </div>
                             <div className="hidden sm:flex flex-row gap-0.5 items-center">

@@ -19,8 +19,8 @@ export const Intro = memo(() => {
                                  className="bg-transparent rounded-full size-40 sm:size-30 mx-auto"
                                  src="https://cdn.discordapp.com/avatars/385568884511473664/d888e0052b5a6b7a8399cd81b4dc251f.webp?size=128"
                             />
-                            <div className="flex flex-col text-center sm:text-start select-none">
-                                <h3 className="font-moranga font-normal text-lg sm:text-xl lg:text-2xl text-blue-400">Gambling Addict</h3>
+                            <div className="flex flex-col text-center sm:text-start">
+                                <h3 className="font-moranga font-normal text-lg sm:text-xl lg:text-2xl text-blue-400">Computer Science Student</h3>
                                 <h1 className="font-moranga text-white font-black text-3xl sm:text-4xl md:text-5xl text-nowrap">Hi, I'm Crspy!</h1>
                                 <h4 className="text-gray-400 text-sm">Developer / Support</h4>
                             </div>

@@ -177,6 +177,10 @@ const LINKS = [
     title: "alterasms",
     href: "https://alterasms.io"
   },
+  {
+    title: "tragic",
+    href: "https://tragic.vip"
+  },
 ]
 
 const SOCIAL_CTAS = [

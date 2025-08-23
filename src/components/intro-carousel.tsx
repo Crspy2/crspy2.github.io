@@ -7,9 +7,10 @@ import DiscordDND from "@/assets/discord/dnd.png"
 import Hypesquad from "@/assets/discord/hypesquadbalance.svg"
 import ActiveDev from "@/assets/discord/activedeveloper.svg"
 import Nitro from "@/assets/discord/discordgoldnitro.png"
-import Boost from "@/assets/discord/boost6month.svg"
+import Boost from "@/assets/discord/boost9month.png"
 import Username from "@/assets/discord/username.png"
 import Quest from "@/assets/discord/quest.png"
+import Orbs from "@/assets/discord/orbsapprentice.webp"
 import { cn } from '@/lib/utils'
 
 const badges = [
@@ -18,7 +19,8 @@ const badges = [
     { src: ActiveDev, name: "Active Developer" },
     { src: Boost, name: "Server boosting since Oct 12, 2024" },
     { src: Username, name: "Originally known as Crspy#1794" },
-    { src: Quest, name: "Completed a Quest" }
+    { src: Quest, name: "Completed a Quest" },
+    { src: Orbs, name: "Apprentice" }
 ]
 
 type CarouselSection = {

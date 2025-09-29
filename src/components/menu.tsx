@@ -196,10 +196,6 @@ const SOCIAL_CTAS = [
     Component: SiTelegram,
     href: "https://t.me/crs_py",
   },
-  {
-    Component: SiX,
-    href: "https://x.com/imlacrspy",
-  },
 ]
 
 const UNDERLAY_VARIANTS = {

@@ -1,6 +1,6 @@
 import { Dispatch, memo, ReactNode, SetStateAction, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { SiDiscord, SiGithub, SiTelegram, SiX } from "react-icons/si"
+import { SiDiscord, SiGithub, SiTelegram } from "react-icons/si"
 import { FiArrowRight } from "react-icons/fi"
 import { cn } from "@/lib/utils"
 

@@ -6,21 +6,21 @@ import GitHubCalendar from "react-github-calendar"
 import DiscordDND from "@/assets/discord/dnd.png"
 import Hypesquad from "@/assets/discord/hypesquadbalance.svg"
 import ActiveDev from "@/assets/discord/activedeveloper.svg"
-import Nitro from "@/assets/discord/discordgoldnitro.png"
-import Boost from "@/assets/discord/boost9month.png"
+import Nitro from "@/assets/discord/platinum.png"
+import Boost from "@/assets/discord/discordboost6.svg"
 import Username from "@/assets/discord/username.png"
 import Quest from "@/assets/discord/quest.png"
-import Orbs from "@/assets/discord/orbsapprentice.webp"
+import Orbs from "@/assets/discord/orb.svg"
 import { cn } from '@/lib/utils'
 
 const badges = [
-    { src: Nitro, name: "Subscriber since 10/12/24" },
-    { src: Hypesquad, name: "HypeSquad Balance" },
-    { src: ActiveDev, name: "Active Developer" },
-    { src: Boost, name: "Server boosting since Oct 12, 2024" },
-    { src: Username, name: "Originally known as Crspy#1794" },
-    { src: Quest, name: "Completed a Quest" },
-    { src: Orbs, name: "Apprentice" }
+    { src: Nitro, name: "Subscriber since 10/12/24", className: "h-5.5" },
+    { src: Hypesquad, name: "HypeSquad Balance", className: "h-7" },
+    { src: ActiveDev, name: "Active Developer", className: "h-6" },
+    { src: Boost, name: "Server boosting since Oct 12, 2024", className: "h-6" },
+    { src: Username, name: "Originally known as Crspy#1794", className: "h-5 mr-1" },
+    { src: Quest, name: "Completed a Quest", className: "h-5 mr-1.5" },
+    { src: Orbs, name: "Apprentice", className: "size-5" }
 ]
 
 type CarouselSection = {
@@ -69,7 +69,7 @@ const carouselSections: CarouselSection[] = [
                                         <img
                                             src={b.src}
                                             alt={b.name}
-                                            className="size-6"
+                                            className={b.className}
                                         />
                                     </AnimatedTooltip>
                                 ))}

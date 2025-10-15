@@ -14,11 +14,11 @@ import Orbs from "@/assets/discord/orb.svg"
 import { cn } from '@/lib/utils'
 
 const badges = [
-    { src: Nitro, name: "Subscriber since 10/12/24", className: "h-5.5" },
+    { src: Nitro, name: "Subscriber since 10/12/24", className: "h-6" },
     { src: Hypesquad, name: "HypeSquad Balance", className: "h-7" },
     { src: ActiveDev, name: "Active Developer", className: "h-6" },
-    { src: Boost, name: "Server boosting since Oct 12, 2024", className: "h-6" },
-    { src: Username, name: "Originally known as Crspy#1794", className: "h-5 mr-1" },
+    { src: Boost, name: "Server boosting since Oct 12, 2024", className: "h-7" },
+    { src: Username, name: "Originally known as Crspy#1794", className: "h-6 mr-1" },
     { src: Quest, name: "Completed a Quest", className: "h-5 mr-1.5" },
     { src: Orbs, name: "Apprentice", className: "size-5" }
 ]
@@ -57,7 +57,7 @@ const carouselSections: CarouselSection[] = [
                                 </span>
                         </div>
                     </div>
-                    <div className="flex flex-row justify-between gap-12">
+                    <div className="flex flex-row justify-between gap-0.5">
                         <div className="flex flex-row gap-3">
                             <div>
                                 <h2 className="font-medium font-chillax leading-tight lg:text-lg text-white">Crspy</h2>

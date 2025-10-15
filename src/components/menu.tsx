@@ -211,7 +211,7 @@ const UNDERLAY_VARIANTS = {
       damping: 50,
     },
   },
-}
+} as const
 
 const HAMBURGER_VARIANTS = {
   top: {

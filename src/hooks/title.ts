@@ -5,8 +5,22 @@ export const useTabTitle = () => {
     const awayTitle = "Lonely tab"
 
     useEffect(() => {
+        let timeoutId: NodeJS.Timeout | null = null
+
         const handleVisibilityChange = () => {
-            document.title = document.hidden ? awayTitle : defaultTitle
+            if (document.hidden) {
+                // Set a 15-second delay before changing to "lonely" title
+                timeoutId = setTimeout(() => {
+                    document.title = awayTitle
+                }, 15000)
+            } else {
+                // Clear timeout and restore default title when tab becomes active
+                if (timeoutId) {
+                    clearTimeout(timeoutId)
+                    timeoutId = null
+                }
+                document.title = defaultTitle
+            }
         }
         
 
@@ -15,6 +29,9 @@ export const useTabTitle = () => {
 
         // Cleanup
         return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+            }
             document.removeEventListener('visibilitychange', handleVisibilityChange)
             document.title = defaultTitle
         }

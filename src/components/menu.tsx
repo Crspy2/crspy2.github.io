@@ -182,7 +182,7 @@ const LINKS = [
 const SOCIAL_CTAS = [
   {
     Component: SiDiscord,
-    href: "https://discord.com/users/385568884511473664",
+    href: "https://discord.com/users/1323519785694265356",
   },
   {
     Component: SiGithub,

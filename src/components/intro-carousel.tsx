@@ -1,27 +1,9 @@
 import { memo, useState, ReactNode, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from "framer-motion"
 import { LinkButton } from "@/components/ui/link-btn.tsx"
-import { AnimatedTooltip } from "@/components/ui/animated-tooltip.tsx"
 import GitHubCalendar from "react-github-calendar"
 import DiscordDND from "@/assets/discord/dnd.png"
-import Hypesquad from "@/assets/discord/hypesquadbalance.svg"
-import ActiveDev from "@/assets/discord/activedeveloper.svg"
-import Nitro from "@/assets/discord/platinum.png"
-import Boost from "@/assets/discord/discordboost6.svg"
-import Username from "@/assets/discord/username.png"
-import Quest from "@/assets/discord/quest.png"
-import Orbs from "@/assets/discord/orb.svg"
 import { cn } from '@/lib/utils'
-
-const badges = [
-    { src: Nitro, name: "Subscriber since 10/12/24", className: "h-6" },
-    { src: Hypesquad, name: "HypeSquad Balance", className: "h-7" },
-    { src: ActiveDev, name: "Active Developer", className: "h-6" },
-    { src: Boost, name: "Server boosting since Oct 12, 2024", className: "h-7" },
-    { src: Username, name: "Originally known as Crspy#1794", className: "h-6 mr-1" },
-    { src: Quest, name: "Completed a Quest", className: "h-5 mr-1.5" },
-    { src: Orbs, name: "Apprentice", className: "size-5" }
-]
 
 type CarouselSection = {
     component: ReactNode
@@ -61,9 +43,9 @@ const carouselSections: CarouselSection[] = [
                         <div className="flex flex-row gap-3">
                             <div>
                                 <h2 className="font-medium font-chillax leading-tight lg:text-lg text-white">Crspy</h2>
-                                <p className="text-zinc-400 text-xs lg:text-sm">@crs.py</p>
+                                <p className="text-zinc-400 text-xs lg:text-sm">@crs_py</p>
                             </div>
-                            <div className="hidden sm:flex flex-row gap-0.5 items-center">
+                            {/* <div className="hidden sm:flex flex-row gap-0.5 items-center">
                                 {badges.map((b, idx) => (
                                     <AnimatedTooltip key={idx} hoverText={b.name}>
                                         <img
@@ -73,10 +55,10 @@ const carouselSections: CarouselSection[] = [
                                         />
                                     </AnimatedTooltip>
                                 ))}
-                            </div>
+                            </div> */}
                         </div>
                         <div className="w-40">
-                            <LinkButton link="https://discord.com/users/385568884511473664">View Profile</LinkButton>
+                            <LinkButton link="https://discord.com/users/1323519785694265356">View Profile</LinkButton>
                         </div>
                     </div>
                 </motion.div>

@@ -1,3 +1,8 @@
+---
+import { Font } from 'astro:assets'
+import '../styles/global.css'
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,9 +11,11 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<Font cssVariable="--font-inter" preload />
+		<Font cssVariable="--font-playfair" preload />
+		<slot name="head" />
 	</head>
-	<body>
+	<body class="bg-neutral-100">
 		<slot />
 	</body>
 </html>

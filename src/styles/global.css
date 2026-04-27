@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+:root {
+    font-family: var(--font-inter), Inter, sans-serif;
+    color-scheme: light;
+    color: black;
+}
+
+@theme inline {
+    --font-inter: var(--font-inter);
+    --font-playfair: var(--font-playfair);
+}

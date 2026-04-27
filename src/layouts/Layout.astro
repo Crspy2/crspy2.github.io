@@ -1,5 +1,6 @@
 ---
 import { Font } from 'astro:assets'
+import CustomCursor from '../components/CustomCursor.astro'
 import '../styles/global.css'
 ---
 
@@ -19,6 +20,7 @@ import '../styles/global.css'
 		<slot name="head" />
 	</head>
 	<body class="bg-neutral-50">
+		<CustomCursor />
 		<slot />
 	</body>
 </html>

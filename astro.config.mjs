@@ -11,10 +11,10 @@ export default defineConfig({
 
   fonts: [
       {
-          name: "Playfair Display",
-          cssVariable: "--font-playfair",
+          name: "Fraunces",
+          cssVariable: "--font-fraunces",
           provider: fontProviders.google(),
-          weights: [400, 700],
+          weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
       },
       {
           name: "Inter",

@@ -1,0 +1,54 @@
+---
+import ToolBadge from "./ToolBadge.astro";
+
+interface Props {
+	name: string;
+	description: string;
+	imageUrl?: string;
+	projectUrl?: string;
+	tools?: string[];
+}
+
+const { name, description, imageUrl, projectUrl, tools = [] } = Astro.props;
+
+function microlinkScreenshotUrl(url: string): string {
+	const params = new URLSearchParams({
+		url,
+		screenshot: "true",
+		meta: "false",
+		embed: "screenshot.url",
+		colorScheme: "light",
+		"viewport.width": "1280",
+		"viewport.height": "720",
+	});
+	return `https://api.microlink.io/?${params.toString()}`;
+}
+
+const screenshotSrc = imageUrl ?? (projectUrl ? microlinkScreenshotUrl(projectUrl) : null);
+const ImageWrapper = projectUrl ? "a" : "div";
+---
+<article class="grid md:grid-cols-2 gap-8 items-center">
+	<ImageWrapper
+		href={projectUrl}
+		target={projectUrl ? "_blank" : undefined}
+		rel={projectUrl ? "noopener noreferrer" : undefined}
+		class="block aspect-video rounded-lg overflow-hidden bg-neutral-200 border border-neutral-300 hover:border-neutral-400 transition-colors"
+	>
+		{screenshotSrc ? (
+			<img src={screenshotSrc} alt={`${name} screenshot`} class="w-full h-full object-cover" loading="lazy" />
+		) : (
+			<div class="w-full h-full flex items-center justify-center text-neutral-500 text-sm">
+				Screenshot pending
+			</div>
+		)}
+	</ImageWrapper>
+	<div class="space-y-4">
+		<h3 class="font-fraunces font-bold text-3xl">{name}</h3>
+		<p class="text-base leading-relaxed">{description}</p>
+		{tools.length > 0 && (
+			<div class="flex flex-wrap gap-2">
+				{tools.map(toolName => <ToolBadge name={toolName} />)}
+			</div>
+		)}
+	</div>
+</article>

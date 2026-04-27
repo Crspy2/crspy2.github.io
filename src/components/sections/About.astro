@@ -3,84 +3,34 @@ import SectionBar from "../SectionBar.astro";
 import ToolBadge from "../ToolBadge.astro";
 import DiscordCard from "../DiscordCard.astro";
 
-import DiscordPY from "../../assets/icons/discordpy.svg"
-import Stripe from "../../assets/icons/stripe.svg"
-import tRPC from "../../assets/icons/trpc.svg"
-
-const categories = [
+const categories: { name: string; tools: string[] }[] = [
 	{
 		name: "Languages",
-		tools: [
-			{ name: "Python",     icon: "logos:python",                          href: "https://www.python.org/" },
-			{ name: "SQL",        icon: "vscode-icons:file-type-sql",            href: "https://en.wikipedia.org/wiki/SQL" },
-			{ name: "TypeScript", icon: "logos:typescript-icon",                 href: "https://www.typescriptlang.org/" },
-			{ name: "Golang",     icon: "logos:go",                              href: "https://go.dev/" },
-			{ name: "C",          icon: "logos:c",                               href: "https://en.cppreference.com/w/c" },
-			{ name: "C++",        icon: "logos:c-plusplus",                      href: "https://isocpp.org/" },
-			{ name: "Java",       icon: "logos:java",                            href: "https://www.java.com/" },
-			{ name: "PHP",        icon: "logos:php",                             href: "https://www.php.net/" },
-			{ name: "Rust",       icon: "logos:rust",                            href: "https://www.rust-lang.org/" },
-		],
+		tools: ["Python", "SQL", "TypeScript", "Golang", "C", "C++", "Java", "PHP", "Rust"],
 	},
 	{
 		name: "Frameworks",
-		tools: [
-			{ name: "React",          icon: "logos:react",                         href: "https://react.dev/" },
-			{ name: "NextJS",         icon: "logos:nextjs-icon",                   href: "https://nextjs.org/" },
-			{ name: "Svelte",         icon: "logos:svelte-icon",                   href: "https://svelte.dev/" },
-			{ name: "Astro",          icon: "logos:astro-icon",                    href: "https://astro.build/" },
-			{ name: "Tanstack Query", icon: "logos:react-query-icon",              href: "https://tanstack.com/query/" },
-			{ name: "Shadcn",         icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com" },
-
-		],
+		tools: ["React", "NextJS", "Svelte", "Astro", "Tanstack Query", "Shadcn"],
 	},
 	{
 		name: "Web",
-		tools: [
-			{ name: "HTML",        icon: "logos:html-5",            href: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
-			{ name: "CSS",         icon: "logos:css-3",             href: "https://developer.mozilla.org/en-US/docs/Web/CSS" },
-			{ name: "JavaScript", icon: "logos:javascript",         href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
-			{ name: "TailwindCSS", icon: "logos:tailwindcss-icon",  href: "https://tailwindcss.com/" },
-		],
+		tools: ["HTML", "CSS", "JavaScript", "TailwindCSS"],
 	},
 	{
 		name: "Databases",
-		tools: [
-			{ name: "MySQL",    icon: "logos:mysql-icon",    href: "https://www.mysql.com/" },
-			{ name: "Postgres", icon: "logos:postgresql",    href: "https://www.postgresql.org/" },
-			{ name: "Redis",    icon: "logos:redis",         href: "https://redis.io/" },
-			{ name: "MongoDB",  icon: "logos:mongodb-icon",  href: "https://www.mongodb.com/" },
-		],
+		tools: ["MySQL", "Postgres", "Redis", "MongoDB"],
 	},
 	{
 		name: "Cloud & Hosting",
-		tools: [
-			{ name: "Cloudflare",   icon: "logos:cloudflare-icon", href: "https://www.cloudflare.com/" },
-			{ name: "AWS",          icon: "logos:aws",             href: "https://aws.amazon.com/" },
-			{ name: "Google Cloud", icon: "logos:google-cloud",    href: "https://cloud.google.com/" },
-		],
+		tools: ["Cloudflare", "AWS", "Google Cloud"],
 	},
 	{
 		name: "APIs & Tools",
-		tools: [
-			{ name: "gRPC",        icon: "logos:grpc",            href: "https://grpc.io/" },
-			{ name: "tRPC",        icon: tRPC,    				  href: "https://trpc.io/" },
-			{ name: "GraphQL",     icon: "logos:graphql",         href: "https://graphql.org/" },
-			{ name: "Stripe",      icon: Stripe,   				  href: "https://stripe.com/" },
-			{ name: "Postman",     icon: "logos:postman-icon",    href: "https://www.postman.com/" },
-			{ name: "Docker",      icon: "logos:docker-icon",     href: "https://www.docker.com/" },
-			{ name: "Discord.py",  icon: DiscordPY,    			  href: "https://discordpy.readthedocs.io/" },
-			{ name: "Discord.py",  icon: "devicon:discordjs",     href: "https://discordjs.org" },
-		],
+		tools: ["gRPC", "tRPC", "GraphQL", "Stripe", "Postman", "Docker", "Discord.py", "discord.js"],
 	},
 	{
 		name: "Operating Systems",
-		tools: [
-			{ name: "Linux",     icon: "logos:linux-tux",                href: "https://kernel.org/" },
-			{ name: "Archlinux", icon: "logos:archlinux",                href: "https://archlinux.org/" },
-			{ name: "Ubuntu",    icon: "logos:ubuntu",                   href: "https://ubuntu.com/" },
-			{ name: "Windows",   icon: "logos:microsoft-windows-icon",   href: "https://www.microsoft.com/windows/" },
-		],
+		tools: ["Linux", "Archlinux", "Ubuntu", "Windows"],
 	},
 ];
 ---
@@ -90,7 +40,7 @@ const categories = [
 		<div class="space-y-6">
 			<h2 class="font-fraunces font-bold text-8xl">Hi there!</h2>
 			<p class="text-5xl leading-relaxed">
-				My name is Crspy. I'm a fullstack web developer studying Computer Science and Computer Engineering in California. Outside of programming, I enjoy skiing, rock climbing and SCUBA 	diving.
+				My name is Crspy. I'm a fullstack web developer studying Computer Science and Computer Engineering in California. Outside of programming, I enjoy skiing, rock climbing and SCUBA diving.
 			</p>
 			<DiscordCard />
 		</div>
@@ -99,7 +49,7 @@ const categories = [
 				<div>
 					<h3 class="font-bold text-xs uppercase tracking-wider text-neutral-600 mb-3">{cat.name}</h3>
 					<div class="flex flex-wrap gap-2">
-						{cat.tools.map(tool => <ToolBadge name={tool.name} icon={tool.icon} href={tool.href} />)}
+						{cat.tools.map(toolName => <ToolBadge name={toolName} />)}
 					</div>
 				</div>
 			))}

@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+:root {
+    font-family: var(--font-inter), Inter, sans-serif;
+    color-scheme: light;
+    color: black;
+}
+
+@theme inline {
+    --font-inter: var(--font-inter);
+    --font-fraunces: var(--font-fraunces);
+}
+
+[data-page="/"] ::selection { background-color: var(--color-sky-300); color: black; }
+[data-page="/about"] ::selection { background-color: var(--color-rose-400); color: black; }
+[data-page="/projects"] ::selection { background-color: var(--color-amber-300); color: black; }

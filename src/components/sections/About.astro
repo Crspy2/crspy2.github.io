@@ -1,0 +1,58 @@
+---
+import SectionBar from "../SectionBar.astro";
+import ToolBadge from "../ToolBadge.astro";
+import DiscordCard from "../DiscordCard.astro";
+
+const categories: { name: string; tools: string[] }[] = [
+	{
+		name: "Languages",
+		tools: ["Python", "SQL", "TypeScript", "Golang", "C", "C++", "Java", "PHP", "Rust"],
+	},
+	{
+		name: "Frameworks",
+		tools: ["React", "NextJS", "Svelte", "Astro", "Tanstack Query", "Shadcn"],
+	},
+	{
+		name: "Web",
+		tools: ["HTML", "CSS", "JavaScript", "TailwindCSS"],
+	},
+	{
+		name: "Databases",
+		tools: ["MySQL", "Postgres", "Redis", "MongoDB"],
+	},
+	{
+		name: "Cloud & Hosting",
+		tools: ["Cloudflare", "AWS", "Google Cloud"],
+	},
+	{
+		name: "APIs & Tools",
+		tools: ["gRPC", "tRPC", "GraphQL", "Stripe", "Postman", "Docker", "Discord.py", "discord.js"],
+	},
+	{
+		name: "Operating Systems",
+		tools: ["Linux", "Archlinux", "Ubuntu", "Windows"],
+	},
+];
+---
+<section data-page="/about" class="min-h-screen">
+	<SectionBar title="About" class="bg-rose-400" />
+	<div class="grid md:grid-cols-2 gap-12 px-8 md:px-16 py-16  mx-auto">
+		<div class="space-y-6">
+			<h2 class="font-fraunces font-bold text-8xl w-fit">Hi there!</h2>
+			<p class="text-5xl leading-relaxed">
+				My name is Crspy. I'm a fullstack web developer studying Computer Science and Computer Engineering in California. Outside of programming, I enjoy skiing, rock climbing and SCUBA diving.
+			</p>
+			<DiscordCard />
+		</div>
+		<div class="space-y-6">
+			{categories.map(cat => (
+				<div>
+					<h3 class="font-bold text-xs uppercase tracking-wider text-neutral-600 mb-3">{cat.name}</h3>
+					<div class="flex flex-wrap gap-2">
+						{cat.tools.map(toolName => <ToolBadge name={toolName} />)}
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>

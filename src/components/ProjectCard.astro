@@ -18,8 +18,8 @@ function microlinkScreenshotUrl(url: string): string {
 		meta: "false",
 		embed: "screenshot.url",
 		colorScheme: "light",
-		"viewport.width": "1280",
-		"viewport.height": "720",
+		"viewport.width": "1600",
+		"viewport.height": "900",
 	});
 	return `https://api.microlink.io/?${params.toString()}`;
 }
@@ -44,7 +44,7 @@ const ImageWrapper = projectUrl ? "a" : "div";
 	</ImageWrapper>
 	<div class="space-y-4">
 		<h3 class="font-fraunces font-bold text-3xl w-fit">{name}</h3>
-		<p class="text-base leading-relaxed">{description}</p>
+		<p class="text-base leading-relaxed" set:html={description}></p>
 		{tools.length > 0 && (
 			<div class="flex flex-wrap gap-2">
 				{tools.map(toolName => <ToolBadge name={toolName} />)}

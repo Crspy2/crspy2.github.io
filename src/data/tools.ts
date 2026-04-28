@@ -1,4 +1,5 @@
 import DiscordPY from "../assets/icons/discordpy.svg";
+import InvisionCommunity from "../assets/icons/invision-community.svg";
 import Stripe from "../assets/icons/stripe.svg";
 import tRPC from "../assets/icons/trpc.svg";
 
@@ -21,16 +22,17 @@ export const tools: Record<string, Tool> = {
 	"SQL":        { icon: "vscode-icons:file-type-sql", href: "https://en.wikipedia.org/wiki/SQL" },
 
 	// Frameworks
-	"React":          { icon: "logos:react",                         href: "https://react.dev/" },
-	"NextJS":         { icon: "logos:nextjs-icon",                   href: "https://nextjs.org/" },
-	"Svelte":         { icon: "logos:svelte-icon",                   href: "https://svelte.dev/" },
-	"SvelteKit":      { icon: "logos:svelte-icon",                   href: "https://svelte.dev/docs/kit/" },
-	"Astro":          { icon: "logos:astro-icon",                    href: "https://astro.build/" },
-	"Tanstack Start": { icon: "logos:react-query-icon",              href: "https://tanstack.com/start/" },
-	"Tanstack Query": { icon: "logos:react-query-icon",              href: "https://tanstack.com/query/" },
-	"Tanstack Form":  { icon: "logos:react-query-icon",              href: "https://tanstack.com/form/" },
-	"Tanstack Table": { icon: "logos:react-query-icon",              href: "https://tanstack.com/table/" },
-	"Shadcn":         { icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/" },
+	"React":          		{ icon: "logos:react",                         href: "https://react.dev/" },
+	"NextJS":         		{ icon: "logos:nextjs-icon",                   href: "https://nextjs.org/" },
+	"Svelte":         		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/" },
+	"SvelteKit":      		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/docs/kit/" },
+	"Astro":          		{ icon: "logos:astro-icon",                    href: "https://astro.build/" },
+	"Tanstack Start": 		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/start/" },
+	"Tanstack Query":		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/query/" },
+	"Tanstack Form":  		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/form/" },
+	"Tanstack Table": 		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/table/" },
+	"Shadcn":         		{ icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/" },
+	"Invision Community":   { icon: InvisionCommunity, 					   href: "https://invisioncommunity.com/" },
 
 	// Web
 	"HTML":        { icon: "logos:html-5",           href: "https://developer.mozilla.org/en-US/docs/Web/HTML" },
@@ -55,7 +57,6 @@ export const tools: Record<string, Tool> = {
 	"Stripe":     { icon: Stripe,                href: "https://stripe.com/" },
 	"Postman":    { icon: "logos:postman-icon",  href: "https://www.postman.com/" },
 	"Docker":     { icon: "logos:docker-icon",   href: "https://www.docker.com/" },
-	"ngrok":      {                              href: "https://ngrok.com/" },
 	"Discord.py": { icon: DiscordPY,             href: "https://discordpy.readthedocs.io/" },
 	"discord.js": { icon: "devicon:discordjs",   href: "https://discord.js.org/" },
 

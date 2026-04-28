@@ -1,31 +1,50 @@
 ---
 import SectionBar from "../SectionBar.astro";
 import ProjectCard from "../ProjectCard.astro";
+import gunsLol from "../../assets/guns-lol.webp";
 
 const projects = [
 	{
-		name: "AlteraSMS",
-		description: "Description pending — replace with what AlteraSMS does, your role, and the key features.",
-		projectUrl: "https://alterasms.io/",
-		tools: ["TypeScript", "NextJS", "Stripe"],
+		name: "forum.klar.gg",
+		description: "A plugin and full theme I wrote for an Invision Community forum. The plugin maps store products to names on an external API and, on a paid-purchase event, generates and delivers a unique key to the buyer. The theme is a ground-up redesign of the storefront with hand-rolled styles for plugin-rendered markup.",
+		projectUrl: "https://forum.klar.gg/",
+		tools: ["Invision Community", "PHP", "HTML", "CSS", "JavaScript"],
 	},
 	{
 		name: "bio.crspy.me",
-		description: "This portfolio. Astro + TailwindCSS with GSAP-driven scroll-routing, and a Lanyard-powered live Discord card.",
+		description: `A single-page application, inspired by <a href="https://guns.lol" target="_blank" rel="noopener noreferrer" class="guns-lol-link"><img src="${gunsLol.src}" alt="" />guns.lol</a>, containing Lanyard-powered realtime Discord presence and my GitHub contributions graph.`,
 		projectUrl: "https://bio.crspy.me/",
 		tools: ["Astro", "TypeScript", "TailwindCSS"],
 	},
 	{
-		name: "AI Support Agent",
-		description: "Description pending — replace with what the AI Support Agent does, your role, and the key features.",
-		projectUrl: "https://github.com/Crspy2/ai-support",
-		tools: ["Python", "TypeScript"],
+		name: "alterasms.io",
+		description: "A Next.js dashboard that calls a Go gRPC backend which aggregates multiple SMS providers to provide the cheapest non-VoIP phone number per country in real time.",
+		projectUrl: "https://alterasms.io/",
+		tools: ["Golang", "TypeScript", "NextJS", "Postgres", "Redis", "Discord.py", "gRPC", "Docker", "Stripe"],
 	},
 ];
 ---
+
 <section data-page="/projects" class="min-h-screen">
 	<SectionBar title="Projects" class="bg-amber-300" />
 	<div class="flex flex-col gap-16 px-8 md:px-16 py-16 max-w-7xl mx-auto">
 		{projects.map(p => <ProjectCard {...p} />)}
 	</div>
 </section>
+
+<style is:global>
+	.guns-lol-link {
+		text-decoration: underline;
+		text-decoration-color: #73467e;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+		color: inherit;
+	}
+	.guns-lol-link img {
+		display: inline;
+		height: 1em;
+		width: auto;
+		vertical-align: middle;
+		margin-right: 0.25rem;
+	}
+</style>

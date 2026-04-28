@@ -1,0 +1,30 @@
+---
+import { Icon } from "astro-iconify";
+
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-neutral-200 px-8 md:px-16 py-12">
+	<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+		<p class="text-sm text-neutral-600">© {year} Crspy</p>
+		<nav aria-label="Social links" class="flex items-center gap-5">
+			<a
+				href="https://github.com/Crspy2"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-neutral-600 hover:text-neutral-900 transition-colors"
+				aria-label="GitHub"
+			>
+				<Icon name="simple-icons:github" class="w-5 h-5" />
+			</a>
+			<a
+				href="https://discord.com/users/385568884511473664"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-neutral-600 hover:text-neutral-900 transition-colors"
+				aria-label="Discord"
+			>
+				<Icon name="simple-icons:discord" class="w-5 h-5" />
+			</a>
+		</nav>
+	</div>
+</footer>

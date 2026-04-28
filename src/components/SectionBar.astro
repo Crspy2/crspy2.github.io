@@ -1,0 +1,19 @@
+---
+interface Props {
+	title: string;
+	class?: string;
+}
+
+const { title, class: className } = Astro.props;
+const colorName = className?.match(/(?:^|\s)bg-([\w-]+)/)?.[1];
+---
+<div
+	class:list={[
+		"sticky top-0 z-40 flex justify-between items-center text-5xl h-18 w-full px-20",
+		className,
+	]}
+	style={colorName ? `--section-color: var(--color-${colorName});` : undefined}
+>
+	<span class="font-light font-inter">{title}</span>
+	<slot name="right" />
+</div>

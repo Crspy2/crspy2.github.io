@@ -35,7 +35,7 @@ const ImageWrapper = projectUrl ? "a" : "div";
 		class="block aspect-video rounded-lg overflow-hidden bg-neutral-200 border border-neutral-300 hover:border-neutral-400 transition-colors"
 	>
 		{screenshotSrc ? (
-			<img src={screenshotSrc} alt={`${name} screenshot`} class="w-full h-full object-cover" loading="lazy" />
+			<img src={screenshotSrc} alt={`${name} screenshot`} class="w-full h-full object-cover select-none" />
 		) : (
 			<div class="w-full h-full flex items-center justify-center text-neutral-500 text-sm">
 				Screenshot pending

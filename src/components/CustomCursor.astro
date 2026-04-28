@@ -28,7 +28,12 @@
 		transition:
 			width 0.15s ease,
 			height 0.15s ease,
-			border-radius 0.15s ease;
+			border-radius 0.15s ease,
+			opacity 0.15s ease;
+	}
+	.custom-cursor-dot.cursor-hidden,
+	.custom-cursor-ring.cursor-hidden {
+		opacity: 0;
 	}
 	.custom-cursor-dot.text-select {
 		width: 2px;
@@ -65,7 +70,11 @@
 			background-color 0.2s ease,
 			border-color 0.2s ease,
 			padding 0.2s ease,
-			color 0.2s ease;
+			color 0.2s ease,
+			opacity 0.15s ease;
+	}
+	.custom-cursor-ring.text-select {
+		opacity: 0;
 	}
 	.custom-cursor-ring.text-hover {
 		width: 56px;
@@ -131,10 +140,12 @@
 		});
 
 		document.documentElement.addEventListener("mouseleave", () => {
-			gsap.to([dot, ring], { opacity: 0, duration: 0.15 });
+			dot.classList.add("cursor-hidden");
+			ring.classList.add("cursor-hidden");
 		});
 		document.documentElement.addEventListener("mouseenter", () => {
-			gsap.to([dot, ring], { opacity: 1, duration: 0.15 });
+			dot.classList.remove("cursor-hidden");
+			ring.classList.remove("cursor-hidden");
 		});
 
 		document.addEventListener("mousedown", (e) => {
@@ -152,36 +163,40 @@
 			return bar instanceof HTMLElement ? bar : null;
 		};
 
-		for (const el of document.querySelectorAll<HTMLElement>(".font-fraunces")) {
-			el.addEventListener("mouseenter", () => {
-				if (el.closest("a")) return;
-				const bar = findSectionBar(el);
+		const TEXT_TAGS = "p, h1, h2, h3, h4, h5, h6, li";
+
+		const updateState = (target: HTMLElement) => {
+			const isLink = !!target.closest("a");
+			const isFraunces = !!target.closest(".font-fraunces");
+			const isText =
+				!!target.closest(TEXT_TAGS) &&
+				getComputedStyle(target).userSelect !== "none";
+
+			if (isLink) {
+				ring.classList.add("link-hover");
+				ring.classList.remove("text-hover", "text-select");
+				dot.classList.remove("text-select");
+				ring.style.backgroundColor = "";
+			} else if (isFraunces) {
+				const bar = findSectionBar(target);
 				ring.style.backgroundColor = bar ? getComputedStyle(bar).backgroundColor : "";
 				ring.classList.add("text-hover");
-			});
-			el.addEventListener("mouseleave", () => {
-				ring.classList.remove("text-hover");
-				ring.style.backgroundColor = "";
-			});
-		}
-
-		for (const link of document.querySelectorAll<HTMLAnchorElement>("a")) {
-			link.addEventListener("mouseenter", () => {
-				ring.classList.add("link-hover");
-			});
-			link.addEventListener("mouseleave", () => {
-				ring.classList.remove("link-hover");
-			});
-		}
-
-		for (const el of document.querySelectorAll<HTMLElement>("p")) {
-			el.addEventListener("mouseenter", () => {
-				if (el.closest("a")) return;
-				dot.classList.add("text-select");
-			});
-			el.addEventListener("mouseleave", () => {
+				ring.classList.remove("link-hover", "text-select");
 				dot.classList.remove("text-select");
-			});
-		}
+			} else if (isText) {
+				dot.classList.add("text-select");
+				ring.classList.add("text-select");
+				ring.classList.remove("link-hover", "text-hover");
+				ring.style.backgroundColor = "";
+			} else {
+				ring.classList.remove("link-hover", "text-hover", "text-select");
+				dot.classList.remove("text-select");
+				ring.style.backgroundColor = "";
+			}
+		};
+
+		document.addEventListener("mouseover", (e) => {
+			if (e.target instanceof HTMLElement) updateState(e.target);
+		});
 	}
 </script>

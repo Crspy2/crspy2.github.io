@@ -27,7 +27,7 @@ function microlinkScreenshotUrl(url: string): string {
 const screenshotSrc = imageUrl ?? (projectUrl ? microlinkScreenshotUrl(projectUrl) : null);
 const ImageWrapper = projectUrl ? "a" : "div";
 ---
-<article class="grid md:grid-cols-2 gap-8 items-center">
+<article class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
 	<ImageWrapper
 		href={projectUrl}
 		target={projectUrl ? "_blank" : undefined}
@@ -42,9 +42,9 @@ const ImageWrapper = projectUrl ? "a" : "div";
 			</div>
 		)}
 	</ImageWrapper>
-	<div class="space-y-4">
-		<h3 class="font-fraunces font-bold text-3xl w-fit">{name}</h3>
-		<p class="text-base leading-relaxed" set:html={description}></p>
+	<div class="space-y-3 md:space-y-4">
+		<h3 class="font-fraunces font-bold text-2xl md:text-3xl w-fit">{name}</h3>
+		<p class="text-sm md:text-base leading-relaxed" set:html={description}></p>
 		{tools.length > 0 && (
 			<div class="flex flex-wrap gap-2">
 				{tools.map(toolName => <ToolBadge name={toolName} />)}

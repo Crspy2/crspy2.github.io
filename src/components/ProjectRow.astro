@@ -51,8 +51,12 @@ const { project } = Astro.props;
     position: relative;
     transition:
       border-color 0.18s ease,
-      background 0.18s ease,
-      padding-left 0.18s ease;
+      background 0.18s ease;
+  }
+
+  .project-row:hover {
+    border-left-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 5%, transparent);
   }
 
   @media (max-width: 640px) {

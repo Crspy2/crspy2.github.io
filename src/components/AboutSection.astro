@@ -3,9 +3,8 @@ import SectionMarker from "./SectionMarker.astro";
 import ToolBadge from "./ToolBadge.astro";
 import { tools, toolCategories } from "../data/tools";
 ---
-<SectionMarker index="02" title="ABOUT" />
-
 <section id="about" class="about" aria-labelledby="about-title">
+  <SectionMarker index="02" title="ABOUT" />
   <div class="about-inner">
     <div class="about-grid">
       <div class="about-bio">
@@ -13,7 +12,7 @@ import { tools, toolCategories } from "../data/tools";
           Hi <span class="name">there</span>!
         </h2>
         <p class="about-para">
-          I&rsquo;m a CS/CE student in California building fullstack web apps —
+          I&rsquo;m a CE / CS student in California building fullstack web apps —
           mostly TypeScript on the front, Go and Rust on the back. I care about
           calm interfaces, fast servers, and code that you can still read six
           months later.
@@ -39,7 +38,7 @@ import { tools, toolCategories } from "../data/tools";
           </div>
           <div class="presence-row">
             <span class="presence-label">studying</span>
-            <span class="presence-value">CS / CE</span>
+            <span class="presence-value">CE / CS</span>
           </div>
           <div class="presence-foot">
             <span class="presence-dot" aria-hidden="true"></span>
@@ -75,16 +74,22 @@ import { tools, toolCategories } from "../data/tools";
 
 <style>
   .about {
-    padding: 56px 32px 96px;
+    scroll-margin-top: 60px;
+    padding-bottom: 96px;
   }
 
   @media (max-width: 640px) {
-    .about { padding: 40px 20px 72px; }
+    .about { padding-bottom: 72px; }
   }
 
   .about-inner {
     max-width: 1100px;
     margin: 0 auto;
+    padding: 56px 32px 0;
+  }
+
+  @media (max-width: 640px) {
+    .about-inner { padding: 40px 20px 0; }
   }
 
   /* ── header grid ── */

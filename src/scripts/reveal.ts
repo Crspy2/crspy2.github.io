@@ -33,7 +33,7 @@ export function initReveal(): void {
   targets.forEach((el) => {
     ScrollTrigger.create({
       trigger: el,
-      start: "top 92%",
+      start: "top bottom-=40",
       once: true,
       onEnter: () =>
         gsap.to(el, {
@@ -46,4 +46,5 @@ export function initReveal(): void {
 
   // re-evaluate after layout settles (fonts, images, etc.)
   requestAnimationFrame(() => ScrollTrigger.refresh());
+  window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
 }

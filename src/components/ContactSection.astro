@@ -11,17 +11,17 @@ const links = [
 <section id="contact" class="contact" aria-labelledby="contact-title">
   <SectionMarker index="04" title="CONTACT" />
   <div class="contact-inner">
-    <h2 id="contact-title" class="contact-title" data-reveal>
+    <h2 id="contact-title" class="contact-title" data-rise>
       Send me a <span class="accent">message</span>.
     </h2>
-    <p class="contact-blurb" data-reveal>
+    <p class="contact-blurb" data-rise>
       Best for: collabs, freelance, half-baked ideas, or just saying hi.
       Discord and Telegram I usually reply to within the day.
     </p>
 
     <ul class="contact-links">
       {links.map(({ method, handle, href }) => (
-        <li data-reveal>
+        <li data-rise>
           <a class="contact-link" href={href} target={method === "email" ? "_self" : "_blank"} rel="noopener noreferrer">
             <span class="link-method">{method}</span>
             <span class="link-handle">{handle}</span>

@@ -28,7 +28,7 @@ export function initSectionMarkers(): void {
       onEnter: () => {
         const tl = gsap.timeline();
         tl.to(marker, { clipPath: REVEAL_TO, duration: 0.55, ease: "power3.out" });
-        tl.to(line, { scaleX: 1, duration: 0.5, ease: "power2.out" }, "-=0.25");
+        tl.to(line, { scaleX: 1, transformOrigin: "left center", duration: 0.5, ease: "power2.out" }, "-=0.25");
       },
     });
   });

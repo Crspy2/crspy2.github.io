@@ -18,6 +18,7 @@ export function initReveal(): void {
   const targets = Array.from(all).filter((el) => {
     if (hero && hero.contains(el)) return false;
     if (el.matches("[data-section-marker]")) return false;
+    if (el.matches("[data-nav]")) return false;
     return true;
   });
 

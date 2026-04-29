@@ -6,12 +6,14 @@ import tRPC from "../assets/icons/trpc.svg";
 export interface Tool {
 	icon?: any;
 	href?: string;
+	/** Set true when the icon is mostly black/dark and would disappear on the dark background. */
+	dark?: boolean;
 }
 
 export const tools: Record<string, Tool> = {
 	// Languages
 	"Golang":     { icon: "logos:go",                   href: "https://go.dev/" },
-	"Rust":       { icon: "logos:rust",                 href: "https://www.rust-lang.org/" },
+	"Rust":       { icon: "logos:rust",                 href: "https://www.rust-lang.org/", dark: true },
 	"Python":     { icon: "logos:python",               href: "https://www.python.org/" },
 	"TypeScript": { icon: "logos:typescript-icon",      href: "https://www.typescriptlang.org/" },
 	"JavaScript": { icon: "logos:javascript",           href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
@@ -28,7 +30,7 @@ export const tools: Record<string, Tool> = {
 	"SvelteKit":      		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/docs/kit/" },
 	"Astro":          		{ icon: "logos:astro-icon",                    href: "https://astro.build/" },
 	"Tanstack Query":		{ icon: "logos:react-query-icon",          href: "https://tanstack.com/table/" },
-	"Shadcn":         		{ icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/" },
+	"Shadcn":         		{ icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/", dark: true },
 	"Invision Community":   { icon: InvisionCommunity, 					   href: "https://invisioncommunity.com/" },
 
 	// Web

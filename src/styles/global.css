@@ -52,6 +52,16 @@ a {
   text-decoration: none;
 }
 
+/* Initial hidden state for entrance / scroll-reveal animations.
+   JS animates clip-path to inset(0 0 0 0) to wipe content in. */
+[data-rise] {
+  clip-path: inset(0 100% 0 0);
+}
+[data-section-marker] [data-marker-line] {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
 .site-cursor {
   position: fixed;
   top: 0;

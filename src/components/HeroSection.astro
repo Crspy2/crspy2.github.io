@@ -1,0 +1,139 @@
+---
+const contacts = [
+  { label: "discord @crs_py", href: "https://discord.com/users/385568884511473664" },
+  { label: "github crspy2", href: "https://github.com/crspy2" },
+  { label: "telegram @crs_py", href: "https://t.me/crs_py" },
+];
+---
+<section id="hero" class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <p class="hero-eyebrow" data-hero-eyebrow data-rise>
+      <span class="prompt">$</span>
+      <span class="cmd">hello --world</span><span class="caret" aria-hidden="true"></span>
+    </p>
+
+    <h1 id="hero-title" class="hero-title" data-hero-title data-rise>
+      Hi, I&rsquo;m <span class="name">Crspy</span>.<br />
+      I build <span class="accent">fullstack web apps</span><br />
+      out of California.
+    </h1>
+
+    <p class="hero-bio" data-hero-bio data-rise>
+      CE / CS student writing TypeScript, Go, and Python. I like calm UIs, fast servers,
+      and weekends that involve mountains or the ocean.
+    </p>
+
+    <ul class="hero-contacts" data-hero-contacts>
+      {contacts.map(({ label, href }) => (
+        <li data-rise>
+          <a href={href} target="_blank" rel="noopener noreferrer" class="contact-pill">
+            <span class="contact-arrow" aria-hidden="true">→</span>
+            <span class="contact-label">{label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding: 96px 32px;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 72px 20px; }
+  }
+
+  .hero-inner {
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    margin: 0 0 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--color-faint);
+  }
+  .hero-eyebrow .cmd { display: inline-block; min-width: 1px; }
+  .hero-eyebrow .caret {
+    display: inline-block;
+    width: 6px;
+    height: 11px;
+    background: var(--color-accent);
+    margin-left: 4px;
+    vertical-align: -1px;
+    animation: hero-caret-blink 1s steps(1) infinite;
+  }
+  @keyframes hero-caret-blink {
+    0%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  .hero-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: clamp(32px, 5.4vw, 48px);
+    line-height: 1.1;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+  .hero-title .name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  .hero-bio {
+    margin: 28px 0 0;
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.4vw, 16px);
+    line-height: 1.65;
+    color: var(--color-muted);
+    max-width: 540px;
+  }
+
+  .hero-contacts {
+    list-style: none;
+    margin: 36px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .contact-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-muted);
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease;
+  }
+  .contact-pill:hover {
+    color: var(--color-foreground);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  }
+  .contact-arrow { color: var(--color-accent); }
+</style>
+
+<script>
+  import { initHeroEntrance } from "../scripts/hero-entrance";
+  initHeroEntrance();
+  document.addEventListener("astro:page-load", () => initHeroEntrance());
+</script>

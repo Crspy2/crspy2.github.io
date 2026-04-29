@@ -27,10 +27,7 @@ export const tools: Record<string, Tool> = {
 	"Svelte":         		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/" },
 	"SvelteKit":      		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/docs/kit/" },
 	"Astro":          		{ icon: "logos:astro-icon",                    href: "https://astro.build/" },
-	"Tanstack Start": 		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/start/" },
-	"Tanstack Query":		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/query/" },
-	"Tanstack Form":  		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/form/" },
-	"Tanstack Table": 		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/table/" },
+	"Tanstack Query":		{ icon: "logos:react-query-icon",          href: "https://tanstack.com/table/" },
 	"Shadcn":         		{ icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/" },
 	"Invision Community":   { icon: InvisionCommunity, 					   href: "https://invisioncommunity.com/" },
 
@@ -75,14 +72,13 @@ export interface ToolCategory {
 export const toolCategories: ToolCategory[] = [
 	{
 		name: "Languages",
-		tools: ["Golang", "Rust", "Python", "TypeScript", "JavaScript", "PHP", "Java", "C", "C++", "SQL"],
+		tools: ["C", "C++", "Python", "Java", "Golang", "TypeScript", "Rust", "PHP", "JavaScript", "SQL"],
 	},
 	{
 		name: "Frameworks",
 		tools: [
 			"React", "NextJS", "Svelte", "SvelteKit", "Astro",
-			"Tanstack Start", "Tanstack Query", "Tanstack Form", "Tanstack Table",
-			"Shadcn", "Invision Community",
+			"Tanstack Query", "Shadcn", "Invision Community",
 		],
 	},
 	{

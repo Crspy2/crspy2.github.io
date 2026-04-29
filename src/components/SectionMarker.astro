@@ -8,7 +8,7 @@ interface Props {
 const { index, title, rightSlot } = Astro.props;
 ---
 <div class="section-marker" data-section-marker data-rise>
-  <span class="marker-label">// {index} — {title}</span>
+  <span class="marker-label">// {index} {title}</span>
   <span class="marker-line" data-marker-line></span>
   {rightSlot && <span class="marker-right">{rightSlot}</span>}
 </div>

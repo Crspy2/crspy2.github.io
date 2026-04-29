@@ -1,6 +1,4 @@
-@import "tailwindcss";
-
-@theme {
+:root {
   --color-background: #0a0a0b;
   --color-foreground: #fafafa;
   --color-muted: rgba(255, 255, 255, 0.65);

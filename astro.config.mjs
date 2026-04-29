@@ -3,8 +3,6 @@ import { defineConfig, fontProviders } from 'astro/config'
 
 import sitemap from "@astrojs/sitemap";
 
-import tailwindcss from "@tailwindcss/vite";
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://crspy.me",
@@ -32,8 +30,4 @@ export default defineConfig({
   ],
 
   integrations: [sitemap()],
-
-  vite: {
-    plugins: [tailwindcss()]
-  }
 });

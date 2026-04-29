@@ -1,0 +1,113 @@
+---
+import SectionMarker from "./SectionMarker.astro";
+
+const links = [
+  { method: "discord",  handle: "@crs_py",  href: "https://discord.com/users/385568884511473664" },
+  { method: "telegram", handle: "@crs_py",  href: "https://t.me/crs_py" },
+  { method: "github",   handle: "crspy2",   href: "https://github.com/crspy2" },
+  { method: "email",    handle: "crspy8687@gmail.com", href: "mailto:crspy8687@gmail.com" },
+];
+---
+<SectionMarker index="04" title="CONTACT" />
+
+<section id="contact" class="contact" aria-labelledby="contact-title">
+  <div class="contact-inner">
+    <h2 id="contact-title" class="contact-title">
+      Send me a <span class="accent">message</span>.
+    </h2>
+    <p class="contact-blurb">
+      Best for: collabs, freelance, half-baked ideas, or just saying hi.
+      Discord and Telegram I usually reply to within the day.
+    </p>
+
+    <ul class="contact-links">
+      {links.map(({ method, handle, href }) => (
+        <li data-reveal>
+          <a class="contact-link" href={href} target={method === "email" ? "_self" : "_blank"} rel="noopener noreferrer">
+            <span class="link-method">{method}</span>
+            <span class="link-handle">{handle}</span>
+            <span class="link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: 56px 32px 96px;
+  }
+
+  @media (max-width: 640px) {
+    .contact { padding: 40px 20px 72px; }
+  }
+
+  .contact-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .contact-title {
+    margin: 0 0 16px;
+    font-family: var(--font-sans);
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+  }
+  .contact-title .accent {
+    color: var(--color-accent);
+    border-bottom: 1px dashed var(--color-accent);
+    padding-bottom: 1px;
+  }
+
+  .contact-blurb {
+    margin: 0 0 36px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 56ch;
+  }
+
+  .contact-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-link {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+    padding: 16px 12px;
+    margin-left: -12px;
+    border-bottom: 1px solid var(--color-border);
+    border-left: 2px solid transparent;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+  }
+
+  @media (max-width: 540px) {
+    .contact-link {
+      grid-template-columns: 80px 1fr auto;
+      gap: 12px;
+      font-size: 12px;
+    }
+  }
+
+  .contact-link:hover {
+    border-left-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+    color: var(--color-foreground);
+  }
+
+  .link-method { color: var(--color-dim); text-transform: lowercase; }
+  .link-handle { color: var(--color-foreground); }
+  .link-arrow { color: var(--color-accent); }
+</style>

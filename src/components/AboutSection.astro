@@ -49,7 +49,7 @@ import { tools, toolCategories } from "../data/tools";
       </aside>
     </div>
 
-    <div class="about-tools" data-reveal>
+    <div class="about-tools">
       <div class="tools-head">
         <span class="tools-head-label">// tools</span>
         <span class="tools-head-line"></span>
@@ -57,7 +57,7 @@ import { tools, toolCategories } from "../data/tools";
 
       <div class="tools-categories">
         {toolCategories.map((cat) => (
-          <div class="tools-row">
+          <div class="tools-row" data-reveal>
             <div class="tools-row-label">{cat.name}</div>
             <ul class="tools-row-list">
               {cat.tools.map((toolName) => (

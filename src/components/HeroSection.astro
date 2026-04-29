@@ -5,7 +5,7 @@ const contacts = [
   { label: "telegram @crs_py", href: "https://t.me/crs_py" },
 ];
 ---
-<section id="hero" class="hero" data-hero aria-labelledby="hero-title">
+<section id="hero" class="hero" aria-labelledby="hero-title">
   <div class="hero-inner">
     <p class="hero-eyebrow" data-hero-eyebrow>
       <span class="prompt">$</span>
@@ -136,47 +136,10 @@ const contacts = [
     background: color-mix(in srgb, var(--color-accent) 6%, transparent);
   }
   .contact-arrow { color: var(--color-accent); }
-
-  /* initial hidden state for entrance animation (JS animates these in) */
-  [data-hero-title],
-  [data-hero-bio],
-  [data-hero-contacts] li {
-    opacity: 0;
-  }
-  [data-hero-title], [data-hero-bio] {
-    transform: translateY(14px);
-  }
-  [data-hero-contacts] li {
-    transform: translateY(8px);
-  }
-  [data-hero-eyebrow] .cmd {
-    visibility: hidden;
-  }
-  .hero[data-hero-loaded] [data-hero-eyebrow] .cmd { visibility: visible; }
 </style>
-
-<noscript>
-  <style>
-    [data-hero-title], [data-hero-bio], [data-hero-contacts] li {
-      opacity: 1 !important;
-      transform: none !important;
-    }
-    [data-hero-eyebrow] .cmd { visibility: visible !important; }
-  </style>
-</noscript>
 
 <script>
   import { initHeroEntrance } from "../scripts/hero-entrance";
-
-  function run() {
-    initHeroEntrance();
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", run, { once: true });
-  } else {
-    run();
-  }
-
-  document.addEventListener("astro:page-load", run);
+  initHeroEntrance();
+  document.addEventListener("astro:page-load", () => initHeroEntrance());
 </script>

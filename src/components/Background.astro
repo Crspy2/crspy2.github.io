@@ -1,0 +1,44 @@
+---
+// static cell grid backdrop. no JS, no animation.
+---
+<div class="bg-grid" aria-hidden="true">
+  <div class="bg-grid-cells"></div>
+  <div class="bg-grid-vignette"></div>
+</div>
+
+<style>
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    background: var(--color-background);
+    overflow: hidden;
+  }
+
+  .bg-grid-cells {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  @media (max-width: 768px) {
+    .bg-grid-cells {
+      background-size: 48px 48px;
+    }
+  }
+
+  .bg-grid-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(10, 10, 11, 0.55) 70%,
+      rgba(10, 10, 11, 0.85) 100%
+    );
+  }
+</style>

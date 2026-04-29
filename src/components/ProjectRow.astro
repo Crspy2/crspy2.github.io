@@ -20,7 +20,7 @@ const { project } = Astro.props;
   <div class="project-body">
     <h3 class="project-name">
       {project.name}
-      <span class="project-tagline">— {project.tagline}</span>
+      <span class="project-tagline">{project.tagline}</span>
     </h3>
     <p class="project-tools">
       {project.tools.map((tool, i) => (

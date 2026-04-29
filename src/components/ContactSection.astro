@@ -16,7 +16,7 @@ const links = [
     </h2>
     <p class="contact-blurb" data-rise>
       Best for: collabs, freelance, half-baked ideas, or just saying hi.
-      Discord and Telegram I usually reply to within the day.
+      I'm most active on Discord. <a href="https://nohello.net" target="_blank">Please don't just say hello.</a>
     </p>
 
     <ul class="contact-links">
@@ -74,6 +74,17 @@ const links = [
     line-height: 1.7;
     color: var(--color-muted);
     max-width: 56ch;
+  }
+  .contact-blurb a {
+    color: var(--color-foreground);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 0.18s ease;
+  }
+  .contact-blurb a:hover {
+    color: var(--color-accent);
   }
 
   .contact-links {

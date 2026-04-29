@@ -1,0 +1,228 @@
+---
+import SectionMarker from "./SectionMarker.astro";
+import ToolBadge from "./ToolBadge.astro";
+import { tools, toolCategories } from "../data/tools";
+---
+<section id="about" class="about" aria-labelledby="about-title">
+  <SectionMarker index="02" title="ABOUT" />
+  <div class="about-inner">
+    <div class="about-grid">
+      <div class="about-bio" data-rise>
+        <h2 id="about-title" class="about-title">
+          Hi <span class="name">there</span>!
+        </h2>
+        <p class="about-para">
+          I&rsquo;m a CE / CS student in California building fullstack web apps using
+          TypeScript on the frontend and Go on the backend. I care about
+          user interfaces, fast servers, and code that will last.
+        </p>
+        <p class="about-para">
+          Outside the editor I&rsquo;m skiing, climbing rocks, or underwater
+          with a SCUBA tank.
+        </p>
+      </div>
+
+      <aside class="about-presence" aria-label="contact" data-rise>
+        <div class="presence-card">
+          <div class="presence-row">
+            <span class="presence-label">discord</span>
+            <a class="presence-value" href="https://discord.com/users/385568884511473664" target="_blank" rel="noopener noreferrer">
+              @crs_py
+            </a>
+          </div>
+          <div class="presence-row">
+            <span class="presence-label">based in</span>
+            <span class="presence-value">California, US</span>
+          </div>
+          <div class="presence-row">
+            <span class="presence-label">studying</span>
+            <span class="presence-value">CE / CS</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="about-tools">
+      <div class="tools-head">
+        <span class="tools-head-label">// tools</span>
+        <span class="tools-head-line"></span>
+      </div>
+
+      <div class="tools-categories">
+        {toolCategories.map((cat) => (
+          <div class="tools-row" data-rise>
+            <div class="tools-row-label">{cat.name}</div>
+            <ul class="tools-row-list">
+              {cat.tools.map((toolName) => (
+                <li>
+                  <ToolBadge name={toolName} tool={tools[toolName]} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    scroll-margin-top: 60px;
+    padding-bottom: 96px;
+  }
+
+  @media (max-width: 640px) {
+    .about { padding-bottom: 72px; }
+  }
+
+  .about-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 32px 0;
+  }
+
+  @media (max-width: 640px) {
+    .about-inner { padding: 40px 20px 0; }
+  }
+
+  /* ── header grid ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+
+  .about-title {
+    margin: 0 0 18px;
+    font-family: var(--font-sans);
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--color-foreground);
+  }
+
+  .about-title .name {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-accent);
+  }
+
+  .about-para {
+    margin: 0 0 14px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 56ch;
+  }
+  .about-para:last-child { margin-bottom: 0; }
+
+  /* ── presence card ── */
+  .presence-card {
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    padding: 18px;
+    background: color-mix(in srgb, var(--color-foreground) 2%, transparent);
+    font-family: var(--font-mono);
+  }
+
+  .presence-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--color-border);
+    font-size: 11px;
+  }
+  .presence-row:first-child { padding-top: 2px; }
+
+  .presence-label { color: var(--color-dim); }
+  .presence-value { color: var(--color-foreground); }
+  a.presence-value { transition: color 0.18s ease; }
+  a.presence-value:hover { color: var(--color-accent); }
+
+  .presence-foot {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--color-faint);
+    letter-spacing: 0.05em;
+  }
+  .presence-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 6px var(--color-accent);
+  }
+
+  /* ── tools area ── */
+  .about-tools {
+    margin-top: 64px;
+  }
+
+  .tools-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .tools-head-line {
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .tools-categories {
+    display: grid;
+    gap: 18px;
+  }
+
+  .tools-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .tools-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+
+  .tools-row-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-faint);
+    text-transform: lowercase;
+    padding-top: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .tools-row-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+</style>

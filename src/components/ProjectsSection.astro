@@ -1,0 +1,54 @@
+---
+import SectionMarker from "./SectionMarker.astro";
+import ProjectRow from "./ProjectRow.astro";
+import { projects } from "../data/projects";
+---
+<section id="projects" class="projects" aria-labelledby="projects-title">
+  <SectionMarker index="03" title="PROJECTS" />
+  <div class="projects-inner">
+    <h2 id="projects-title" class="visually-hidden">Projects</h2>
+    <div class="projects-list" data-projects-list>
+      {projects.map((project) => (
+        <ProjectRow project={project} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects {
+    scroll-margin-top: 60px;
+    padding-bottom: 96px;
+  }
+
+  @media (max-width: 640px) {
+    .projects { padding-bottom: 72px; }
+  }
+
+  .projects-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px 0;
+  }
+
+  @media (max-width: 640px) {
+    .projects-inner { padding: 32px 20px 0; }
+  }
+
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

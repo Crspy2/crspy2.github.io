@@ -1,31 +1,73 @@
 ---
 import { Icon } from "astro-iconify";
-import { tools } from "../data/tools";
+import type { Tool } from "../data/tools";
 
 interface Props {
-	name: string;
+  name: string;
+  tool: Tool;
 }
 
-const { name } = Astro.props;
-const tool = tools[name];
-const icon = tool?.icon;
-const href = tool?.href;
-const Tag = href ? "a" : "span";
-const IconComp = icon && typeof icon !== "string" ? icon : null;
+const { name, tool } = Astro.props;
+const isStringIcon = typeof tool.icon === "string";
+const localIconSrc = !isStringIcon && tool.icon ? tool.icon.src : null;
 ---
-<Tag
-	href={href}
-	target={href ? "_blank" : undefined}
-	rel={href ? "noopener noreferrer" : undefined}
-	class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-neutral-200 hover:border-neutral-400 hover:bg-neutral-50 transition-colors text-sm select-none"
+<a
+  class="tool-badge"
+  href={tool.href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={name}
 >
-	{(IconComp || typeof icon === "string") && (
-		<span class="inline-flex items-center justify-center w-4 h-4 shrink-0">
-			{IconComp
-				? <IconComp class="w-full h-full" />
-				: <Icon name={icon} class="w-full h-full" />
-			}
-		</span>
-	)}
-	<span>{name}</span>
-</Tag>
+  <span class:list={["tool-icon", { "is-dark": tool.dark }]} aria-hidden="true">
+    {isStringIcon && <Icon name={tool.icon} class="tool-icon-svg" />}
+    {!isStringIcon && localIconSrc && (
+      <img src={localIconSrc} alt="" class="tool-icon-svg" />
+    )}
+  </span>
+  <span class="tool-name">{name}</span>
+</a>
+
+<style>
+  .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-muted);
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease;
+    line-height: 1;
+  }
+
+  .tool-badge:hover {
+    color: var(--color-foreground);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  }
+
+  .tool-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .tool-icon-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* whitens dark/black logos so they're visible on the dark background */
+  .tool-icon.is-dark .tool-icon-svg {
+    filter: invert(1);
+  }
+</style>

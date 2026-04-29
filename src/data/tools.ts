@@ -6,12 +6,14 @@ import tRPC from "../assets/icons/trpc.svg";
 export interface Tool {
 	icon?: any;
 	href?: string;
+	/** Set true when the icon is mostly black/dark and would disappear on the dark background. */
+	dark?: boolean;
 }
 
 export const tools: Record<string, Tool> = {
 	// Languages
 	"Golang":     { icon: "logos:go",                   href: "https://go.dev/" },
-	"Rust":       { icon: "logos:rust",                 href: "https://www.rust-lang.org/" },
+	"Rust":       { icon: "logos:rust",                 href: "https://www.rust-lang.org/", dark: true },
 	"Python":     { icon: "logos:python",               href: "https://www.python.org/" },
 	"TypeScript": { icon: "logos:typescript-icon",      href: "https://www.typescriptlang.org/" },
 	"JavaScript": { icon: "logos:javascript",           href: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
@@ -27,11 +29,8 @@ export const tools: Record<string, Tool> = {
 	"Svelte":         		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/" },
 	"SvelteKit":      		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/docs/kit/" },
 	"Astro":          		{ icon: "logos:astro-icon",                    href: "https://astro.build/" },
-	"Tanstack Start": 		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/start/" },
-	"Tanstack Query":		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/query/" },
-	"Tanstack Form":  		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/form/" },
-	"Tanstack Table": 		{ icon: "logos:react-query-icon",              href: "https://tanstack.com/table/" },
-	"Shadcn":         		{ icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/" },
+	"Tanstack Query":		{ icon: "logos:react-query-icon",          href: "https://tanstack.com/query/" },
+	"Shadcn":         		{ icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/", dark: true },
 	"Invision Community":   { icon: InvisionCommunity, 					   href: "https://invisioncommunity.com/" },
 
 	// Web
@@ -66,3 +65,42 @@ export const tools: Record<string, Tool> = {
 	"Ubuntu":    { icon: "logos:ubuntu",                 href: "https://ubuntu.com/" },
 	"Windows":   { icon: "logos:microsoft-windows-icon", href: "https://www.microsoft.com/windows/" },
 };
+
+export interface ToolCategory {
+	name: string;
+	tools: string[];
+}
+
+export const toolCategories: ToolCategory[] = [
+	{
+		name: "Languages",
+		tools: ["C", "C++", "Python", "Java", "Golang", "TypeScript", "Rust", "PHP", "JavaScript", "SQL"],
+	},
+	{
+		name: "Frameworks",
+		tools: [
+			"React", "NextJS", "Svelte", "SvelteKit", "Astro",
+			"Tanstack Query", "Shadcn", "Invision Community",
+		],
+	},
+	{
+		name: "Web",
+		tools: ["HTML", "CSS", "TailwindCSS"],
+	},
+	{
+		name: "Databases",
+		tools: ["MySQL", "Postgres", "Redis", "MongoDB"],
+	},
+	{
+		name: "Cloud & Hosting",
+		tools: ["Cloudflare", "AWS", "Google Cloud"],
+	},
+	{
+		name: "APIs & Tools",
+		tools: ["gRPC", "tRPC", "GraphQL", "Stripe", "Postman", "Docker", "Discord.py", "discord.js"],
+	},
+	{
+		name: "Operating Systems",
+		tools: ["Linux", "Archlinux", "Ubuntu", "Windows"],
+	},
+];

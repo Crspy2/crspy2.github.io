@@ -8,7 +8,7 @@ import SectionMarker from "../components/SectionMarker.astro";
 
     <div class="not-found-inner">
       <p class="eyebrow" data-rise>
-        <span class="prompt">$</span> cat ~/requested-page
+        <span class="prompt">$</span> cat <span data-not-found-path>~/</span>
         <span class="error">→ no such file</span>
       </p>
 
@@ -17,8 +17,9 @@ import SectionMarker from "../components/SectionMarker.astro";
       </h1>
 
       <p class="blurb" data-rise>
-        The URL you tried isn&rsquo;t a thing on this site. Mistyped, moved,
-        or it never existed. Head back to the index and try again.
+        The URL you tried isn&rsquo;t a thing on this site. It was either
+        mistyped, moved, or never existed in the first place. Head back to
+        the index and try again.
       </p>
 
       <a href="/" class="back-link" data-rise>
@@ -28,6 +29,13 @@ import SectionMarker from "../components/SectionMarker.astro";
     </div>
   </section>
 </Base>
+
+<script is:inline>
+  (function () {
+    var el = document.querySelector("[data-not-found-path]");
+    if (el) el.textContent = "~" + (window.location.pathname || "/");
+  })();
+</script>
 
 <style>
   .not-found {

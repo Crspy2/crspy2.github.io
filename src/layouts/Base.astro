@@ -66,6 +66,9 @@ const {
   import { initReveal } from "../scripts/reveal";
   import { initScramble } from "../scripts/scramble";
   import { initProjectHover } from "../scripts/project-hover";
+  import { installErrorHandler } from "../scripts/error-handler";
+
+  installErrorHandler();
 
   function init() {
     initSectionMarkers();

@@ -29,7 +29,7 @@ export const tools: Record<string, Tool> = {
 	"Svelte":         		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/" },
 	"SvelteKit":      		{ icon: "logos:svelte-icon",                   href: "https://svelte.dev/docs/kit/" },
 	"Astro":          		{ icon: "logos:astro-icon",                    href: "https://astro.build/" },
-	"Tanstack Query":		{ icon: "logos:react-query-icon",          href: "https://tanstack.com/table/" },
+	"Tanstack Query":		{ icon: "logos:react-query-icon",          href: "https://tanstack.com/query/" },
 	"Shadcn":         		{ icon: "vscode-icons:file-type-light-shadcn", href: "https://ui.shadcn.com/", dark: true },
 	"Invision Community":   { icon: InvisionCommunity, 					   href: "https://invisioncommunity.com/" },
 

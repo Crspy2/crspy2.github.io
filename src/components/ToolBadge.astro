@@ -18,7 +18,7 @@ const localIconSrc = !isStringIcon && tool.icon ? tool.icon.src : null;
   rel="noopener noreferrer"
   aria-label={name}
 >
-  <span class="tool-icon" aria-hidden="true">
+  <span class:list={["tool-icon", { "is-dark": tool.dark }]} aria-hidden="true">
     {isStringIcon && <Icon name={tool.icon} class="tool-icon-svg" />}
     {!isStringIcon && localIconSrc && (
       <img src={localIconSrc} alt="" class="tool-icon-svg" />
@@ -64,5 +64,10 @@ const localIconSrc = !isStringIcon && tool.icon ? tool.icon.src : null;
     width: 100%;
     height: 100%;
     display: block;
+  }
+
+  /* whitens dark/black logos so they're visible on the dark background */
+  .tool-icon.is-dark .tool-icon-svg {
+    filter: invert(1);
   }
 </style>

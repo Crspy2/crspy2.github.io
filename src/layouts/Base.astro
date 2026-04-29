@@ -57,6 +57,12 @@ const {
 <script>
   import { initSectionMarkers } from "../scripts/section-markers";
   import { initReveal } from "../scripts/reveal";
-  initSectionMarkers();
-  initReveal();
+
+  function init() {
+    initSectionMarkers();
+    initReveal();
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
 </script>

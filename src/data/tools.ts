@@ -66,3 +66,43 @@ export const tools: Record<string, Tool> = {
 	"Ubuntu":    { icon: "logos:ubuntu",                 href: "https://ubuntu.com/" },
 	"Windows":   { icon: "logos:microsoft-windows-icon", href: "https://www.microsoft.com/windows/" },
 };
+
+export interface ToolCategory {
+	name: string;
+	tools: string[];
+}
+
+export const toolCategories: ToolCategory[] = [
+	{
+		name: "Languages",
+		tools: ["Golang", "Rust", "Python", "TypeScript", "JavaScript", "PHP", "Java", "C", "C++", "SQL"],
+	},
+	{
+		name: "Frameworks",
+		tools: [
+			"React", "NextJS", "Svelte", "SvelteKit", "Astro",
+			"Tanstack Start", "Tanstack Query", "Tanstack Form", "Tanstack Table",
+			"Shadcn", "Invision Community",
+		],
+	},
+	{
+		name: "Web",
+		tools: ["HTML", "CSS", "TailwindCSS"],
+	},
+	{
+		name: "Databases",
+		tools: ["MySQL", "Postgres", "Redis", "MongoDB"],
+	},
+	{
+		name: "Cloud & Hosting",
+		tools: ["Cloudflare", "AWS", "Google Cloud"],
+	},
+	{
+		name: "APIs & Tools",
+		tools: ["gRPC", "tRPC", "GraphQL", "Stripe", "Postman", "Docker", "Discord.py", "discord.js"],
+	},
+	{
+		name: "Operating Systems",
+		tools: ["Linux", "Archlinux", "Ubuntu", "Windows"],
+	},
+];

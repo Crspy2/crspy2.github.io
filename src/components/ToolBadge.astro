@@ -1,0 +1,68 @@
+---
+import { Icon } from "astro-iconify";
+import type { Tool } from "../data/tools";
+
+interface Props {
+  name: string;
+  tool: Tool;
+}
+
+const { name, tool } = Astro.props;
+const isStringIcon = typeof tool.icon === "string";
+const localIconSrc = !isStringIcon && tool.icon ? tool.icon.src : null;
+---
+<a
+  class="tool-badge"
+  href={tool.href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={name}
+>
+  <span class="tool-icon" aria-hidden="true">
+    {isStringIcon && <Icon name={tool.icon} class="tool-icon-svg" />}
+    {!isStringIcon && localIconSrc && (
+      <img src={localIconSrc} alt="" class="tool-icon-svg" />
+    )}
+  </span>
+  <span class="tool-name">{name}</span>
+</a>
+
+<style>
+  .tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-muted);
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease;
+    line-height: 1;
+  }
+
+  .tool-badge:hover {
+    color: var(--color-foreground);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  }
+
+  .tool-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .tool-icon-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>

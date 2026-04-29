@@ -3,9 +3,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+let initialized = false;
 const REVEAL_TO = "inset(0 0% 0 0)";
 
 export function initSectionMarkers(): void {
+  if (initialized) return;
+  initialized = true;
+
   const markers = document.querySelectorAll<HTMLElement>("[data-section-marker]");
   if (!markers.length) return;
 

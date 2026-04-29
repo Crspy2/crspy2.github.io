@@ -8,9 +8,8 @@ const links = [
   { method: "email",    handle: "crspy8687@gmail.com", href: "mailto:crspy8687@gmail.com" },
 ];
 ---
-<SectionMarker index="04" title="CONTACT" />
-
 <section id="contact" class="contact" aria-labelledby="contact-title">
+  <SectionMarker index="04" title="CONTACT" />
   <div class="contact-inner">
     <h2 id="contact-title" class="contact-title">
       Send me a <span class="accent">message</span>.
@@ -36,16 +35,22 @@ const links = [
 
 <style>
   .contact {
-    padding: 56px 32px 96px;
+    scroll-margin-top: 60px;
+    padding-bottom: 96px;
   }
 
   @media (max-width: 640px) {
-    .contact { padding: 40px 20px 72px; }
+    .contact { padding-bottom: 72px; }
   }
 
   .contact-inner {
     max-width: 760px;
     margin: 0 auto;
+    padding: 56px 32px 0;
+  }
+
+  @media (max-width: 640px) {
+    .contact-inner { padding: 40px 20px 0; }
   }
 
   .contact-title {

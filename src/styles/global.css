@@ -8,6 +8,7 @@
   --color-grid: rgba(255, 255, 255, 0.04);
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.1);
+  --color-warn: #f0b46c;
 
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
   --font-display: var(--font-playfair), Georgia, serif;

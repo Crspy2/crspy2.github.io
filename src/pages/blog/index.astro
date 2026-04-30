@@ -39,22 +39,22 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
 
 <Base
   title="blog · crspy.me"
-  description="Field notes on the things I'm building. Occasional retrospectives, design rationales, and tooling notes."
+  description="A blog where I write about the things I'm building. Retrospectives, design rationales, and notes on tooling."
 >
   <section id="blog-archive" class="blog-archive" data-page="blog" aria-labelledby="blog-archive-title">
-    <SectionMarker index="01" title="FIELD_NOTES" />
+    <SectionMarker index="01" title="BLOG" />
 
     <div class="archive-inner">
       <header class="archive-header">
         <h1 id="blog-archive-title" class="archive-title" data-rise>Blog</h1>
         <p class="archive-intro" data-rise>
-          Occasional notes on the things I&rsquo;m building.
+          Occasional posts on the things I&rsquo;m building.
         </p>
         <div class="archive-divider" data-rise></div>
       </header>
 
       {sorted.length === 0 ? (
-        <p class="archive-empty" data-rise>No notes yet.</p>
+        <p class="archive-empty" data-rise>No posts yet.</p>
       ) : (
         <ol class="archive-list">
           {byYear.map((group) => (

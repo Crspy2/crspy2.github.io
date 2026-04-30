@@ -1,0 +1,81 @@
+---
+interface Props {
+  /** Visual treatment. Defaults to 'note'. */
+  type?: 'note' | 'tip' | 'warn';
+  /** Optional override for the small uppercase label. Defaults to the type name. */
+  label?: string;
+}
+
+const { type = 'note', label } = Astro.props;
+const displayLabel = label ?? type;
+---
+<aside class={`callout callout-${type}`} role="note">
+  <div class="callout-label">{displayLabel}</div>
+  <div class="callout-body"><slot /></div>
+</aside>
+
+<style>
+  .callout {
+    margin: 1.5em 0 0;
+    padding: 14px 18px;
+    border-left: 3px solid var(--color-border-strong);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0 4px 4px 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .callout-tip {
+    border-left-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+  }
+  .callout-warn {
+    border-left-color: var(--color-warn);
+    background: color-mix(in srgb, var(--color-warn) 5%, transparent);
+  }
+
+  .callout-label {
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-dim);
+  }
+
+  .callout-tip .callout-label {
+    color: var(--color-accent);
+  }
+  .callout-warn .callout-label {
+    color: var(--color-warn);
+  }
+
+  /* Tighten paragraph spacing inside the slot. :global() reaches MDX content. */
+  .callout-body :global(p) {
+    margin: 0;
+  }
+  .callout-body :global(p + p) {
+    margin-top: 0.75em;
+  }
+  .callout-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--color-border-strong);
+    border-radius: 3px;
+    padding: 2px 6px;
+  }
+  .callout-body :global(a) {
+    color: var(--color-accent);
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: color 0.18s ease;
+  }
+  .callout-body :global(a:hover) {
+    color: var(--color-foreground);
+  }
+</style>

@@ -1,0 +1,41 @@
+---
+title: 'Welcome to the field notes'
+subtitle: 'a quiet beginning'
+description: 'A first post to verify the new blog scaffolding renders the way it should, and to set the tone for what comes next.'
+pubDate: 2026-04-29
+tags: ['meta', 'astro']
+draft: false
+---
+
+This is the seed post for the new `/blog` archive. If you can read this with the right typography, the scaffolding is working.
+
+## What lives here
+
+Field notes on the things I'm building. Short retrospectives, design rationales, the occasional rant about tooling.
+
+The plan is to keep posts small and frequent rather than long and rare.
+
+## A code sample, for fidelity
+
+```ts
+const blog = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      pubDate: z.coerce.date(),
+      tags: z.array(z.string()).default([]),
+    }),
+})
+```
+
+## A list, for variety
+
+1. Numbered entries grouped by year
+2. No cover thumbnails on the listing
+3. Editorial post pages with Playfair italic titles
+4. CC BY 4.0 license footer on each post
+
+> A blockquote sits here as a typography test, so we can see how serif italic feels against the body Inter.
+
+That's enough for the seed. Real posts will follow.

@@ -1,0 +1,184 @@
+---
+title: 'Giving forum.klar.gg a fresh look'
+subtitle: 'a new theme and commerce flow'
+description: 'A contract project for klar.gg: a new Invision Community theme replacing the default one, and an IPS plugin that turns a paid Nexus invoice into a license key automatically. With a small detour through a custom field type and a copy-to-clipboard handler the framework did not ship.'
+pubDate: 2026-04-29
+tags: ['ips', 'css', 'php', 'devlog']
+draft: false
+---
+
+klar.gg sells time-bound software licenses through their forum at forum.klar.gg, which runs on Invision Community Suite. When I came in, they had a default-feeling IPS theme and a manual key-delivery flow on the staff side. The job was to ship a fresh theme and replace the manual delivery with something automatic.
+
+The interesting bits sit at two levels: a few visible touches in the theme, and the plugin that turns "paid invoice" into "key on the customer's screen" without anybody clicking anything.
+
+## The theme
+
+The whole theme rides on top of the stock IPS framework. Most of its identity comes from a handful of CSS custom properties at `:root` plus targeted template overrides where the framework cannot be talked into doing the right thing on its own. Two pieces are worth calling out.
+
+### Pseudonymous staff handles on tickets
+
+Customers should not see real staff usernames on Nexus tickets. The fix lives in `replyContainer.phtml`: when the comment author is staff, the template builds a stable but anonymous label from a hashed member id.
+
+```php
+{{else}}
+    {{$_staffId = strtolower( substr( md5( '<salt>' . $comment->author()->member_id ), 0, 8 ) );}}
+    <h3 class='ipsType_sectionHead ipsType_blendLinks'>
+      <strong>Klar {$_staffId}</strong>
+    </h3>
+{{endif}}
+```
+
+The actual salt is intentionally not shown. md5 of an integer is trivially reversible if you know the prefix, and member ids are usually a small range. This is a UI nicety, not access control, but I would rather not hand out the seed.
+
+The customer always sees the same handle for the same staffer across the whole thread. They never see the real account.
+
+### A copy-to-clipboard handler
+
+The IPS version klar.gg runs does not have a built-in copy-to-clipboard component. License keys, invoice IDs, anything we want a customer to be able to grab in one tap, there is nothing in the framework to lean on. So I added a small handler in the global template:
+
+```js
+document.addEventListener('click', function (e) {
+  var el = e.target.closest && e.target.closest('.cCopyable');
+  if (!el) return;
+  if (el.tagName === 'A') e.preventDefault();
+  var text = el.getAttribute('data-clipboard-text');
+  if (text && navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(function () {});
+  }
+  el.classList.add('cCopyable--copied');
+  setTimeout(function () {
+    el.classList.remove('cCopyable--copied');
+  }, 900);
+}, true);
+```
+
+Eleven lines of vanilla JS, no controller registration, no IPS plumbing. Any phtml template can opt in by adding a `.cCopyable` element with `data-clipboard-text`:
+
+```html
+<span class="cCopyable" data-clipboard-text="ABCD-1234-XYZ">
+  ABCD-1234-XYZ
+</span>
+```
+
+A CSS rule flashes a green border for 900ms when `.cCopyable--copied` is on.
+
+### Where it shows up: the purchase page
+
+The most visible use is the customer's Nexus purchase page. Once a license key is saved against a purchase, the theme renders it as a copy target:
+
+```html
+{{if $lkey = $purchase->licenseKey()}}
+    <div class='ipsAreaBackground_light ipsPad ipsType_center ipsSpacer_bottom'>
+        <h2 class='ipsType_minorHeading'>{lang="purchase_license_key"}</h2>
+        <div class='cCopyable'
+             data-clipboard-text='{$lkey->key}'>
+            <i class='fa fa-clone cCopyable_icon' aria-hidden='true'></i>
+            <span class='cCopyable_value ipsType_monospace'>{$lkey->key}</span>
+        </div>
+    </div>
+{{endif}}
+```
+
+One click, key on the clipboard, green border flash for 900ms. That is the entire customer-facing surface for getting a key out of klar.gg and into wherever they need it.
+
+## The plugin
+
+The other half of the work is upstream of that purchase page. The plugin's job is to turn a paid Nexus invoice into a license key automatically, instead of staff manually issuing one for every order. The whole pipeline starts in a hook on `IPS\nexus\Invoice::markPaid`.
+
+One quick aside before the code. klar.gg's license-issuing system lives in an older PHP admin panel with no JSON API. To bridge that gap I wrote a small FastAPI service called Overwatch. It started life as a staff Discord bot (resetting customer hardware IDs and passwords without anyone needing direct panel access), and I later extended the same process to expose a REST API. For this post all that matters is: the plugin makes HTTP calls to Overwatch, and Overwatch hands back JSON.
+
+### A custom "Duration" field type
+
+Each Nexus package on klar.gg is sold with a duration choice (30 days, 60 days, 90 days, etc.) that the customer picks at checkout. Two facts about that choice need to live in the same place: the human label the customer sees, and the integer hours the licensing system expects.
+
+IPS Nexus custom fields do not have a built-in shape for that pair, so the plugin adds one new field type by extending Nexus's `$additionalFieldTypes` map on `\IPS\nexus\Package\CustomField`:
+
+```php
+'Duration' => 'pf_type_Duration',
+```
+
+The values are stored as JSON-encoded `"label:hours"` strings. `buildHelper` parses them and renders the field as a radio group at checkout, showing only the label:
+
+```php
+if ( $this->type === 'Duration' )
+{
+    $rawOptions = json_decode( $this->content, TRUE );
+    $radioOptions = array();
+
+    foreach ( $rawOptions as $option )
+    {
+        $parts = explode( ':', $option, 2 );
+        $label = ( count( $parts ) === 2 ) ? trim( $parts[0] ) : trim( $option );
+        $radioOptions[ trim( $option ) ] = $label;
+    }
+
+    return new \IPS\Helpers\Form\Radio(
+        static::$langKey . '_' . $this->id,
+        $value,
+        $this->not_null,
+        array( 'options' => $radioOptions ),
+    );
+}
+```
+
+`displayValue` does the symmetric trick on the AdminCP side: when the order is rendered for staff, it splits on the colon and shows the label, hiding the hours.
+
+The customer sees "30 Days." The plugin's `markPaid` hook can pull "720" out of the same stored value. One field, two readers.
+
+### The markPaid hook
+
+After Nexus's normal payment flow finishes, the plugin walks the invoice items and turns each one into a license key.
+
+First, look up which licensing-system product this IPS package corresponds to. The product map lives in plugin settings as a small JSON object: `{ "9": "Fortnite", "12": "Rust" }`.
+
+```php
+$packageId = $item->id;
+$panelProductName = $productMap[ (string) $packageId ] ?? NULL;
+if ( !$panelProductName ) continue;
+```
+
+Then resolve the duration the customer picked at checkout, using the Duration field from earlier.
+
+```php
+$durationHours = $this->_resolveDuration( $item, $packageId );
+if ( $durationHours === NULL ) continue;
+```
+
+Translate the product name into the licensing system's product ID. The list comes from Overwatch and is cached per invoice so a multi-item order only fetches it once.
+
+```php
+if ( $panelProducts === NULL ) {
+    $panelProducts = $this->_fetchPanelProducts( $apiUrl, $username, $password );
+}
+$panelProductId = $panelProducts[ $panelProductName ] ?? NULL;
+if ( !$panelProductId ) continue;
+```
+
+Find the purchase rows on the IPS side that do not already have a license key. This is what makes reprocessing safe: if `markPaid` runs again for any reason, only unkeyed rows generate fresh keys.
+
+```php
+$rowsNeedingKey = $this->_unkeyedPurchaseRows( $packageId );
+if ( !$rowsNeedingKey ) continue;
+```
+
+Ask Overwatch for one fresh key per unkeyed row, then save each one against its purchase and email the customer.
+
+```php
+$keys = $this->_requestKeys( $panelProductId, $durationHours, count( $rowsNeedingKey ) );
+
+foreach ( $rowsNeedingKey as $i => $row ) {
+    $purchase = \IPS\nexus\Purchase::constructFromData( $row );
+    $lk = new \IPS\nexus\Purchase\LicenseKey\Standard;
+    $lk->purchase = $purchase;
+    $lk->key = $keys[ $i ];
+    $lk->save();
+
+    $this->_sendDeliveryEmail( $purchase, $lk->key );
+}
+```
+
+`\IPS\nexus\Purchase\LicenseKey\Standard` is what Nexus uses internally for license keys, which means `$purchase->licenseKey()` on the customer's purchase page (the template chunk earlier in the post) just works without any extra plumbing. The same row IPS already understands, with a key the framework already knows how to surface.
+
+Errors fail loudly into a custom log channel that surfaces inside AdminCP, so if Overwatch hands back something unexpected, staff sees it before customers do.
+
+The end result is unremarkable on purpose. A customer pays, an email arrives, the license key is on their purchase page, and one click copies it. That is the whole goal.

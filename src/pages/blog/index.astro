@@ -7,7 +7,6 @@ const allPosts = await getCollection("blog", ({ data }) =>
   import.meta.env.PROD ? !data.draft : true
 );
 
-// Stable archive index: oldest = 001, newest = highest. Doesn't shift when posts are added.
 const chronological = [...allPosts].sort(
   (a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime()
 );
@@ -16,10 +15,8 @@ const indexed = chronological.map((post, i) => ({
   archiveIndex: i + 1,
 }));
 
-// Reverse-chrono for display.
 const sorted = [...indexed].reverse();
 
-// Group by year, preserving order.
 const byYear: Array<{ year: number; items: typeof sorted }> = [];
 for (const item of sorted) {
   const year = item.post.data.pubDate.getUTCFullYear();
@@ -41,7 +38,7 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
 ---
 
 <Base
-  title="writing · crspy.me"
+  title="blog · crspy.me"
   description="Field notes on the things I'm building. Occasional retrospectives, design rationales, and tooling notes."
 >
   <section id="blog-archive" class="blog-archive" data-page="blog" aria-labelledby="blog-archive-title">
@@ -49,7 +46,7 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
 
     <div class="archive-inner">
       <header class="archive-header">
-        <h1 id="blog-archive-title" class="archive-title" data-rise>Writing</h1>
+        <h1 id="blog-archive-title" class="archive-title" data-rise>Blog</h1>
         <p class="archive-intro" data-rise>
           Occasional notes on the things I&rsquo;m building.
         </p>
@@ -106,7 +103,7 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
   }
 
   .archive-inner {
-    max-width: 760px;
+    max-width: 920px;
     margin: 56px auto 0;
     padding: 0 32px;
     width: 100%;

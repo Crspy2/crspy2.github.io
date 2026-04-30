@@ -14,6 +14,11 @@ export function installErrorHandler(): void {
   if (installed) return;
   installed = true;
 
+  // In dev, surface errors in the console instead of bouncing to /500.
+  // Vite's dependency-optimization reloads can momentarily produce module-load
+  // errors that have nothing to do with real application bugs.
+  if (import.meta.env.DEV) return;
+
   window.addEventListener("error", redirect);
   window.addEventListener("unhandledrejection", redirect);
 }

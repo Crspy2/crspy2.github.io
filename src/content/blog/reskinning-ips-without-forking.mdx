@@ -1,0 +1,127 @@
+---
+title: 'Reskinning Invision Community without forking it'
+subtitle: 'a few stories from rebuilding klar.gg'
+description: 'Notes from rebuilding the klar.gg forum on top of Invision Community: a 3,500-line custom.css, a conic gradient @property border that animates without JavaScript, a pseudonymous staff handle for support tickets, and a GitHub Action that turns a release tag into an IPS theme update.'
+pubDate: 2026-04-22
+tags: ['ips', 'css', 'theme', 'devlog']
+draft: false
+---
+
+The brief was simple: take a default Invision Community install and make every page on klar.gg feel like part of klar.gg, not part of IPS. The temptation in that situation is to fork. Pull the framework into the repo, rip out its assumptions, ship a divergent thing.
+
+I went the other way. The whole theme rides on top of the stock framework, drives most of its identity from CSS custom properties, and overrides templates only where the framework cannot be talked into doing the right thing on its own.
+
+A few moments worth writing down.
+
+## A `@property`-driven border that does not need JavaScript
+
+Every forum post on klar.gg has a sweeping highlight ring. It is not a JS animation. It is a registered custom property and a conic gradient.
+
+```css
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes cardBorderRotate {
+  to { --angle: 360deg; }
+}
+
+.cPost::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0,
+    rgb(var(--klar-brand)) 20%,
+    transparent 25%
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: cardBorderRotate 12s linear infinite;
+}
+```
+
+The trick is `@property`. Without registering `--angle` as an `<angle>`, the browser treats it as a string and refuses to interpolate it. With it registered, the conic gradient sweeps smoothly from 0 to 360 degrees over twelve seconds, and `mask-composite: exclude` clips the gradient to a 1px ring around the post body.
+
+Twenty-three lines of CSS, zero JavaScript, and every post in the forum has the same animated outline.
+
+## Anonymous staff handles on support tickets
+
+Customers should not see real staff usernames on Nexus support tickets. The fix lives in `replyContainer.phtml`: when the comment author is staff, the template builds a stable but anonymous label from a hashed member id.
+
+```phtml
+{{else}}
+    {{$_staffId = strtolower( substr( md5( '<salt>' . $comment->author()->member_id ), 0, 8 ) );}}
+    <h3 class='ipsType_sectionHead ipsType_blendLinks'>
+      <strong>Klar {$_staffId}</strong>
+    </h3>
+{{endif}}
+```
+
+The actual salt is not shown here on purpose. md5 of an integer is trivially reversible if anyone can guess the prefix, and member ids are typically a small range. This is a UI nicety, not access control, but I would rather not hand out the seed.
+
+The customer always sees the same handle for the same staffer across the whole thread, but they never see the real account. Single template change, one line of logic, no controller code involved.
+
+## Click-to-copy without bringing in a framework
+
+The theme uses a `.cCopyable` convention that any phtml template can opt into:
+
+```html
+<span class="cCopyable" data-clipboard-text="ABCD-1234-XYZ">
+  ABCD-1234-XYZ
+</span>
+```
+
+The handler is eleven lines of vanilla JS in the global template, no controller registration:
+
+```js
+document.addEventListener('click', function (e) {
+  var el = e.target.closest && e.target.closest('.cCopyable');
+  if (!el) return;
+  if (el.tagName === 'A') e.preventDefault();
+  var text = el.getAttribute('data-clipboard-text');
+  if (text && navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(function () {});
+  }
+  el.classList.add('cCopyable--copied');
+  setTimeout(function () {
+    el.classList.remove('cCopyable--copied');
+  }, 900);
+}, true);
+```
+
+A CSS rule flashes a green border for 900ms when `.cCopyable--copied` is on. License keys, invoice IDs, error reference numbers, anywhere we want a copy button, we add the class and the data attribute. No coupling to IPS's JS controllers, no `ips.controller.register` plumbing.
+
+## Shipping a theme update from a GitHub release
+
+The theme lives at [Crspy2/klar-forum-theme](https://github.com/Crspy2/klar-forum-theme). IPS supports a "theme update URL" feature: point it at a JSON manifest, and the AdminCP shows an update notification when a new version is published. The challenge is keeping the manifest and the `theme.xml` in sync.
+
+A GitHub Action does it on every release tag:
+
+```yaml
+- name: Build update.json
+  run: |
+    VER="${TAG#v}"
+    IFS='.' read -r MAJOR MINOR PATCH <<< "$VER"
+    LONGVER=$(( MAJOR * 10000 + MINOR * 100 + PATCH ))
+    UPDATE_URL="https://${OWNER}.github.io/${NAME}/theme.xml"
+    jq -n \
+      --argjson longver "$LONGVER" \
+      --arg ver "$VER" \
+      --arg url "$UPDATE_URL" \
+      --argjson released "$RELEASED" \
+      --arg notes "$BODY" \
+      '{longversion:$longver, version:$ver, updateurl:$url, released:$released, releasenotes:$notes}' \
+      > out/update.json
+```
+
+`v1.2.3` becomes `longversion: 10203` (IPS's quirky integer-as-version format), the manifest gets the release notes from the tag body, and the whole thing is pushed to `gh-pages`. Cut a release on GitHub and within a minute every Klar IPS install sees an update available.
+
+## The thing I keep coming back to
+
+The framework instinct is to escape it. Fork it, hide it, replace it. I think the harder and more honest move is to live inside it on its own terms and only push back at the seams that actually leak. CSS custom properties cover most of those seams. A handful of template overrides cover the rest. The framework is still doing the heavy lifting. The theme is just deciding how it shows up.

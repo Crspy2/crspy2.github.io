@@ -22,6 +22,7 @@ export const tools: Record<string, Tool> = {
 	"C":          { icon: "logos:c",                    href: "https://en.cppreference.com/w/c" },
 	"C++":        { icon: "logos:c-plusplus",           href: "https://isocpp.org/" },
 	"SQL":        { icon: "vscode-icons:file-type-sql", href: "https://en.wikipedia.org/wiki/SQL" },
+	"Verilog":    { icon: "vscode-icons:file-type-verilog", href: "https://www.verilog.com/" },
 
 	// Frameworks
 	"React":          		{ icon: "logos:react",                         href: "https://react.dev/" },
@@ -74,7 +75,7 @@ export interface ToolCategory {
 export const toolCategories: ToolCategory[] = [
 	{
 		name: "Languages",
-		tools: ["C", "C++", "Python", "Java", "Golang", "TypeScript", "Rust", "PHP", "JavaScript", "SQL"],
+		tools: ["C", "C++", "Python", "Java", "Golang", "TypeScript", "Rust", "PHP", "JavaScript", "SQL", "Verilog"],
 	},
 	{
 		name: "Frameworks",

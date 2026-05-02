@@ -95,6 +95,7 @@ const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).hre
   import { initReveal } from "../scripts/reveal";
   import { initScramble } from "../scripts/scramble";
   import { initProjectHover } from "../scripts/project-hover";
+  import { initBlogCopy } from "../scripts/blog-copy";
   import { installErrorHandler } from "../scripts/error-handler";
 
   installErrorHandler();
@@ -104,6 +105,7 @@ const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).hre
     initReveal();
     initScramble();
     initProjectHover();
+    initBlogCopy();
   }
 
   init();

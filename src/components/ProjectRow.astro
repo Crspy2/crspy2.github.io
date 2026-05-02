@@ -6,12 +6,13 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const linkType = project.linkType ?? "live";
+const isBlog = linkType === "blog";
 ---
 <a
-  class="project-row"
+  class={`project-row project-row-${linkType}`}
   href={project.url}
-  target="_blank"
-  rel="noopener noreferrer"
+  {...(isBlog ? {} : { target: "_blank", rel: "noopener noreferrer" })}
   data-project-row
   data-rise
 >
@@ -32,10 +33,17 @@ const { project } = Astro.props;
     </p>
   </div>
 
-  <span class="project-live" data-project-live>
-    <span class="project-live-arrow">↗</span>
-    <span class="project-live-label">live</span>
-  </span>
+  {isBlog ? (
+    <span class="project-link-indicator project-blog" data-project-live>
+      <span class="project-blog-arrow">→</span>
+      <span class="project-blog-label">blog</span>
+    </span>
+  ) : (
+    <span class="project-link-indicator project-live" data-project-live>
+      <span class="project-live-arrow">↗</span>
+      <span class="project-live-label">live</span>
+    </span>
+  )}
 </a>
 
 <style>
@@ -54,9 +62,16 @@ const { project } = Astro.props;
       background 0.18s ease;
   }
 
-  .project-row:hover {
+  /* Default (live) hover uses the accent green */
+  .project-row-live:hover {
     border-left-color: var(--color-accent);
     background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+  }
+
+  /* Blog hover uses the blog blue */
+  .project-row-blog:hover {
+    border-left-color: var(--color-blog);
+    background: color-mix(in srgb, var(--color-blog) 5%, transparent);
   }
 
   @media (max-width: 640px) {
@@ -110,15 +125,20 @@ const { project } = Astro.props;
 
   .project-tools .dot { color: var(--color-dim); }
 
-  .project-live {
+  /* Right-side link indicator (shared base) */
+  .project-link-indicator {
     font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--color-accent);
     display: inline-flex;
     align-items: center;
     gap: 4px;
     flex-shrink: 0;
     transition: opacity 0.18s ease;
   }
+
+  .project-live { color: var(--color-accent); }
   .project-live-arrow { font-size: 13px; }
+
+  .project-blog { color: var(--color-blog); }
+  .project-blog-arrow { font-size: 13px; }
 </style>

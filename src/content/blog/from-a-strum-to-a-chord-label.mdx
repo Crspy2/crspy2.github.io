@@ -1,0 +1,135 @@
+---
+title: "From a strum to a chord label"
+subtitle: "Three signal-processing steps from microphone to chord name"
+description: "How a 0.7-second guitar strum becomes a chord label in three stages: a CQT chroma vector, cosine similarity against hand-built templates, and an attack detector that decides when to classify in the first place."
+pubDate: 2025-12-09
+tags: ["python", "dsp", "audio", "signal-processing"]
+---
+
+For a class project we built a live guitar chord detector. Strum the guitar in front of a laptop mic, and within about a quarter second the chord name shows up in a browser window. The pipeline is short: audio in, chord label out, MQTT in between. The interesting part is what happens to the audio along the way.
+
+Two concerns sit between a microphone and a chord label: how to turn a waveform into a chord name, and when to actually do it.
+
+## From a waveform to a chord name
+
+This is a two-step pipeline: audio in, a normalized 12-D pitch profile out, then matched against a small dictionary of templates to get a chord label.
+
+### Stage 1: chroma vector
+
+The microphone gives us 44.1 kHz mono samples. A C-major chord at 0.7 seconds is roughly 31,000 floating-point numbers. There is no obvious "chord-ness" you can read out of those samples. They are just a complicated waveform, and the chord is hidden in the spectrum.
+
+The solution is the chroma vector. Take the constant-Q transform of the audio (CQT bins are spaced by musical pitch, not linear frequency), then sum the energy across all octaves into 12 buckets, one per pitch class. The result is a 12-D vector that says, in normalized form, "this much C, this much C#, this much D, ..." regardless of the guitar's volume.
+
+```python
+import librosa
+import numpy as np
+
+def compute_chroma(y, sr):
+    # CQT-based chroma is more musically meaningful than STFT chroma
+    # because its bins line up with semitones.
+    chroma = librosa.feature.chroma_cqt(y=y, sr=sr)  # shape: (12, frames)
+    chroma_mean = chroma.mean(axis=1)
+
+    total = np.sum(chroma_mean)
+    if total > 0:
+        chroma_mean = chroma_mean / total
+
+    return chroma_mean  # shape: (12,)
+```
+
+Three details that matter. CQT (not STFT) chroma puts the bins on equal-tempered semitones, which is what we actually care about. Averaging across time collapses the strum's whole envelope into one snapshot. Normalizing by the sum makes the vector volume-independent so a quiet C and a loud C produce identical chromas.
+
+What comes out is a 12-D summary of the strum's pitch content. C major on an acoustic guitar produces a vector with strong values at C, E, and G, plus weaker but nonzero values everywhere else (overtones, finger noise, sympathetic ringing of open strings the chord shape leaves untouched).
+
+### Stage 2: template matching
+
+The chroma is a continuous 12-D blob. The output we want is one of about a dozen discrete labels (`C`, `Am`, `G`, `Em`, ...). Something has to bridge that gap.
+
+A neural network would be one way to do it. It would also be massive overkill. The mapping from "lots of energy at C, E, G" to "C major" is a known function, and you can write the templates by hand:
+
+```python
+NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F',
+              'F#', 'G', 'G#', 'A', 'A#', 'B']
+
+def build_chord_templates():
+    templates = {}
+    quality_patterns = {
+        'maj': [0, 4, 7],   # root, major 3rd, perfect 5th
+        'min': [0, 3, 7],   # root, minor 3rd, perfect 5th
+    }
+    roots = ['C', 'G', 'D', 'A', 'E', 'F']  # common guitar keys
+
+    for root_name in roots:
+        root_idx = NOTE_NAMES.index(root_name)
+        for quality, pattern in quality_patterns.items():
+            v = np.zeros(12, dtype=float)
+            for offset in pattern:
+                v[(root_idx + offset) % 12] = 1.0
+            v /= np.linalg.norm(v)  # unit vector for cosine similarity
+
+            chord_name = root_name if quality == 'maj' else root_name + 'm'
+            templates[chord_name] = v
+    return templates
+```
+
+Each template is a 12-D unit vector with 1s at the chord's three notes and 0s everywhere else, then normalized. Comparing the chroma against the templates is one dot product per chord:
+
+```python
+def chroma_to_chord(chroma_vec, templates):
+    chroma_norm = chroma_vec / np.linalg.norm(chroma_vec)
+
+    best_name, best_score = None, -1.0
+    for chord_name, tmpl in templates.items():
+        score = float(np.dot(chroma_norm, tmpl))  # cosine similarity
+        if score > best_score:
+            best_name, best_score = chord_name, score
+
+    return best_name, best_score
+```
+
+The score that comes out is between 0 and 1 (the chroma is non-negative). A clean strum hits 0.85+. Background noise sits around 0.4 to 0.5, which is why we gate output on `score >= 0.6` upstream and ignore anything quieter.
+
+The templates approach has hard limits. It does not handle 7ths beyond what is encoded. It does not distinguish inversions, because the chroma folds octaves and does not care about bass note. It does not handle chords we did not put in the dictionary. For a class demo focused on common open-position chords, all of that is acceptable. Adding a chord is a one-line edit.
+
+## When to classify
+
+Stages 1 and 2 are enough to label any 0.7-second window. The naive thing is to run them on a sliding window 30 times a second and emit chord labels constantly. That is wrong, for two reasons.
+
+The first is that most of the time the guitar is decaying or silent. The chroma of a decaying chord is not the chroma of the original strum; the upper harmonics fade differently from the fundamentals, and the matched template wanders. You would be smearing every event across a long tail of progressively wronger labels.
+
+The second is musical. A player wants one label per strum, not a stream of "C, C, C, C, C..." for the full second the chord rings out.
+
+The solution is to classify off the strum, not off the clock. Watch the audio buffer's running RMS energy. When it jumps by more than a threshold (and the absolute energy is above a noise floor, and we are not still cooling down from a previous event), schedule a classification 250 ms later, after the initial transient has settled into the chord body.
+
+```python
+delta = curr_rms - last_rms
+attack = (
+    not pending_event
+    and (now - last_event_time) > EVENT_COOLDOWN_SEC
+    and curr_rms > ABS_ENERGY_THRESH
+    and delta > DELTA_ENERGY_THRESH
+)
+if attack:
+    pending_event = True
+    event_trigger_time = now
+
+if pending_event and (now - event_trigger_time) >= EVENT_DELAY_SEC:
+    chroma_vec = compute_chroma(np.array(audio_buffer), sr)
+    chord, score = chroma_to_chord(chroma_vec, templates)
+    if score >= MIN_CHORD_SCORE:
+        publish(chord, score)
+    pending_event = False
+    last_event_time = now
+```
+
+Three thresholds matter and they all interact. `ABS_ENERGY_THRESH` filters out background. `DELTA_ENERGY_THRESH` filters out slow buildups so a chord swelling under sustain does not retrigger. `EVENT_COOLDOWN_SEC` prevents the chord's own body from looking like a second strum to the next iteration. The 250 ms delay is the sweet spot between "the transient has died down enough to read the chord" and "the chord is still ringing strongly."
+
+The whole detection loop runs at a 70 ms hop. It is small and cheap. The only real computational cost is the CQT chroma at the moment of classification, and that is on the order of a few milliseconds on a laptop CPU.
+
+## What this gets you
+
+A working chord-name pipeline in about 100 lines of Python, give or take MQTT plumbing. The classifier is interpretable end to end: every step has a clear job, every threshold has a clear meaning, and a wrong answer points at a specific stage. The chord templates are deterministic, the attack detector has tunable knobs, and adding a new chord is a one-line edit.
+
+The whole thing publishes detections over MQTT to a small React front-end so the displayed chord follows the player live. That part is mostly plumbing and is the least interesting piece of the system. The signal-processing stack is what actually does the work.
+
+Full source on [GitHub](https://github.com/Crspy2/EE250-Project).

@@ -58,8 +58,6 @@ a {
   text-decoration: none;
 }
 
-/* Initial hidden state for entrance / scroll-reveal animations.
-   JS animates clip-path to inset(0 0 0 0) to wipe content in. */
 [data-rise] {
   clip-path: inset(0 100% 0 0);
 }
@@ -68,8 +66,6 @@ a {
   transform-origin: left center;
 }
 
-/* Inline accent text. Used in hero/about/contact/404/error titles to
-   highlight a phrase with the green accent + dashed underline. */
 .accent {
   color: var(--color-accent);
   text-decoration-line: underline;
@@ -79,17 +75,16 @@ a {
   text-underline-offset: 4px;
 }
 
-/* Mono terminal prompt ($). Used in eyebrow lines across hero, 404, error. */
 .prompt {
   color: var(--color-accent);
   margin-right: 4px;
 }
 
-/* ──────────────────────────────────────────────────────────────────
-   blog post body
-   Targets HTML rendered by MDX. Lives here (not in [...slug].astro)
-   because scoped Astro styles cannot reach generated content.
-   ────────────────────────────────────────────────────────────────── */
+.blog-archive,
+.post {
+  --color-accent: var(--color-blog);
+}
+
 .post-body {
   max-width: 880px;
   margin: 0 auto;
@@ -153,7 +148,6 @@ a {
   outline: none;
 }
 
-/* JetBrains Mono programming ligatures merge <= >= into single glyphs; disable for HDL/code. */
 .post-body :is(code, pre, th) {
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0, "calt" 0;
@@ -288,7 +282,6 @@ a {
   font-style: italic;
 }
 
-/* Per-post CC BY 4.0 license footer. Sits inside .post-body, after <Content />. */
 .post-license {
   margin-top: 56px;
   padding-top: 24px;

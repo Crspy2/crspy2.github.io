@@ -12,8 +12,6 @@ export function initReveal(): void {
 
   const hero = document.getElementById("hero");
 
-  // Targets: every [data-rise] EXCEPT those inside the hero (handled by
-  // hero-entrance) and section markers (handled by section-markers).
   const all = document.querySelectorAll<HTMLElement>("[data-rise]");
   const targets = Array.from(all).filter((el) => {
     if (hero && hero.contains(el)) return false;

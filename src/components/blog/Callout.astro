@@ -1,14 +1,13 @@
 ---
 interface Props {
-  /** Visual treatment. Defaults to 'note'. */
-  type?: 'note' | 'tip' | 'warn';
-  /** Optional override for the small uppercase label. Defaults to the type name. */
-  label?: string;
+  type?: "note" | "tip" | "warn"
+  label?: string
 }
 
-const { type = 'note', label } = Astro.props;
-const displayLabel = label ?? type;
+const { type = "note", label } = Astro.props
+const displayLabel = label ?? type
 ---
+
 <aside class={`callout callout-${type}`} role="note">
   <div class="callout-label">{displayLabel}</div>
   <div class="callout-body"><slot /></div>

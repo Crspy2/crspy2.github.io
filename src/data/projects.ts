@@ -1,11 +1,11 @@
 export interface Project {
-  name: string;
-  year: string;
-  tagline: string;
-  url: string;
-  tools: string[];
+  name: string
+  year: string
+  tagline: string
+  url: string
+  tools: string[]
   /** "live" links to an external site (default), "blog" links to an internal post. */
-  linkType?: "live" | "blog";
+  linkType?: "live" | "blog"
 }
 
 export const projects: Project[] = [
@@ -46,4 +46,4 @@ export const projects: Project[] = [
     url: "https://alterasms.io",
     tools: ["NextJS", "TypeScript", "Golang", "gRPC", "Postgres"],
   },
-];
+]

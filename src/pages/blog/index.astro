@@ -1,40 +1,40 @@
 ---
-import Base from "../../layouts/Base.astro";
-import SectionMarker from "../../components/SectionMarker.astro";
-import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro"
+import SectionMarker from "../../components/SectionMarker.astro"
+import { getCollection } from "astro:content"
 
 const allPosts = await getCollection("blog", ({ data }) =>
-  import.meta.env.PROD ? !data.draft : true
-);
+  import.meta.env.PROD ? !data.draft : true,
+)
 
 const chronological = [...allPosts].sort(
-  (a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime()
-);
+  (a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime(),
+)
 const indexed = chronological.map((post, i) => ({
   post,
   archiveIndex: i + 1,
-}));
+}))
 
-const sorted = [...indexed].reverse();
+const sorted = [...indexed].reverse()
 
-const byYear: Array<{ year: number; items: typeof sorted }> = [];
+const byYear: Array<{ year: number; items: typeof sorted }> = []
 for (const item of sorted) {
-  const year = item.post.data.pubDate.getUTCFullYear();
-  const last = byYear[byYear.length - 1];
+  const year = item.post.data.pubDate.getUTCFullYear()
+  const last = byYear[byYear.length - 1]
   if (last && last.year === year) {
-    last.items.push(item);
+    last.items.push(item)
   } else {
-    byYear.push({ year, items: [item] });
+    byYear.push({ year, items: [item] })
   }
 }
 
 const fmtDate = (d: Date) => {
-  const mm = (d.getUTCMonth() + 1).toString().padStart(2, "0");
-  const dd = d.getUTCDate().toString().padStart(2, "0");
-  return `${mm}.${dd}`;
-};
+  const mm = (d.getUTCMonth() + 1).toString().padStart(2, "0")
+  const dd = d.getUTCDate().toString().padStart(2, "0")
+  return `${mm}.${dd}`
+}
 
-const padIndex = (n: number) => n.toString().padStart(3, "0");
+const padIndex = (n: number) => n.toString().padStart(3, "0")
 ---
 
 <Base
@@ -45,7 +45,12 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
   imageHeight={630}
   imageAlt="Crspy blog. Notes on building things, in soft blue terminal-flavored design."
 >
-  <section id="blog-archive" class="blog-archive" data-page="blog" aria-labelledby="blog-archive-title">
+  <section
+    id="blog-archive"
+    class="blog-archive"
+    data-page="blog"
+    aria-labelledby="blog-archive-title"
+  >
     <SectionMarker index="01" title="BLOG" />
 
     <div class="archive-inner">
@@ -56,50 +61,60 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
 
       <header class="archive-header">
         <h1 id="blog-archive-title" class="archive-title" data-reveal>Blog</h1>
-        <p class="archive-intro" data-reveal>
-          Occasional posts on the things I&rsquo;m building.
-        </p>
+        <p class="archive-intro" data-reveal>Occasional posts on the things I&rsquo;m building.</p>
         <div class="archive-divider" data-reveal></div>
       </header>
 
-      {sorted.length === 0 ? (
-        <p class="archive-empty" data-reveal>No posts yet.</p>
-      ) : (
-        <ol class="archive-list">
-          {byYear.map((group) => (
-            <li class="year-group">
-              <div class="year-label" data-reveal>
-                <span class="year-text">{group.year}</span>
-                <span class="year-line" aria-hidden="true"></span>
-              </div>
+      {
+        sorted.length === 0 ? (
+          <p class="archive-empty" data-reveal>
+            No posts yet.
+          </p>
+        ) : (
+          <ol class="archive-list">
+            {byYear.map((group) => (
+              <li class="year-group">
+                <div class="year-label" data-reveal>
+                  <span class="year-text">{group.year}</span>
+                  <span class="year-line" aria-hidden="true" />
+                </div>
 
-              <ul class="entries">
-                {group.items.map(({ post, archiveIndex }) => (
-                  <li class="entry" data-reveal>
-                    <a href={`/blog/${archiveIndex}-${post.id}/`} class="entry-link">
-                      <span class="entry-index" aria-hidden="true">{padIndex(archiveIndex)}</span>
-                      <span class="entry-date" aria-hidden="true">{fmtDate(post.data.pubDate)}</span>
-                      <span class="entry-body">
-                        <span class="entry-title">{post.data.title}</span>
-                        {post.data.tags.length > 0 && (
-                          <span class="entry-tags">
-                            {post.data.tags.map((tag, i) => (
-                              <>
-                                {i > 0 && <span class="tag-sep" aria-hidden="true">·</span>}
-                                <span class="tag">{tag}</span>
-                              </>
-                            ))}
-                          </span>
-                        )}
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
+                <ul class="entries">
+                  {group.items.map(({ post, archiveIndex }) => (
+                    <li class="entry" data-reveal>
+                      <a href={`/blog/${archiveIndex}-${post.id}/`} class="entry-link">
+                        <span class="entry-index" aria-hidden="true">
+                          {padIndex(archiveIndex)}
+                        </span>
+                        <span class="entry-date" aria-hidden="true">
+                          {fmtDate(post.data.pubDate)}
+                        </span>
+                        <span class="entry-body">
+                          <span class="entry-title">{post.data.title}</span>
+                          {post.data.tags.length > 0 && (
+                            <span class="entry-tags">
+                              {post.data.tags.map((tag, i) => (
+                                <>
+                                  {i > 0 && (
+                                    <span class="tag-sep" aria-hidden="true">
+                                      ·
+                                    </span>
+                                  )}
+                                  <span class="tag">{tag}</span>
+                                </>
+                              ))}
+                            </span>
+                          )}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ol>
+        )
+      }
     </div>
   </section>
 </Base>
@@ -119,7 +134,9 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
   }
 
   @media (max-width: 640px) {
-    .archive-inner { padding: 0 20px; }
+    .archive-inner {
+      padding: 0 20px;
+    }
   }
 
   .archive-back {

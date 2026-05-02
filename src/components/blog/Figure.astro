@@ -1,25 +1,22 @@
 ---
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
+import { Image } from "astro:assets"
+import type { ImageMetadata } from "astro"
 
 interface Props {
-  /** The image source. Pass an imported asset for full optimization. */
-  src: ImageMetadata;
-  /** Required alt text. */
-  alt: string;
-  /** Override the default responsive widths if needed. */
-  widths?: number[];
-  /** Override the default sizes attribute. */
-  sizes?: string;
+  src: ImageMetadata
+  alt: string
+  widths?: number[]
+  sizes?: string
 }
 
 const {
   src,
   alt,
   widths = [480, 720, 1080, 1440],
-  sizes = '(max-width: 880px) 100vw, 880px',
-} = Astro.props;
+  sizes = "(max-width: 880px) 100vw, 880px",
+} = Astro.props
 ---
+
 <figure class="post-figure">
   <Image src={src} alt={alt} widths={widths} sizes={sizes} loading="lazy" />
   <figcaption><slot /></figcaption>

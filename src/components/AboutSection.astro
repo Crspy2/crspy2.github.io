@@ -1,8 +1,9 @@
 ---
-import SectionMarker from "./SectionMarker.astro";
-import ToolBadge from "./ToolBadge.astro";
-import { tools, toolCategories } from "../data/tools";
+import SectionMarker from "./SectionMarker.astro"
+import ToolBadge from "./ToolBadge.astro"
+import { tools, toolCategories } from "../data/tools"
 ---
+
 <section id="about" class="about" aria-labelledby="about-title">
   <SectionMarker index="02" title="ABOUT" />
   <div class="about-inner">
@@ -12,13 +13,12 @@ import { tools, toolCategories } from "../data/tools";
           Hi <span class="name">there</span>!
         </h2>
         <p class="about-para">
-          I&rsquo;m a CE / CS student in California building fullstack web apps using
-          TypeScript on the frontend and Go on the backend. I care about
-          user interfaces, fast servers, and code that will last.
+          I&rsquo;m a CE / CS student in California building fullstack web apps using TypeScript on
+          the frontend and Go on the backend. I care about user interfaces, fast servers, and code
+          that will last.
         </p>
         <p class="about-para">
-          Outside the editor I&rsquo;m skiing, climbing rocks, or underwater
-          with a SCUBA tank.
+          Outside the editor I&rsquo;m skiing, climbing rocks, or underwater with a SCUBA tank.
         </p>
       </div>
 
@@ -26,7 +26,12 @@ import { tools, toolCategories } from "../data/tools";
         <div class="presence-card">
           <div class="presence-row">
             <span class="presence-label">discord</span>
-            <a class="presence-value" href="https://discord.com/users/385568884511473664" target="_blank" rel="noopener noreferrer">
+            <a
+              class="presence-value"
+              href="https://discord.com/users/385568884511473664"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               @crs_py
             </a>
           </div>
@@ -49,18 +54,20 @@ import { tools, toolCategories } from "../data/tools";
       </div>
 
       <div class="tools-categories">
-        {toolCategories.map((cat) => (
-          <div class="tools-row" data-reveal>
-            <div class="tools-row-label">{cat.name}</div>
-            <ul class="tools-row-list">
-              {cat.tools.map((toolName) => (
-                <li>
-                  <ToolBadge name={toolName} tool={tools[toolName]} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        {
+          toolCategories.map((cat) => (
+            <div class="tools-row" data-reveal>
+              <div class="tools-row-label">{cat.name}</div>
+              <ul class="tools-row-list">
+                {cat.tools.map((toolName) => (
+                  <li>
+                    <ToolBadge name={toolName} tool={tools[toolName]} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -73,7 +80,9 @@ import { tools, toolCategories } from "../data/tools";
   }
 
   @media (max-width: 640px) {
-    .about { padding-bottom: 72px; }
+    .about {
+      padding-bottom: 72px;
+    }
   }
 
   .about-inner {
@@ -83,7 +92,9 @@ import { tools, toolCategories } from "../data/tools";
   }
 
   @media (max-width: 640px) {
-    .about-inner { padding: 40px 20px 0; }
+    .about-inner {
+      padding: 40px 20px 0;
+    }
   }
 
   /* ── header grid ── */
@@ -124,7 +135,9 @@ import { tools, toolCategories } from "../data/tools";
     color: var(--color-muted);
     max-width: 56ch;
   }
-  .about-para:last-child { margin-bottom: 0; }
+  .about-para:last-child {
+    margin-bottom: 0;
+  }
 
   /* ── presence card ── */
   .presence-card {
@@ -143,12 +156,22 @@ import { tools, toolCategories } from "../data/tools";
     border-bottom: 1px dashed var(--color-border);
     font-size: 11px;
   }
-  .presence-row:first-child { padding-top: 2px; }
+  .presence-row:first-child {
+    padding-top: 2px;
+  }
 
-  .presence-label { color: var(--color-dim); }
-  .presence-value { color: var(--color-foreground); }
-  a.presence-value { transition: color 0.18s ease; }
-  a.presence-value:hover { color: var(--color-accent); }
+  .presence-label {
+    color: var(--color-dim);
+  }
+  .presence-value {
+    color: var(--color-foreground);
+  }
+  a.presence-value {
+    transition: color 0.18s ease;
+  }
+  a.presence-value:hover {
+    color: var(--color-accent);
+  }
 
   .presence-foot {
     margin-top: 12px;

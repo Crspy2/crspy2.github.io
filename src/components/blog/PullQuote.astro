@@ -1,14 +1,13 @@
 ---
 interface Props {
-  /** Optional citation URL (sets the cite attribute on the blockquote). */
-  cite?: string;
-  /** Optional attribution shown below the quote (e.g. "— Author Name"). */
-  attribution?: string;
+  cite?: string
+  attribution?: string
 }
 
-const { cite, attribution } = Astro.props;
+const { cite, attribution } = Astro.props
 ---
-<blockquote class="pullquote" {...(cite ? { cite } : {})}>
+
+<blockquote class="pullquote" {...cite ? { cite } : {}}>
   <div class="pullquote-mark" aria-hidden="true">&ldquo;</div>
   <div class="pullquote-text"><slot /></div>
   {attribution && <footer class="pullquote-attribution">{attribution}</footer>}

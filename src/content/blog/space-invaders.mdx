@@ -6,6 +6,8 @@ pubDate: 2026-05-02
 tags: ["fpga", "verilog", "space-invaders"]
 ---
 
+import Callout from "../../components/blog/Callout.astro"
+
 For a class project I implemented Space Invaders on a Nexys A7 and tried to steer the ship by tilting the board. The Nexys includes an ADXL362 accelerometer on SPI, so the obvious approach was to read one axis of tilt, map it to a horizontal position, and draw the player there.
 
 That worked on paper. In practice the ship *teleported* when the board moved, buzzed in place on the desk, and drifted slowly even when I held it still. The ADXL362 was not broken; it was reporting acceleration and gravity the way accelerometers do. The gap was between raw samples and something that feels like a controller. This post walks through three small Verilog filters that sit in between.
@@ -68,8 +70,6 @@ wire signed [11:0] eff_tilt = tilt_act ? y_filt : 12'sd0;
 
 30 LSBs corresponds to about 1.7° of tilt at the ADXL362's default sensitivity. That's a "you would never notice" amount of tilt that I deliberately make the controller ignore. The result is a perfectly stationary ship when the board is "nominally flat," even if it's actually slanted by a degree or two.
 
-The classic mistake here is to make the deadzone too generous. Bump it up to 100 LSBs (≈5.7°) and the controller starts feeling *dead*. You tilt the board noticeably and the ship just sits there. 30 was the sweet spot for me.
-
 ## Stage 3: a slew limiter on the on-screen position
 
 Stages 1 and 2 give a clean, jitter-free *target* X position. Map it to screen coordinates and clamp to the visible window:
@@ -113,7 +113,7 @@ This stage is not "redundant" with stage 1. The IIR conditions the *input*; the 
 - The IIR can't help when `y_full` is stable but the SPI master delivers a 100-LSB step at 100 Hz. To the IIR that *is* the signal.
 - The slew limiter can't help when `y_full` jitters at the LSB scale and the IIR isn't there to absorb it. The slew limiter would just dutifully chase every jitter.
 
-You need both. A common temptation is to make the IIR much heavier and skip the slew limit. That works, sort of, but the controller starts to feel laggy because the time constant fights you on intentional tilts as much as it does on jitter. Two cheap filters in series beat one expensive one.
+You need both. A common temptation is to make the IIR much heavier and skip the slew limit. That works, sort of, but the controller starts to feel laggy because the time constant fights you on intentional tilts as much as it does on jitter.
 
 ## What you give up
 

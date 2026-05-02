@@ -3,35 +3,40 @@ const contacts = [
   { label: "discord @crs_py", href: "https://discord.com/users/385568884511473664" },
   { label: "github crspy2", href: "https://github.com/crspy2" },
   { label: "telegram @crs_py", href: "https://t.me/crs_py" },
-];
+]
 ---
+
 <section id="hero" class="hero" aria-labelledby="hero-title">
   <div class="hero-inner">
-    <p class="hero-eyebrow" data-hero-eyebrow data-rise>
+    <p class="hero-eyebrow" data-hero-eyebrow data-reveal>
       <span class="prompt">$</span>
       <span class="cmd">hello --world</span><span class="caret" aria-hidden="true"></span>
     </p>
 
-    <h1 id="hero-title" class="hero-title" data-hero-title data-rise>
+    <h1 id="hero-title" class="hero-title" data-hero-title data-reveal>
       Hi, I&rsquo;m <span class="name">Crspy</span>.<br />
       I build <span class="accent">fullstack web apps</span><br />
       out of California.
     </h1>
 
-    <p class="hero-bio" data-hero-bio data-rise>
-      CE / CS student writing TypeScript, Go, and Python. I like calm UIs, fast servers,
-      and weekends that involve mountains or the ocean.
+    <p class="hero-bio" data-hero-bio data-reveal>
+      CE / CS student writing TypeScript, Go, and Python. I like calm UIs, fast servers, and
+      weekends that involve mountains or the ocean.
     </p>
 
     <ul class="hero-contacts" data-hero-contacts>
-      {contacts.map(({ label, href }) => (
-        <li data-rise>
-          <a href={href} target="_blank" rel="noopener noreferrer" class="contact-pill">
-            <span class="contact-arrow" aria-hidden="true">→</span>
-            <span class="contact-label">{label}</span>
-          </a>
-        </li>
-      ))}
+      {
+        contacts.map(({ label, href }) => (
+          <li data-reveal>
+            <a href={href} target="_blank" rel="noopener noreferrer" class="contact-pill">
+              <span class="contact-arrow" aria-hidden="true">
+                →
+              </span>
+              <span class="contact-label">{label}</span>
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </section>
@@ -45,7 +50,9 @@ const contacts = [
   }
 
   @media (max-width: 640px) {
-    .hero { padding: 72px 20px; }
+    .hero {
+      padding: 72px 20px;
+    }
   }
 
   .hero-inner {
@@ -61,7 +68,10 @@ const contacts = [
     letter-spacing: 0.1em;
     color: var(--color-faint);
   }
-  .hero-eyebrow .cmd { display: inline-block; min-width: 1px; }
+  .hero-eyebrow .cmd {
+    display: inline-block;
+    min-width: 1px;
+  }
   .hero-eyebrow .caret {
     display: inline-block;
     width: 6px;
@@ -72,8 +82,14 @@ const contacts = [
     animation: hero-caret-blink 1s steps(1) infinite;
   }
   @keyframes hero-caret-blink {
-    0%, 49%   { opacity: 1; }
-    50%, 100% { opacity: 0; }
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
   }
 
   .hero-title {
@@ -116,6 +132,7 @@ const contacts = [
     padding: 6px 12px;
     border: 1px solid var(--color-border-strong);
     border-radius: 4px;
+    background: var(--color-background);
     font-family: var(--font-mono);
     font-size: 11px;
     color: var(--color-muted);
@@ -127,13 +144,15 @@ const contacts = [
   .contact-pill:hover {
     color: var(--color-foreground);
     border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
-    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-background));
   }
-  .contact-arrow { color: var(--color-accent); }
+  .contact-arrow {
+    color: var(--color-accent);
+  }
 </style>
 
 <script>
-  import { initHeroEntrance } from "../scripts/hero-entrance";
-  initHeroEntrance();
-  document.addEventListener("astro:page-load", () => initHeroEntrance());
+  import { initHeroEntrance } from "../scripts/hero-entrance"
+  initHeroEntrance()
+  document.addEventListener("astro:page-load", () => initHeroEntrance())
 </script>

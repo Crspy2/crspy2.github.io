@@ -1,33 +1,31 @@
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger)
 
-let initialized = false;
-const REVEAL_TO = "inset(0 0% 0 0)";
+let initialized = false
+const REVEAL_TO = "inset(0 0% 0 0)"
 
 export function initReveal(): void {
-  if (initialized) return;
-  initialized = true;
+  if (initialized) return
+  initialized = true
 
-  const hero = document.getElementById("hero");
+  const hero = document.getElementById("hero")
 
-  // Targets: every [data-rise] EXCEPT those inside the hero (handled by
-  // hero-entrance) and section markers (handled by section-markers).
-  const all = document.querySelectorAll<HTMLElement>("[data-rise]");
+  const all = document.querySelectorAll<HTMLElement>("[data-reveal]")
   const targets = Array.from(all).filter((el) => {
-    if (hero && hero.contains(el)) return false;
-    if (el.matches("[data-section-marker]")) return false;
-    if (el.matches("[data-nav]")) return false;
-    return true;
-  });
+    if (hero && hero.contains(el)) return false
+    if (el.matches("[data-section-marker]")) return false
+    if (el.matches("[data-nav]")) return false
+    return true
+  })
 
-  if (!targets.length) return;
+  if (!targets.length) return
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
   if (reduceMotion) {
-    targets.forEach((el) => gsap.set(el, { clipPath: REVEAL_TO }));
-    return;
+    targets.forEach((el) => gsap.set(el, { clipPath: REVEAL_TO }))
+    return
   }
 
   targets.forEach((el) => {
@@ -41,10 +39,10 @@ export function initReveal(): void {
           duration: 0.7,
           ease: "power3.out",
         }),
-    });
-  });
+    })
+  })
 
   // re-evaluate after layout settles (fonts, images, etc.)
-  requestAnimationFrame(() => ScrollTrigger.refresh());
-  window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
+  requestAnimationFrame(() => ScrollTrigger.refresh())
+  window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true })
 }

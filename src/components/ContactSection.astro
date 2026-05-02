@@ -1,35 +1,47 @@
 ---
-import SectionMarker from "./SectionMarker.astro";
+import SectionMarker from "./SectionMarker.astro"
 
 const links = [
-  { method: "discord",  handle: "@crs_py",  href: "https://discord.com/users/385568884511473664" },
-  { method: "telegram", handle: "@crs_py",  href: "https://t.me/crs_py" },
-  { method: "github",   handle: "crspy2",   href: "https://github.com/crspy2" },
-  { method: "email",    handle: "crspy8687@gmail.com", href: "mailto:crspy8687@gmail.com" },
-];
+  { method: "discord", handle: "@crs_py", href: "https://discord.com/users/385568884511473664" },
+  { method: "telegram", handle: "@crs_py", href: "https://t.me/crs_py" },
+  { method: "github", handle: "crspy2", href: "https://github.com/crspy2" },
+  { method: "email", handle: "crspy8687@gmail.com", href: "mailto:crspy8687@gmail.com" },
+]
 ---
+
 <section id="contact" class="contact" aria-labelledby="contact-title">
   <SectionMarker index="04" title="CONTACT" />
   <div class="contact-inner">
-    <h2 id="contact-title" class="contact-title" data-rise>
+    <h2 id="contact-title" class="contact-title" data-reveal>
       Send me a <span class="accent">message</span>.
     </h2>
-    <p class="contact-blurb" data-rise>
+    <p class="contact-blurb" data-reveal>
       Best for: collabs or freelance requests. I'm most active on Discord.
-      <br>
-      <a href="https://nohello.net" target="_blank" rel="noopener noreferrer">Please don't just say hello.</a>
+      <br />
+      <a href="https://nohello.net" target="_blank" rel="noopener noreferrer"
+        >Please don't just say hello.</a
+      >
     </p>
 
     <ul class="contact-links">
-      {links.map(({ method, handle, href }) => (
-        <li data-rise>
-          <a class="contact-link" href={href} target={method === "email" ? "_self" : "_blank"} rel="noopener noreferrer">
-            <span class="link-method">{method}</span>
-            <span class="link-handle">{handle}</span>
-            <span class="link-arrow" aria-hidden="true">↗</span>
-          </a>
-        </li>
-      ))}
+      {
+        links.map(({ method, handle, href }) => (
+          <li data-reveal>
+            <a
+              class="contact-link"
+              href={href}
+              target={method === "email" ? "_self" : "_blank"}
+              rel="noopener noreferrer"
+            >
+              <span class="link-method">{method}</span>
+              <span class="link-handle">{handle}</span>
+              <span class="link-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </section>
@@ -41,7 +53,9 @@ const links = [
   }
 
   @media (max-width: 640px) {
-    .contact { padding-bottom: 72px; }
+    .contact {
+      padding-bottom: 72px;
+    }
   }
 
   .contact-inner {
@@ -51,7 +65,9 @@ const links = [
   }
 
   @media (max-width: 640px) {
-    .contact-inner { padding: 40px 20px 0; }
+    .contact-inner {
+      padding: 40px 20px 0;
+    }
   }
 
   .contact-title {
@@ -97,12 +113,14 @@ const links = [
     gap: 20px;
     align-items: baseline;
     padding: 16px 12px;
-    margin-left: -12px;
     border-bottom: 1px solid var(--color-border);
     border-left: 2px solid transparent;
     font-family: var(--font-mono);
     font-size: 13px;
-    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+    transition:
+      border-color 0.18s ease,
+      background 0.18s ease,
+      color 0.18s ease;
   }
 
   @media (max-width: 540px) {
@@ -115,11 +133,18 @@ const links = [
 
   .contact-link:hover {
     border-left-color: var(--color-accent);
-    background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 4%, var(--color-background));
     color: var(--color-foreground);
   }
 
-  .link-method { color: var(--color-dim); text-transform: lowercase; }
-  .link-handle { color: var(--color-foreground); }
-  .link-arrow { color: var(--color-accent); }
+  .link-method {
+    color: var(--color-dim);
+    text-transform: lowercase;
+  }
+  .link-handle {
+    color: var(--color-foreground);
+  }
+  .link-arrow {
+    color: var(--color-accent);
+  }
 </style>

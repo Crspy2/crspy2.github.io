@@ -1,0 +1,57 @@
+---
+interface Props {
+  cite?: string
+  attribution?: string
+}
+
+const { cite, attribution } = Astro.props
+---
+
+<blockquote class="pullquote" {...cite ? { cite } : {}}>
+  <div class="pullquote-mark" aria-hidden="true">&ldquo;</div>
+  <div class="pullquote-text"><slot /></div>
+  {attribution && <footer class="pullquote-attribution">{attribution}</footer>}
+</blockquote>
+
+<style>
+  .pullquote {
+    margin: 1.25em 0;
+    padding: 4px 0 4px 24px;
+    border-left: 3px solid var(--color-accent);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.4;
+    color: var(--color-foreground);
+    max-width: 92%;
+    position: relative;
+  }
+
+  .pullquote-mark {
+    position: absolute;
+    top: -4px;
+    left: 12px;
+    font-family: var(--font-display);
+    font-size: 48px;
+    line-height: 1;
+    color: var(--color-accent);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .pullquote-text :global(p) {
+    margin: 0;
+  }
+  .pullquote-text :global(p + p) {
+    margin-top: 0.4em;
+  }
+
+  .pullquote-attribution {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--color-dim);
+  }
+</style>

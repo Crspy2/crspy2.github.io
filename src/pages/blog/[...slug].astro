@@ -1,0 +1,387 @@
+---
+import Base from "../../layouts/Base.astro"
+import { Image } from "astro:assets"
+import { getCollection, render } from "astro:content"
+import type { CollectionEntry } from "astro:content"
+
+type Neighbor = { post: CollectionEntry<"blog">; slug: string }
+
+export async function getStaticPaths() {
+  const compositeSlug = (postId: string, oneBasedIndex: number) => `${oneBasedIndex}-${postId}`
+
+  const all = await getCollection("blog", ({ data }) => (import.meta.env.PROD ? !data.draft : true))
+
+  const chronological = [...all].sort((a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime())
+
+  return chronological.map((post, i) => {
+    const prevPost = chronological[i - 1] ?? null
+    const nextPost = chronological[i + 1] ?? null
+    const prev: Neighbor | null = prevPost
+      ? { post: prevPost, slug: compositeSlug(prevPost.id, i) }
+      : null
+    const next: Neighbor | null = nextPost
+      ? { post: nextPost, slug: compositeSlug(nextPost.id, i + 2) }
+      : null
+
+    return {
+      params: { slug: compositeSlug(post.id, i + 1) },
+      props: {
+        post,
+        archiveIndex: i + 1,
+        prev,
+        next,
+      },
+    }
+  })
+}
+
+interface Props {
+  post: CollectionEntry<"blog">
+  archiveIndex: number
+  prev: Neighbor | null
+  next: Neighbor | null
+}
+
+const { post, archiveIndex, prev, next } = Astro.props
+const { Content } = await render(post)
+
+const fmtDateLong = (d: Date) => {
+  const mm = (d.getUTCMonth() + 1).toString().padStart(2, "0")
+  const dd = d.getUTCDate().toString().padStart(2, "0")
+  const yyyy = d.getUTCFullYear()
+  return `${mm}.${dd}.${yyyy}`
+}
+
+const padIndex = (n: number) => n.toString().padStart(3, "0")
+
+const pageTitle = `${post.data.title} · crspy.me`
+---
+
+<Base
+  title={pageTitle}
+  description={post.data.description}
+  image="/og-blog.png"
+  imageWidth={1200}
+  imageHeight={630}
+  imageAlt={`Crspy blog. ${post.data.title}.`}
+>
+  <article class="post" data-page="blog-post">
+    <a href="/blog" class="post-back" data-reveal>
+      <span class="post-back-arrow" aria-hidden="true">←</span>
+      <span>archive</span>
+    </a>
+
+    <header class="post-header">
+      <p class="post-eyebrow" data-reveal>
+        // {fmtDateLong(post.data.pubDate)} · {padIndex(archiveIndex)}
+      </p>
+
+      <h1 class="post-title" data-reveal>{post.data.title}</h1>
+
+      {
+        post.data.subtitle && (
+          <p class="post-subtitle" data-reveal>
+            <span aria-hidden="true">─</span>
+            {post.data.subtitle}
+            <span aria-hidden="true">─</span>
+          </p>
+        )
+      }
+
+      {
+        post.data.tags.length > 0 && (
+          <p class="post-tags" data-reveal>
+            {post.data.tags.map((tag, i) => (
+              <>
+                {i > 0 && (
+                  <span class="tag-sep" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+                <span class="tag">{tag}</span>
+              </>
+            ))}
+          </p>
+        )
+      }
+
+      {
+        post.data.cover && (
+          <figure class="post-cover" data-reveal>
+            <Image
+              src={post.data.cover}
+              alt={post.data.coverAlt ?? ""}
+              loading="lazy"
+              widths={[480, 720, 1080, 1440]}
+              sizes="(max-width: 720px) 100vw, 720px"
+            />
+          </figure>
+        )
+      }
+
+      {
+        post.data.updatedDate && (
+          <p class="post-updated" data-reveal>
+            updated {fmtDateLong(post.data.updatedDate)}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="post-body" data-reveal>
+      <Content />
+      <footer class="post-license">
+        This post is licensed under{" "}
+        <a
+          href="https://creativecommons.org/licenses/by/4.0/"
+          rel="license noopener"
+          target="_blank">CC BY 4.0</a
+        >
+        by the author.
+      </footer>
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation" data-reveal>
+      <div class="post-nav-cell post-nav-prev">
+        {
+          prev && (
+            <a href={`/blog/${prev.slug}`} class="post-nav-link">
+              <span class="post-nav-meta">
+                <span class="post-nav-arrow" aria-hidden="true">
+                  ←
+                </span>
+                <span class="post-nav-label">previous</span>
+              </span>
+              <span class="post-nav-title">{prev.post.data.title}</span>
+            </a>
+          )
+        }
+      </div>
+      <div class="post-nav-cell post-nav-next">
+        {
+          next && (
+            <a href={`/blog/${next.slug}`} class="post-nav-link">
+              <span class="post-nav-meta">
+                <span class="post-nav-label">next</span>
+                <span class="post-nav-arrow" aria-hidden="true">
+                  →
+                </span>
+              </span>
+              <span class="post-nav-title">{next.post.data.title}</span>
+            </a>
+          )
+        }
+      </div>
+    </nav>
+
+    <p class="post-footer-links" data-reveal>
+      <a href="/blog">back to archive</a>
+      <span aria-hidden="true"> · </span>
+      <a href="/">home</a>
+    </p>
+  </article>
+</Base>
+
+<style>
+  .post {
+    max-width: 920px;
+    margin: 32px auto 120px;
+    padding: 0 32px;
+    width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .post {
+      padding: 0 20px;
+    }
+  }
+
+  .post-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 56px;
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease;
+  }
+  .post-back:hover,
+  .post-back:focus-visible {
+    color: var(--color-foreground);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+    outline: none;
+  }
+  .post-back-arrow {
+    color: var(--color-accent);
+  }
+
+  .post-header {
+    margin-bottom: 56px;
+  }
+
+  .post-eyebrow {
+    margin: 0 0 24px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-faint);
+    letter-spacing: 0.06em;
+  }
+
+  .post-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+
+  .post-subtitle {
+    margin: 20px 0 0;
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--color-muted);
+    max-width: 60ch;
+  }
+  .post-subtitle span {
+    color: var(--color-accent);
+    margin: 0 6px;
+    font-style: normal;
+  }
+
+  .post-tags {
+    margin: 28px 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-dim);
+    letter-spacing: 0.04em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .post-tags .tag-sep {
+    opacity: 0.6;
+  }
+
+  .post-cover {
+    margin: 36px 0 0;
+    padding: 0;
+  }
+  .post-cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+  }
+
+  .post-updated {
+    margin: 24px 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .post-nav {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .post-nav-cell {
+    min-width: 0;
+  }
+  .post-nav-prev {
+    text-align: left;
+  }
+  .post-nav-next {
+    text-align: right;
+  }
+  .post-nav-link {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--color-muted);
+    transition: color 0.18s ease;
+    max-width: 100%;
+  }
+  .post-nav-link:hover,
+  .post-nav-link:focus-visible {
+    color: var(--color-foreground);
+    outline: none;
+  }
+  .post-nav-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-dim);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .post-nav-arrow {
+    color: var(--color-accent);
+  }
+  .post-nav-label {
+    color: var(--color-dim);
+  }
+  .post-nav-title {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .post-nav-link:hover .post-nav-title,
+  .post-nav-link:focus-visible .post-nav-title {
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  @media (max-width: 540px) {
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+    .post-nav-next {
+      text-align: left;
+    }
+  }
+
+  .post-footer-links {
+    margin: 56px 0 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-dim);
+    letter-spacing: 0.04em;
+  }
+  .post-footer-links a {
+    color: var(--color-muted);
+    transition: color 0.18s ease;
+  }
+  .post-footer-links a:hover,
+  .post-footer-links a:focus-visible {
+    color: var(--color-accent);
+    outline: none;
+  }
+</style>

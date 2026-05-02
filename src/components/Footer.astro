@@ -1,7 +1,8 @@
 ---
-const year = new Date().getFullYear();
+const year = new Date().getFullYear()
 ---
-<footer class="site-footer" data-rise>
+
+<footer class="site-footer" data-reveal>
   <div class="footer-inner">
     <span class="footer-marker">// END_OF_FILE</span>
     <span class="footer-copy">&copy; {year} crspy</span>
@@ -12,11 +13,15 @@ const year = new Date().getFullYear();
   .site-footer {
     padding: 24px 32px 32px;
     border-top: 1px solid var(--color-border);
+    background: var(--color-background);
     margin-top: 24px;
+    position: relative;
   }
 
   @media (max-width: 640px) {
-    .site-footer { padding: 20px 20px 28px; }
+    .site-footer {
+      padding: 20px 20px 28px;
+    }
   }
 
   .footer-inner {

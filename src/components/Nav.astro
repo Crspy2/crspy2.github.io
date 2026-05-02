@@ -1,19 +1,27 @@
 ---
 const links = [
-  { href: "#about", label: "about" },
-  { href: "#projects", label: "projects" },
-  { href: "#contact", label: "contact" },
-];
+  { href: "/#about", label: "about" },
+  { href: "/#projects", label: "projects" },
+  { href: "/blog", label: "blog" },
+  { href: "/#contact", label: "contact" },
+]
 ---
-<nav class="site-nav" aria-label="primary" data-rise data-nav>
-  <a href="#" class="brand" aria-label="home">
+
+<nav class="site-nav" aria-label="primary" data-reveal data-nav>
+  <a href="/#" class="me" aria-label="home">
     <span class="online-dot" aria-hidden="true"></span>
-    <span class="brand-name">crspy</span><span class="brand-tld">.me</span>
+    <span class="name">crspy</span><span class="tld">.me</span>
   </a>
   <ul class="nav-links">
-    {links.map(({ href, label }) => (
-      <li><a href={href} data-nav-link>{label}</a></li>
-    ))}
+    {
+      links.map(({ href, label }) => (
+        <li>
+          <a href={href} data-nav-link>
+            {label}
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </nav>
 
@@ -35,18 +43,25 @@ const links = [
   }
 
   @media (max-width: 640px) {
-    .site-nav { padding: 14px 20px; font-size: 11px; }
+    .site-nav {
+      padding: 14px 20px;
+      font-size: 11px;
+    }
   }
 
-  .brand {
+  .me {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     color: var(--color-foreground);
   }
 
-  .brand-name { font-weight: 500; }
-  .brand-tld { color: var(--color-dim); }
+  .me > .name {
+    font-weight: 500;
+  }
+  .me > .tld {
+    color: var(--color-dim);
+  }
 
   .online-dot {
     width: 6px;
@@ -58,8 +73,13 @@ const links = [
   }
 
   @keyframes online-pulse {
-    0%, 100% { opacity: 0.55; }
-    50%      { opacity: 1; }
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 
   .nav-links {
@@ -72,7 +92,9 @@ const links = [
   }
 
   @media (max-width: 640px) {
-    .nav-links { gap: 16px; }
+    .nav-links {
+      gap: 16px;
+    }
   }
 
   .nav-links a {

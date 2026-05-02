@@ -1,0 +1,345 @@
+---
+import Base from "../../layouts/Base.astro"
+import SectionMarker from "../../components/SectionMarker.astro"
+import { getCollection } from "astro:content"
+
+const allPosts = await getCollection("blog", ({ data }) =>
+  import.meta.env.PROD ? !data.draft : true,
+)
+
+const chronological = [...allPosts].sort(
+  (a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime(),
+)
+const indexed = chronological.map((post, i) => ({
+  post,
+  archiveIndex: i + 1,
+}))
+
+const sorted = [...indexed].reverse()
+
+const byYear: Array<{ year: number; items: typeof sorted }> = []
+for (const item of sorted) {
+  const year = item.post.data.pubDate.getUTCFullYear()
+  const last = byYear[byYear.length - 1]
+  if (last && last.year === year) {
+    last.items.push(item)
+  } else {
+    byYear.push({ year, items: [item] })
+  }
+}
+
+const fmtDate = (d: Date) => {
+  const mm = (d.getUTCMonth() + 1).toString().padStart(2, "0")
+  const dd = d.getUTCDate().toString().padStart(2, "0")
+  return `${mm}.${dd}`
+}
+
+const padIndex = (n: number) => n.toString().padStart(3, "0")
+---
+
+<Base
+  title="blog · crspy.me"
+  description="A blog where I write about the things I'm building. Retrospectives, design rationales, and notes on tooling."
+  image="/og-blog.png"
+  imageWidth={1200}
+  imageHeight={630}
+  imageAlt="Crspy blog. Notes on building things, in soft blue terminal-flavored design."
+>
+  <section
+    id="blog-archive"
+    class="blog-archive"
+    data-page="blog"
+    aria-labelledby="blog-archive-title"
+  >
+    <SectionMarker index="01" title="BLOG" />
+
+    <div class="archive-inner">
+      <a href="/" class="archive-back" data-reveal>
+        <span class="archive-back-arrow" aria-hidden="true">←</span>
+        <span>home</span>
+      </a>
+
+      <header class="archive-header">
+        <h1 id="blog-archive-title" class="archive-title" data-reveal>Blog</h1>
+        <p class="archive-intro" data-reveal>Occasional posts on the things I&rsquo;m building.</p>
+        <div class="archive-divider" data-reveal></div>
+      </header>
+
+      {
+        sorted.length === 0 ? (
+          <p class="archive-empty" data-reveal>
+            No posts yet.
+          </p>
+        ) : (
+          <ol class="archive-list">
+            {byYear.map((group) => (
+              <li class="year-group">
+                <div class="year-label" data-reveal>
+                  <span class="year-text">{group.year}</span>
+                  <span class="year-line" aria-hidden="true" />
+                </div>
+
+                <ul class="entries">
+                  {group.items.map(({ post, archiveIndex }) => (
+                    <li class="entry" data-reveal>
+                      <a href={`/blog/${archiveIndex}-${post.id}`} class="entry-link">
+                        <span class="entry-index" aria-hidden="true">
+                          {padIndex(archiveIndex)}
+                        </span>
+                        <span class="entry-date" aria-hidden="true">
+                          {fmtDate(post.data.pubDate)}
+                        </span>
+                        <span class="entry-body">
+                          <span class="entry-title">{post.data.title}</span>
+                          {post.data.tags.length > 0 && (
+                            <span class="entry-tags">
+                              {post.data.tags.map((tag, i) => (
+                                <>
+                                  {i > 0 && (
+                                    <span class="tag-sep" aria-hidden="true">
+                                      ·
+                                    </span>
+                                  )}
+                                  <span class="tag">{tag}</span>
+                                </>
+                              ))}
+                            </span>
+                          )}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .blog-archive {
+    scroll-margin-top: 60px;
+    min-height: calc(100svh - 60px);
+    padding-bottom: 120px;
+  }
+
+  .archive-inner {
+    max-width: 920px;
+    margin: 56px auto 0;
+    padding: 0 32px;
+    width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .archive-inner {
+      padding: 0 20px;
+    }
+  }
+
+  .archive-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    background: var(--color-background);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 40px;
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease;
+  }
+  .archive-back:hover,
+  .archive-back:focus-visible {
+    color: var(--color-foreground);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-background));
+    outline: none;
+  }
+
+  .archive-back-arrow {
+    color: var(--color-accent);
+  }
+
+  .archive-header {
+    margin-bottom: 56px;
+  }
+
+  .archive-title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+
+  .archive-intro {
+    margin: 0 0 28px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .archive-divider {
+    height: 1px;
+    background: var(--color-border-strong);
+    width: 100%;
+  }
+
+  .archive-empty {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--color-dim);
+  }
+
+  .archive-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .year-group + .year-group {
+    margin-top: 56px;
+  }
+
+  .year-label {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .year-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--color-foreground);
+    flex-shrink: 0;
+  }
+
+  .year-line {
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .entry + .entry {
+    margin-top: 4px;
+  }
+
+  .entry-link {
+    display: grid;
+    grid-template-columns: 56px 64px 1fr;
+    gap: 20px;
+    align-items: baseline;
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--color-border);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .entry-link:hover,
+  .entry-link:focus-visible {
+    border-bottom-color: color-mix(in srgb, var(--color-blog) 60%, transparent);
+    background: color-mix(in srgb, var(--color-blog) 4%, var(--color-background));
+    outline: none;
+  }
+
+  .entry-index {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .entry-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-dim);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .entry-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .entry-title {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--color-foreground);
+    transition: color 0.18s ease;
+  }
+
+  .entry-link:hover .entry-title,
+  .entry-link:focus-visible .entry-title {
+    color: var(--color-blog);
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: var(--color-blog);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+
+  .entry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .tag-sep {
+    color: var(--color-dim);
+    opacity: 0.6;
+  }
+
+  @media (max-width: 540px) {
+    .entry-link {
+      grid-template-columns: 64px 1fr;
+      gap: 14px;
+    }
+    .entry-index {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      font-size: 10px;
+      margin-bottom: -2px;
+    }
+    .entry-date {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .entry-body {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+</style>

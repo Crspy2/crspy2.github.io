@@ -1,40 +1,73 @@
 ---
-import Base from "../layouts/Base.astro";
-import SectionMarker from "../components/SectionMarker.astro";
+import Base from "../layouts/Base.astro"
+import SectionMarker from "../components/SectionMarker.astro"
 ---
+
 <Base title="Not Found - crspy.me" description="Page not found.">
   <section id="not-found" class="not-found" aria-labelledby="not-found-title">
     <SectionMarker index="404" title="NOT_FOUND" />
 
-    <div class="not-found-inner">
-      <p class="eyebrow" data-rise>
+    <div class="not-found-inner" data-error-variant="default">
+      <p class="eyebrow" data-reveal>
         <span class="prompt">$</span> cat <span data-not-found-path>~/</span>
         <span class="error">→ no such file</span>
       </p>
 
-      <h1 id="not-found-title" class="title" data-rise>
+      <h1 id="not-found-title" class="title" data-reveal>
         This page <span class="accent">doesn&rsquo;t exist</span>.
       </h1>
 
-      <p class="blurb" data-rise>
-        The URL you tried isn&rsquo;t a thing on this site. It was either
-        mistyped, moved, or never existed in the first place. Head back to
-        &quot;/&quot; and try again.
+      <p class="blurb" data-reveal>
+        The URL you tried isn&rsquo;t a thing on this site. It was either mistyped, moved, or never
+        existed in the first place. Head back to &quot;/&quot; and try again.
       </p>
 
-      <a href="/" class="back-link" data-rise>
+      <a href="/" class="back-link" data-reveal>
         <span class="arrow" aria-hidden="true">↩</span>
         <span>back to home</span>
+      </a>
+    </div>
+
+    <div class="not-found-inner not-found-blog" data-error-variant="blog" hidden>
+      <p class="eyebrow" data-reveal>
+        <span class="prompt">$</span> wget <span data-not-found-path>~/</span>
+        <span class="error">→ post not found</span>
+      </p>
+
+      <h1 class="title" data-reveal>
+        This post <span class="accent">doesn&rsquo;t exist</span>.
+      </h1>
+
+      <p class="blurb" data-reveal>
+        The post you tried isn&rsquo;t here. It was renamed, unpublished, or never existed in the
+        first place. The archive has the ones that do.
+      </p>
+
+      <a href="/blog" class="back-link" data-reveal>
+        <span class="arrow" aria-hidden="true">↩</span>
+        <span>back to archive</span>
       </a>
     </div>
   </section>
 </Base>
 
 <script is:inline>
-  (function () {
-    var el = document.querySelector("[data-not-found-path]");
-    if (el) el.textContent = "~" + (window.location.pathname || "/");
-  })();
+  ;(function () {
+    var path = window.location.pathname || "/"
+
+    var pathEls = document.querySelectorAll("[data-not-found-path]")
+    for (var i = 0; i < pathEls.length; i++) {
+      pathEls[i].textContent = "~" + path
+    }
+
+    if (path.indexOf("/blog/") === 0) {
+      var def = document.querySelector('[data-error-variant="default"]')
+      var blog = document.querySelector('[data-error-variant="blog"]')
+      if (def) def.setAttribute("hidden", "")
+      if (blog) blog.removeAttribute("hidden")
+      document.title = "Post Not Found · crspy.me"
+    }
+  })()
 </script>
 
 <style>
@@ -55,7 +88,13 @@ import SectionMarker from "../components/SectionMarker.astro";
   }
 
   @media (max-width: 640px) {
-    .not-found-inner { padding: 0 20px; }
+    .not-found-inner {
+      padding: 0 20px;
+    }
+  }
+
+  [hidden] {
+    display: none !important;
   }
 
   .eyebrow {
@@ -65,7 +104,10 @@ import SectionMarker from "../components/SectionMarker.astro";
     color: var(--color-faint);
     letter-spacing: 0.06em;
   }
-  .eyebrow .error { color: var(--color-dim); margin-left: 8px; }
+  .eyebrow .error {
+    color: var(--color-dim);
+    margin-left: 8px;
+  }
 
   .title {
     margin: 0;
@@ -106,5 +148,11 @@ import SectionMarker from "../components/SectionMarker.astro";
     border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
     background: color-mix(in srgb, var(--color-accent) 6%, transparent);
   }
-  .back-link .arrow { color: var(--color-accent); }
+  .back-link .arrow {
+    color: var(--color-accent);
+  }
+
+  .not-found-blog {
+    --color-accent: var(--color-blog);
+  }
 </style>

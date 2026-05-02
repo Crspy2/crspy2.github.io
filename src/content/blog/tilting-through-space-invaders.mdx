@@ -1,0 +1,130 @@
+---
+title: "Tilting your way through Space Invaders"
+subtitle: "Three filters between an accelerometer and a playable controller"
+description: "How three small bits of signal conditioning turn a jittery 12-bit accelerometer into a controller you can actually play with."
+pubDate: 2026-05-02
+tags: ["fpga", "verilog", "space-invaders"]
+---
+
+For a class project I implemented Space Invaders on a Nexys A7 and tried to steer the ship by tilting the board. The Nexys includes an ADXL362 accelerometer on SPI, so the obvious approach was to read one axis of tilt, map it to a horizontal position, and draw the player there.
+
+That worked on paper. In practice the ship *teleported* when the board moved, buzzed in place on the desk, and drifted slowly even when I held it still. The ADXL362 was not broken; it was reporting acceleration and gravity the way accelerometers do. The gap was between raw samples and something that feels like a controller. This post walks through three small Verilog filters that sit in between.
+
+The player-controller module is about 60 lines and runs at 1.5 kHz, so the whole pipeline fits in one short write-up.
+
+## What the raw signal actually looks like
+
+The ADXL362 returns a 12-bit signed integer per axis, with roughly 1 LSB per milligravity. So `y_full = 0` means the board is flat, `y_full = ±1000` means it's pointing roughly straight up or down, and ±707 corresponds to a 45° tilt (1 g component along the axis).
+
+If you want to map tilt directly to an on-screen X coordinate, the obvious thing is:
+
+```verilog
+xpos <= CENTER - (y_full >>> 1);
+```
+
+This *works*, in the sense that tilting the board moves the ship. But there are three independent problems with it:
+
+1. **Sensor noise.** Every reading carries about ±5 LSB of noise even when the board is perfectly still. The map above turns each LSB into half a pixel, so the ship vibrates by 2 to 3 pixels at rest.
+2. **Hand tremor.** Even a steady human hand has motion on the order of tens of milligravities. With the same mapping that's another ~10 pixels of "ship is not where you put it."
+3. **Sample-rate aliasing.** The SPI master polls the accelerometer at 100 Hz. If the board's tilt changes rapidly between samples, `y_full` can step by hundreds of LSBs in a single update, and the screen jumps with it.
+
+You can't fix any one of these in isolation and get a playable controller. You need three filters that each kill a different failure mode.
+
+## Stage 1: an IIR low-pass on the raw axis
+
+The first stage is the classic recursive low-pass:
+
+```verilog
+parameter integer FILT_LOG2 = 6;
+reg signed [11:0] y_filt;
+
+always @(posedge clk, posedge rst) begin
+    if (rst) y_filt <= 12'sd0;
+    else     y_filt <= y_filt - (y_filt >>> FILT_LOG2) + (y_full >>> FILT_LOG2);
+end
+```
+
+That one line is the whole filter. Each cycle it pulls `y_filt` a fraction `1/2^FILT_LOG2` of the way toward the new sample. Because `FILT_LOG2 = 6` and the controller clock is ~1.5 kHz, the time constant is roughly `2^6 / 1500 ≈ 43 ms`: slow enough to absorb sensor noise and hand tremor, fast enough that you can't *feel* the lag when you tilt.
+
+The shift-only form matters: there's no multiplier and no divider, just two right-shifts and an add/subtract. It synthesises into a handful of LUTs and meets timing trivially.
+
+A real low-pass costs you something, though. A heavy filter (`FILT_LOG2 = 8`, τ ≈ 170 ms) makes the controller feel like it's underwater. A light one (`FILT_LOG2 = 4`, τ ≈ 11 ms) lets the noise leak back through. I tuned `FILT_LOG2` empirically by flashing the FPGA, playing the game, adjusting, and flashing again until the ship stopped vibrating but still felt responsive. 6 won.
+
+## Stage 2: a deadzone
+
+The IIR fixes high-frequency noise. It does *not* fix the fact that the board is rarely perfectly horizontal. Real desks aren't level; real hands aren't level. Once `y_filt` settles, it's almost never zero. It's some small DC offset that maps to a slow drift.
+
+The fix is a deadzone: pin the effective tilt to zero whenever `|y_filt|` is below some threshold.
+
+```verilog
+parameter [11:0] DEADZONE_RAW = 12'd30;   // ~1.7° of tilt floor
+
+wire [11:0]        y_abs    = y_filt[11] ? (~y_filt + 12'd1) : y_filt;
+wire               tilt_act = (y_abs >= DEADZONE_RAW);
+wire signed [11:0] eff_tilt = tilt_act ? y_filt : 12'sd0;
+```
+
+`y_abs` is `|y_filt|` (computed by negating if the sign bit is set). If it's below 30 LSBs, `eff_tilt` is forced to zero; otherwise `eff_tilt` passes through unchanged.
+
+30 LSBs corresponds to about 1.7° of tilt at the ADXL362's default sensitivity. That's a "you would never notice" amount of tilt that I deliberately make the controller ignore. The result is a perfectly stationary ship when the board is "nominally flat," even if it's actually slanted by a degree or two.
+
+The classic mistake here is to make the deadzone too generous. Bump it up to 100 LSBs (≈5.7°) and the controller starts feeling *dead*. You tilt the board noticeably and the ship just sits there. 30 was the sweet spot for me.
+
+## Stage 3: a slew limiter on the on-screen position
+
+Stages 1 and 2 give a clean, jitter-free *target* X position. Map it to screen coordinates and clamp to the visible window:
+
+```verilog
+parameter [9:0] CENTER      = 10'd464;
+parameter [9:0] LEFT_LIMIT  = 10'd160;
+parameter [9:0] RIGHT_LIMIT = 10'd768;
+
+wire signed [13:0] eff_tilt_ext = {{2{eff_tilt[11]}}, eff_tilt};
+wire signed [13:0] tilt_offset  = eff_tilt_ext >>> 1;
+wire signed [13:0] xpos_raw     = $signed({4'd0, CENTER}) - tilt_offset;
+
+wire [9:0] xpos_target =
+    (xpos_raw > $signed({4'd0, RIGHT_LIMIT})) ? RIGHT_LIMIT :
+    (xpos_raw < $signed({4'd0, LEFT_LIMIT}))  ? LEFT_LIMIT  :
+    xpos_raw[9:0];
+```
+
+`xpos_target` is now the place the ship *should be*, given the conditioned tilt. The naive thing is to just assign `xpos <= xpos_target` and call it done.
+
+If you do that, the teleport problem is back, *not* because the input is noisy any more, but because of the SPI sample rate. The accelerometer only refreshes `y_full` every 10 ms. If the tilt changes a lot between two samples, `y_filt` (and therefore `xpos_target`) takes one big step, and so does the on-screen ship. You get crisp, intentional teleport.
+
+The fix is the third filter, which lives on the *output* side rather than the input:
+
+```verilog
+always @(posedge clk, posedge rst) begin
+    if (rst) begin
+        xpos <= CENTER;
+    end else if (game_enabled) begin
+        if      (xpos < xpos_target) xpos <= xpos + 10'd1;
+        else if (xpos > xpos_target) xpos <= xpos - 10'd1;
+    end
+end
+```
+
+The on-screen position changes by at most ±1 pixel per tick. If `xpos_target` jumps 80 pixels in a single SPI update, `xpos` chases it over 80 ticks (about 53 ms at 1.5 kHz). That's slow enough to look like motion and fast enough to feel responsive.
+
+This stage is not "redundant" with stage 1. The IIR conditions the *input*; the slew limiter conditions the *output*. They protect against different failure modes:
+
+- The IIR can't help when `y_full` is stable but the SPI master delivers a 100-LSB step at 100 Hz. To the IIR that *is* the signal.
+- The slew limiter can't help when `y_full` jitters at the LSB scale and the IIR isn't there to absorb it. The slew limiter would just dutifully chase every jitter.
+
+You need both. A common temptation is to make the IIR much heavier and skip the slew limit. That works, sort of, but the controller starts to feel laggy because the time constant fights you on intentional tilts as much as it does on jitter. Two cheap filters in series beat one expensive one.
+
+## What you give up
+
+These three stages aren't free. They each add a little perceptual lag:
+
+- ~43 ms from the IIR time constant
+- The deadzone introduces a small "dead patch" near the centre, which feels like very mild stiction
+- ±1 px/tick at 1.5 kHz means the ship needs ~400 ms to traverse the screen end-to-end at full tilt
+
+For a slow horizontal-shooter that's all fine. For a twitchy reflex game you'd want a snappier slew rate (±2 or ±3 px/tick), maybe a smaller deadzone, and possibly a non-linear tilt response so small tilts are smooth and big tilts move the ship more aggressively.
+
+But the structure stays the same: condition the input, kill the dead band, clamp the output velocity. The core of these three stages is fewer than fifteen lines of Verilog; the rest of the ~60-line module is wiring, registers, and game glue. One playable game.
+
+Full source on [GitHub](https://github.com/Crspy2/EE354-SpaceInvaders).

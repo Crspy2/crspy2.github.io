@@ -7,11 +7,13 @@ import Nav from "../components/Nav.astro"
 interface Props {
   title?: string
   description?: string
-  /** Pathname (e.g. "/og-blog.png") or absolute URL for the OG/Twitter image. */
+
   image?: string
   imageWidth?: number
   imageHeight?: number
   imageAlt?: string
+
+  themeColor?: string
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   imageWidth = 1731,
   imageHeight = 909,
   imageAlt = "Crspy. Fullstack web developer. Dark terminal-flavored portfolio.",
+  themeColor = "#7ee787"
 } = Astro.props
 
 const SITE_URL = "https://crspy.me"
@@ -34,7 +37,7 @@ const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).hre
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#7ee787" />
+    <meta name="theme-color" content={themeColor} />
     <title>{title}</title>
 
     <link rel="canonical" href={canonicalURL} />

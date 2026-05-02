@@ -62,7 +62,14 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
 const pageTitle = `${post.data.title} · crspy.me`;
 ---
 
-<Base title={pageTitle} description={post.data.description}>
+<Base
+  title={pageTitle}
+  description={post.data.description}
+  image="/og-blog.png"
+  imageWidth={1200}
+  imageHeight={630}
+  imageAlt={`Crspy blog. ${post.data.title}.`}
+>
   <article class="post" data-page="blog-post">
     <a href="/blog/" class="post-back" data-reveal>
       <span class="post-back-arrow" aria-hidden="true">←</span>

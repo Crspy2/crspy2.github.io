@@ -4,7 +4,12 @@ import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
+type Neighbor = { post: CollectionEntry<"blog">; slug: string };
+
 export async function getStaticPaths() {
+  const compositeSlug = (postId: string, oneBasedIndex: number) =>
+    `${oneBasedIndex}-${postId}`;
+
   const all = await getCollection("blog", ({ data }) =>
     import.meta.env.PROD ? !data.draft : true
   );
@@ -13,22 +18,33 @@ export async function getStaticPaths() {
     (a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime()
   );
 
-  return chronological.map((post, i) => ({
-    params: { slug: post.id },
-    props: {
-      post,
-      archiveIndex: i + 1,
-      prev: chronological[i - 1] ?? null,
-      next: chronological[i + 1] ?? null,
-    },
-  }));
+  return chronological.map((post, i) => {
+    const prevPost = chronological[i - 1] ?? null;
+    const nextPost = chronological[i + 1] ?? null;
+    const prev: Neighbor | null = prevPost
+      ? { post: prevPost, slug: compositeSlug(prevPost.id, i) }
+      : null;
+    const next: Neighbor | null = nextPost
+      ? { post: nextPost, slug: compositeSlug(nextPost.id, i + 2) }
+      : null;
+
+    return {
+      params: { slug: compositeSlug(post.id, i + 1) },
+      props: {
+        post,
+        archiveIndex: i + 1,
+        prev,
+        next,
+      },
+    };
+  });
 }
 
 interface Props {
   post: CollectionEntry<"blog">;
   archiveIndex: number;
-  prev: CollectionEntry<"blog"> | null;
-  next: CollectionEntry<"blog"> | null;
+  prev: Neighbor | null;
+  next: Neighbor | null;
 }
 
 const { post, archiveIndex, prev, next } = Astro.props;
@@ -114,23 +130,23 @@ const pageTitle = `${post.data.title} · crspy.me`;
     <nav class="post-nav" aria-label="Post navigation" data-reveal>
       <div class="post-nav-cell post-nav-prev">
         {prev && (
-          <a href={`/blog/${prev.id}/`} class="post-nav-link">
+          <a href={`/blog/${prev.slug}/`} class="post-nav-link">
             <span class="post-nav-meta">
               <span class="post-nav-arrow" aria-hidden="true">←</span>
               <span class="post-nav-label">previous</span>
             </span>
-            <span class="post-nav-title">{prev.data.title}</span>
+            <span class="post-nav-title">{prev.post.data.title}</span>
           </a>
         )}
       </div>
       <div class="post-nav-cell post-nav-next">
         {next && (
-          <a href={`/blog/${next.id}/`} class="post-nav-link">
+          <a href={`/blog/${next.slug}/`} class="post-nav-link">
             <span class="post-nav-meta">
               <span class="post-nav-label">next</span>
               <span class="post-nav-arrow" aria-hidden="true">→</span>
             </span>
-            <span class="post-nav-title">{next.data.title}</span>
+            <span class="post-nav-title">{next.post.data.title}</span>
           </a>
         )}
       </div>
@@ -156,7 +172,6 @@ const pageTitle = `${post.data.title} · crspy.me`;
     .post { padding: 0 20px; }
   }
 
-  /* Back link at top, mirrors 404 .back-link */
   .post-back {
     display: inline-flex;
     align-items: center;
@@ -257,7 +272,6 @@ const pageTitle = `${post.data.title} · crspy.me`;
     letter-spacing: 0.04em;
   }
 
-  /* Prev / next navigation */
   .post-nav {
     margin-top: 80px;
     padding-top: 28px;

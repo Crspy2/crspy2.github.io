@@ -9,7 +9,7 @@ import mdx from "@astrojs/mdx"
 export default defineConfig({
   site: "https://crspy.me",
 
-  trailingSlash: "never",
+  trailingSlash: "ignore",
   build: {
     format: "file",
   },

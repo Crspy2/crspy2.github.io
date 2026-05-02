@@ -6,7 +6,7 @@ import SectionMarker from "../components/SectionMarker.astro";
   <section id="not-found" class="not-found" aria-labelledby="not-found-title">
     <SectionMarker index="404" title="NOT_FOUND" />
 
-    <div class="not-found-inner">
+    <div class="not-found-inner" data-error-variant="default">
       <p class="eyebrow" data-rise>
         <span class="prompt">$</span> cat <span data-not-found-path>~/</span>
         <span class="error">→ no such file</span>
@@ -27,13 +27,47 @@ import SectionMarker from "../components/SectionMarker.astro";
         <span>back to home</span>
       </a>
     </div>
+
+    <div class="not-found-inner not-found-blog" data-error-variant="blog" hidden>
+      <p class="eyebrow" data-rise>
+        <span class="prompt">$</span> wget <span data-not-found-path>~/</span>
+        <span class="error">→ post not found</span>
+      </p>
+
+      <h1 class="title" data-rise>
+        This post <span class="accent">doesn&rsquo;t exist</span>.
+      </h1>
+
+      <p class="blurb" data-rise>
+        The post you tried isn&rsquo;t here. It was renamed,
+        unpublished, or never existed in the first place. The
+        archive has the ones that do.
+      </p>
+
+      <a href="/blog/" class="back-link" data-rise>
+        <span class="arrow" aria-hidden="true">↩</span>
+        <span>back to archive</span>
+      </a>
+    </div>
   </section>
 </Base>
 
 <script is:inline>
   (function () {
-    var el = document.querySelector("[data-not-found-path]");
-    if (el) el.textContent = "~" + (window.location.pathname || "/");
+    var path = window.location.pathname || "/";
+
+    var pathEls = document.querySelectorAll("[data-not-found-path]");
+    for (var i = 0; i < pathEls.length; i++) {
+      pathEls[i].textContent = "~" + path;
+    }
+
+    if (path.indexOf("/blog/") === 0) {
+      var def = document.querySelector('[data-error-variant="default"]');
+      var blog = document.querySelector('[data-error-variant="blog"]');
+      if (def) def.setAttribute("hidden", "");
+      if (blog) blog.removeAttribute("hidden");
+      document.title = "Post Not Found · crspy.me";
+    }
   })();
 </script>
 
@@ -57,6 +91,8 @@ import SectionMarker from "../components/SectionMarker.astro";
   @media (max-width: 640px) {
     .not-found-inner { padding: 0 20px; }
   }
+
+  [hidden] { display: none !important; }
 
   .eyebrow {
     margin: 0 0 28px;
@@ -107,4 +143,10 @@ import SectionMarker from "../components/SectionMarker.astro";
     background: color-mix(in srgb, var(--color-accent) 6%, transparent);
   }
   .back-link .arrow { color: var(--color-accent); }
+
+  /* Blog 404 variant: only difference from default is the accent color
+     (cascades to blue) and the text content. Same .title, .blurb, .back-link. */
+  .not-found-blog {
+    --color-accent: var(--color-blog);
+  }
 </style>

@@ -45,6 +45,11 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
     <SectionMarker index="01" title="BLOG" />
 
     <div class="archive-inner">
+      <a href="/" class="archive-back" data-rise>
+        <span class="archive-back-arrow" aria-hidden="true">←</span>
+        <span>home</span>
+      </a>
+
       <header class="archive-header">
         <h1 id="blog-archive-title" class="archive-title" data-rise>Blog</h1>
         <p class="archive-intro" data-rise>
@@ -113,7 +118,35 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
     .archive-inner { padding: 0 20px; }
   }
 
-  /* Header block */
+  .archive-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    background: var(--color-background);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 40px;
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease;
+  }
+  .archive-back:hover,
+  .archive-back:focus-visible {
+    color: var(--color-foreground);
+    border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-background));
+    outline: none;
+  }
+
+  .archive-back-arrow {
+    color: var(--color-accent);
+  }
+
   .archive-header {
     margin-bottom: 56px;
   }
@@ -150,7 +183,6 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
     color: var(--color-dim);
   }
 
-  /* Year groups */
   .archive-list {
     list-style: none;
     margin: 0;
@@ -183,7 +215,6 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
     background: var(--color-border);
   }
 
-  /* Entries */
   .entries {
     list-style: none;
     margin: 0;
@@ -199,7 +230,7 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
     grid-template-columns: 56px 64px 1fr;
     gap: 20px;
     align-items: baseline;
-    padding: 16px 0;
+    padding: 16px 12px;
     border-bottom: 1px solid var(--color-border);
     transition:
       border-color 0.2s ease,
@@ -208,8 +239,8 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
 
   .entry-link:hover,
   .entry-link:focus-visible {
-    border-bottom-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
-    background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--color-blog) 60%, transparent);
+    background: color-mix(in srgb, var(--color-blog) 4%, var(--color-background));
     outline: none;
   }
 
@@ -246,10 +277,10 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
 
   .entry-link:hover .entry-title,
   .entry-link:focus-visible .entry-title {
-    color: var(--color-accent);
+    color: var(--color-blog);
     text-decoration: underline;
     text-decoration-style: dashed;
-    text-decoration-color: var(--color-accent);
+    text-decoration-color: var(--color-blog);
     text-decoration-thickness: 1px;
     text-underline-offset: 4px;
   }
@@ -270,7 +301,6 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
     opacity: 0.6;
   }
 
-  /* Mobile reflow: collapse the index column under the title for breathing room */
   @media (max-width: 540px) {
     .entry-link {
       grid-template-columns: 64px 1fr;

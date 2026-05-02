@@ -66,7 +66,7 @@ const pageTitle = `${post.data.title} · crspy.me`
   imageAlt={`Crspy blog. ${post.data.title}.`}
 >
   <article class="post" data-page="blog-post">
-    <a href="/blog/" class="post-back" data-reveal>
+    <a href="/blog" class="post-back" data-reveal>
       <span class="post-back-arrow" aria-hidden="true">←</span>
       <span>archive</span>
     </a>
@@ -145,7 +145,7 @@ const pageTitle = `${post.data.title} · crspy.me`
       <div class="post-nav-cell post-nav-prev">
         {
           prev && (
-            <a href={`/blog/${prev.slug}/`} class="post-nav-link">
+            <a href={`/blog/${prev.slug}`} class="post-nav-link">
               <span class="post-nav-meta">
                 <span class="post-nav-arrow" aria-hidden="true">
                   ←
@@ -160,7 +160,7 @@ const pageTitle = `${post.data.title} · crspy.me`
       <div class="post-nav-cell post-nav-next">
         {
           next && (
-            <a href={`/blog/${next.slug}/`} class="post-nav-link">
+            <a href={`/blog/${next.slug}`} class="post-nav-link">
               <span class="post-nav-meta">
                 <span class="post-nav-label">next</span>
                 <span class="post-nav-arrow" aria-hidden="true">
@@ -175,7 +175,7 @@ const pageTitle = `${post.data.title} · crspy.me`
     </nav>
 
     <p class="post-footer-links" data-reveal>
-      <a href="/blog/">back to archive</a>
+      <a href="/blog">back to archive</a>
       <span aria-hidden="true"> · </span>
       <a href="/">home</a>
     </p>

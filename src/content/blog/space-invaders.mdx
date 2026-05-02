@@ -6,8 +6,6 @@ pubDate: 2026-05-02
 tags: ["fpga", "verilog", "space-invaders"]
 ---
 
-import Callout from "../../components/blog/Callout.astro"
-
 For a class project I implemented Space Invaders on a Nexys A7 and tried to steer the ship by tilting the board. The Nexys includes an ADXL362 accelerometer on SPI, so the obvious approach was to read one axis of tilt, map it to a horizontal position, and draw the player there.
 
 That worked on paper. In practice the ship *teleported* when the board moved, buzzed in place on the desk, and drifted slowly even when I held it still. The ADXL362 was not broken; it was reporting acceleration and gravity the way accelerometers do. The gap was between raw samples and something that feels like a controller. This post walks through three small Verilog filters that sit in between.

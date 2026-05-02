@@ -65,13 +65,13 @@ const isBlog = linkType === "blog";
   /* Default (live) hover uses the accent green */
   .project-row-live:hover {
     border-left-color: var(--color-accent);
-    background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 5%, var(--color-background));
   }
 
   /* Blog hover uses the blog blue */
   .project-row-blog:hover {
     border-left-color: var(--color-blog);
-    background: color-mix(in srgb, var(--color-blog) 5%, transparent);
+    background: color-mix(in srgb, var(--color-blog) 5%, var(--color-background));
   }
 
   @media (max-width: 640px) {

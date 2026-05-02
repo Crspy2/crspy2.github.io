@@ -9,6 +9,11 @@ import mdx from "@astrojs/mdx"
 export default defineConfig({
   site: "https://crspy.me",
 
+  trailingSlash: "never",
+  build: {
+    format: "file",
+  },
+
   fonts: [
     {
       name: "Inter",

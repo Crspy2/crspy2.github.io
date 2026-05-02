@@ -82,7 +82,7 @@ const padIndex = (n: number) => n.toString().padStart(3, "0")
                 <ul class="entries">
                   {group.items.map(({ post, archiveIndex }) => (
                     <li class="entry" data-reveal>
-                      <a href={`/blog/${archiveIndex}-${post.id}/`} class="entry-link">
+                      <a href={`/blog/${archiveIndex}-${post.id}`} class="entry-link">
                         <span class="entry-index" aria-hidden="true">
                           {padIndex(archiveIndex)}
                         </span>

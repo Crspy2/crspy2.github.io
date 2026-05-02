@@ -8,9 +8,9 @@ const links = [
 ---
 
 <nav class="site-nav" aria-label="primary" data-reveal data-nav>
-  <a href="#" class="brand" aria-label="home">
+  <a href="/#" class="me" aria-label="home">
     <span class="online-dot" aria-hidden="true"></span>
-    <span class="brand-name">crspy</span><span class="brand-tld">.me</span>
+    <span class="name">crspy</span><span class="tld">.me</span>
   </a>
   <ul class="nav-links">
     {
@@ -49,17 +49,17 @@ const links = [
     }
   }
 
-  .brand {
+  .me {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     color: var(--color-foreground);
   }
 
-  .brand-name {
+  .me > .name {
     font-weight: 500;
   }
-  .brand-tld {
+  .me > .tld {
     color: var(--color-dim);
   }
 

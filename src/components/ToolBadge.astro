@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets"
 import { Icon } from "astro-iconify"
 import type { Tool } from "../data/tools"
 
@@ -9,13 +10,15 @@ interface Props {
 
 const { name, tool } = Astro.props
 const isStringIcon = typeof tool.icon === "string"
-const localIconSrc = !isStringIcon && tool.icon ? tool.icon.src : null
+const localIcon = !isStringIcon && tool.icon ? tool.icon : null
 ---
 
 <a class="tool-badge" href={tool.href} target="_blank" rel="noopener noreferrer" aria-label={name}>
   <span class:list={["tool-icon", { "is-dark": tool.dark }]} aria-hidden="true">
     {isStringIcon && <Icon name={tool.icon} class="tool-icon-svg" />}
-    {!isStringIcon && localIconSrc && <img src={localIconSrc} alt="" class="tool-icon-svg" />}
+    {!isStringIcon && localIcon && (
+      <Image src={localIcon} alt="" width={28} height={28} class="tool-icon-svg" />
+    )}
   </span>
   <span class="tool-name">{name}</span>
 </a>

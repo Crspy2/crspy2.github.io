@@ -1,12 +1,13 @@
 ---
 interface Props {
-  index: string;
-  title: string;
-  rightSlot?: string;
+  index: string
+  title: string
+  rightSlot?: string
 }
 
-const { index, title, rightSlot } = Astro.props;
+const { index, title, rightSlot } = Astro.props
 ---
+
 <div class="section-marker" data-section-marker data-reveal>
   <span class="marker-label">// {index} {title}</span>
   <span class="marker-line" data-marker-line></span>
@@ -29,7 +30,10 @@ const { index, title, rightSlot } = Astro.props;
   }
 
   @media (max-width: 640px) {
-    .section-marker { padding: 0 20px; gap: 12px; }
+    .section-marker {
+      padding: 0 20px;
+      gap: 12px;
+    }
   }
 
   .marker-label {

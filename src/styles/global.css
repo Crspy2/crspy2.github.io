@@ -150,7 +150,9 @@ a {
 
 .post-body :is(code, pre, th) {
   font-variant-ligatures: none;
-  font-feature-settings: "liga" 0, "calt" 0;
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0;
 }
 
 .post-body code {
@@ -359,4 +361,3 @@ a {
   color: var(--color-foreground);
   outline: none;
 }
-

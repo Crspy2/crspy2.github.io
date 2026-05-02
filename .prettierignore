@@ -1,0 +1,19 @@
+dist/
+.astro/
+node_modules/
+.git/
+
+# Lockfiles
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated assets
+public/og-image.png
+public/og-blog.png
+*.svg
+
+# Long-form blog post content stays as-authored. Re-enable later if you want
+# Prettier to also format Markdown in posts.
+src/content/

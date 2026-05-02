@@ -1,17 +1,17 @@
 ---
-import { Font } from "astro:assets";
-import "../styles/global.css";
-import Background from "../components/Background.astro";
-import Nav from "../components/Nav.astro";
+import { Font } from "astro:assets"
+import "../styles/global.css"
+import Background from "../components/Background.astro"
+import Nav from "../components/Nav.astro"
 
 interface Props {
-  title?: string;
-  description?: string;
+  title?: string
+  description?: string
   /** Pathname (e.g. "/og-blog.png") or absolute URL for the OG/Twitter image. */
-  image?: string;
-  imageWidth?: number;
-  imageHeight?: number;
-  imageAlt?: string;
+  image?: string
+  imageWidth?: number
+  imageHeight?: number
+  imageAlt?: string
 }
 
 const {
@@ -21,12 +21,13 @@ const {
   imageWidth = 1731,
   imageHeight = 909,
   imageAlt = "Crspy. Fullstack web developer. Dark terminal-flavored portfolio.",
-} = Astro.props;
+} = Astro.props
 
-const SITE_URL = "https://crspy.me";
-const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href;
-const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).href;
+const SITE_URL = "https://crspy.me"
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href
+const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).href
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -69,8 +70,12 @@ const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).hre
 
     <noscript>
       <style>
-        [data-reveal] { clip-path: none !important; }
-        [data-section-marker] [data-marker-line] { transform: scaleX(1) !important; }
+        [data-reveal] {
+          clip-path: none !important;
+        }
+        [data-section-marker] [data-marker-line] {
+          transform: scaleX(1) !important;
+        }
       </style>
     </noscript>
   </head>
@@ -80,6 +85,7 @@ const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).hre
     <main>
       <slot />
     </main>
+
   </body>
 </html>
 
@@ -91,23 +97,23 @@ const OG_IMAGE = image.startsWith("http") ? image : new URL(image, SITE_URL).hre
 </style>
 
 <script>
-  import { initSectionMarkers } from "../scripts/section-markers";
-  import { initReveal } from "../scripts/reveal";
-  import { initScramble } from "../scripts/scramble";
-  import { initProjectHover } from "../scripts/project-hover";
-  import { initBlogCopy } from "../scripts/blog-copy";
-  import { installErrorHandler } from "../scripts/error-handler";
+  import { initSectionMarkers } from "../scripts/section-markers"
+  import { initReveal } from "../scripts/reveal"
+  import { initScramble } from "../scripts/scramble"
+  import { initProjectHover } from "../scripts/project-hover"
+  import { initBlogCopy } from "../scripts/blog-copy"
+  import { installErrorHandler } from "../scripts/error-handler"
 
-  installErrorHandler();
+  installErrorHandler()
 
   function init() {
-    initSectionMarkers();
-    initReveal();
-    initScramble();
-    initProjectHover();
-    initBlogCopy();
+    initSectionMarkers()
+    initReveal()
+    initScramble()
+    initProjectHover()
+    initBlogCopy()
   }
 
-  init();
-  document.addEventListener("astro:page-load", init);
+  init()
+  document.addEventListener("astro:page-load", init)
 </script>

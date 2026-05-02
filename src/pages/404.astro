@@ -1,7 +1,8 @@
 ---
-import Base from "../layouts/Base.astro";
-import SectionMarker from "../components/SectionMarker.astro";
+import Base from "../layouts/Base.astro"
+import SectionMarker from "../components/SectionMarker.astro"
 ---
+
 <Base title="Not Found - crspy.me" description="Page not found.">
   <section id="not-found" class="not-found" aria-labelledby="not-found-title">
     <SectionMarker index="404" title="NOT_FOUND" />
@@ -17,9 +18,8 @@ import SectionMarker from "../components/SectionMarker.astro";
       </h1>
 
       <p class="blurb" data-reveal>
-        The URL you tried isn&rsquo;t a thing on this site. It was either
-        mistyped, moved, or never existed in the first place. Head back to
-        &quot;/&quot; and try again.
+        The URL you tried isn&rsquo;t a thing on this site. It was either mistyped, moved, or never
+        existed in the first place. Head back to &quot;/&quot; and try again.
       </p>
 
       <a href="/" class="back-link" data-reveal>
@@ -39,9 +39,8 @@ import SectionMarker from "../components/SectionMarker.astro";
       </h1>
 
       <p class="blurb" data-reveal>
-        The post you tried isn&rsquo;t here. It was renamed,
-        unpublished, or never existed in the first place. The
-        archive has the ones that do.
+        The post you tried isn&rsquo;t here. It was renamed, unpublished, or never existed in the
+        first place. The archive has the ones that do.
       </p>
 
       <a href="/blog/" class="back-link" data-reveal>
@@ -53,22 +52,22 @@ import SectionMarker from "../components/SectionMarker.astro";
 </Base>
 
 <script is:inline>
-  (function () {
-    var path = window.location.pathname || "/";
+  ;(function () {
+    var path = window.location.pathname || "/"
 
-    var pathEls = document.querySelectorAll("[data-not-found-path]");
+    var pathEls = document.querySelectorAll("[data-not-found-path]")
     for (var i = 0; i < pathEls.length; i++) {
-      pathEls[i].textContent = "~" + path;
+      pathEls[i].textContent = "~" + path
     }
 
     if (path.indexOf("/blog/") === 0) {
-      var def = document.querySelector('[data-error-variant="default"]');
-      var blog = document.querySelector('[data-error-variant="blog"]');
-      if (def) def.setAttribute("hidden", "");
-      if (blog) blog.removeAttribute("hidden");
-      document.title = "Post Not Found · crspy.me";
+      var def = document.querySelector('[data-error-variant="default"]')
+      var blog = document.querySelector('[data-error-variant="blog"]')
+      if (def) def.setAttribute("hidden", "")
+      if (blog) blog.removeAttribute("hidden")
+      document.title = "Post Not Found · crspy.me"
     }
-  })();
+  })()
 </script>
 
 <style>
@@ -89,10 +88,14 @@ import SectionMarker from "../components/SectionMarker.astro";
   }
 
   @media (max-width: 640px) {
-    .not-found-inner { padding: 0 20px; }
+    .not-found-inner {
+      padding: 0 20px;
+    }
   }
 
-  [hidden] { display: none !important; }
+  [hidden] {
+    display: none !important;
+  }
 
   .eyebrow {
     margin: 0 0 28px;
@@ -101,7 +104,10 @@ import SectionMarker from "../components/SectionMarker.astro";
     color: var(--color-faint);
     letter-spacing: 0.06em;
   }
-  .eyebrow .error { color: var(--color-dim); margin-left: 8px; }
+  .eyebrow .error {
+    color: var(--color-dim);
+    margin-left: 8px;
+  }
 
   .title {
     margin: 0;
@@ -142,7 +148,9 @@ import SectionMarker from "../components/SectionMarker.astro";
     border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
     background: color-mix(in srgb, var(--color-accent) 6%, transparent);
   }
-  .back-link .arrow { color: var(--color-accent); }
+  .back-link .arrow {
+    color: var(--color-accent);
+  }
 
   .not-found-blog {
     --color-accent: var(--color-blog);

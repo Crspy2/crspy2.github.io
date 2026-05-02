@@ -1,28 +1,21 @@
 ---
-import { Icon } from "astro-iconify";
-import type { Tool } from "../data/tools";
+import { Icon } from "astro-iconify"
+import type { Tool } from "../data/tools"
 
 interface Props {
-  name: string;
-  tool: Tool;
+  name: string
+  tool: Tool
 }
 
-const { name, tool } = Astro.props;
-const isStringIcon = typeof tool.icon === "string";
-const localIconSrc = !isStringIcon && tool.icon ? tool.icon.src : null;
+const { name, tool } = Astro.props
+const isStringIcon = typeof tool.icon === "string"
+const localIconSrc = !isStringIcon && tool.icon ? tool.icon.src : null
 ---
-<a
-  class="tool-badge"
-  href={tool.href}
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label={name}
->
+
+<a class="tool-badge" href={tool.href} target="_blank" rel="noopener noreferrer" aria-label={name}>
   <span class:list={["tool-icon", { "is-dark": tool.dark }]} aria-hidden="true">
     {isStringIcon && <Icon name={tool.icon} class="tool-icon-svg" />}
-    {!isStringIcon && localIconSrc && (
-      <img src={localIconSrc} alt="" class="tool-icon-svg" />
-    )}
+    {!isStringIcon && localIconSrc && <img src={localIconSrc} alt="" class="tool-icon-svg" />}
   </span>
   <span class="tool-name">{name}</span>
 </a>

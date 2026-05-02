@@ -1,19 +1,15 @@
 ---
-import Base from "../layouts/Base.astro";
-import SectionMarker from "../components/SectionMarker.astro";
+import Base from "../layouts/Base.astro"
+import SectionMarker from "../components/SectionMarker.astro"
 
 interface Props {
-  error?: unknown;
+  error?: unknown
 }
 
-const { error } = Astro.props;
-const initialMessage =
-  error instanceof Error
-    ? error.message
-    : error != null
-      ? String(error)
-      : null;
+const { error } = Astro.props
+const initialMessage = error instanceof Error ? error.message : error != null ? String(error) : null
 ---
+
 <Base title="Error - crspy.me" description="Something went sideways.">
   <section id="error" class="error-page" aria-labelledby="error-title">
     <SectionMarker index="500" title="EXCEPTION" />
@@ -22,7 +18,9 @@ const initialMessage =
       <p class="eyebrow" data-reveal>
         <span class="prompt">$</span>
         <span class="throw-keyword">throw</span>
-        <span>{initialMessage ? `new Error(${JSON.stringify(initialMessage)})` : "new Error()"}</span>
+        <span
+          >{initialMessage ? `new Error(${JSON.stringify(initialMessage)})` : "new Error()"}</span
+        >
       </p>
 
       <h1 id="error-title" class="title" data-reveal>
@@ -30,9 +28,8 @@ const initialMessage =
       </h1>
 
       <p class="blurb" data-reveal>
-        An unexpected error stopped the page from rendering correctly. The
-        site bailed out instead of leaving you with something half-broken.
-        Try reloading, or head back to "/".
+        An unexpected error stopped the page from rendering correctly. The site bailed out instead
+        of leaving you with something half-broken. Try reloading, or head back to "/".
       </p>
 
       <div class="actions" data-reveal>
@@ -67,7 +64,9 @@ const initialMessage =
   }
 
   @media (max-width: 640px) {
-    .error-inner { padding: 0 20px; }
+    .error-inner {
+      padding: 0 20px;
+    }
   }
 
   .eyebrow {
@@ -78,7 +77,10 @@ const initialMessage =
     letter-spacing: 0.06em;
     word-break: break-word;
   }
-  .eyebrow .throw-keyword { color: #ff7b72; margin-right: 6px; }
+  .eyebrow .throw-keyword {
+    color: #ff7b72;
+    margin-right: 6px;
+  }
 
   .title {
     margin: 0;
@@ -127,11 +129,13 @@ const initialMessage =
     border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
     background: color-mix(in srgb, var(--color-accent) 6%, transparent);
   }
-  .action-btn .arrow { color: var(--color-accent); }
+  .action-btn .arrow {
+    color: var(--color-accent);
+  }
 </style>
 
 <script is:inline>
   document.querySelector("[data-error-reload]")?.addEventListener("click", function () {
-    location.reload();
-  });
+    location.reload()
+  })
 </script>

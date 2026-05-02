@@ -1,18 +1,19 @@
 ---
-import type { Project } from "../data/projects";
+import type { Project } from "../data/projects"
 
 interface Props {
-  project: Project;
+  project: Project
 }
 
-const { project } = Astro.props;
-const linkType = project.linkType ?? "live";
-const isBlog = linkType === "blog";
+const { project } = Astro.props
+const linkType = project.linkType ?? "live"
+const isBlog = linkType === "blog"
 ---
+
 <a
   class={`project-row project-row-${linkType}`}
   href={project.url}
-  {...(isBlog ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+  {...isBlog ? {} : { target: "_blank", rel: "noopener noreferrer" }}
   data-project-row
   data-reveal
 >
@@ -24,26 +25,34 @@ const isBlog = linkType === "blog";
       <span class="project-tagline">{project.tagline}</span>
     </h3>
     <p class="project-tools">
-      {project.tools.map((tool, i) => (
-        <>
-          {i > 0 && <span class="dot" aria-hidden="true">·</span>}
-          <span>{tool}</span>
-        </>
-      ))}
+      {
+        project.tools.map((tool, i) => (
+          <>
+            {i > 0 && (
+              <span class="dot" aria-hidden="true">
+                ·
+              </span>
+            )}
+            <span>{tool}</span>
+          </>
+        ))
+      }
     </p>
   </div>
 
-  {isBlog ? (
-    <span class="project-link-indicator project-blog" data-project-live>
-      <span class="project-blog-arrow">→</span>
-      <span class="project-blog-label">blog</span>
-    </span>
-  ) : (
-    <span class="project-link-indicator project-live" data-project-live>
-      <span class="project-live-arrow">↗</span>
-      <span class="project-live-label">live</span>
-    </span>
-  )}
+  {
+    isBlog ? (
+      <span class="project-link-indicator project-blog" data-project-live>
+        <span class="project-blog-arrow">→</span>
+        <span class="project-blog-label">blog</span>
+      </span>
+    ) : (
+      <span class="project-link-indicator project-live" data-project-live>
+        <span class="project-live-arrow">↗</span>
+        <span class="project-live-label">live</span>
+      </span>
+    )
+  }
 </a>
 
 <style>
@@ -123,7 +132,9 @@ const isBlog = linkType === "blog";
     line-height: 1.6;
   }
 
-  .project-tools .dot { color: var(--color-dim); }
+  .project-tools .dot {
+    color: var(--color-dim);
+  }
 
   /* Right-side link indicator (shared base) */
   .project-link-indicator {
@@ -136,9 +147,17 @@ const isBlog = linkType === "blog";
     transition: opacity 0.18s ease;
   }
 
-  .project-live { color: var(--color-accent); }
-  .project-live-arrow { font-size: 13px; }
+  .project-live {
+    color: var(--color-accent);
+  }
+  .project-live-arrow {
+    font-size: 13px;
+  }
 
-  .project-blog { color: var(--color-blog); }
-  .project-blog-arrow { font-size: 13px; }
+  .project-blog {
+    color: var(--color-blog);
+  }
+  .project-blog-arrow {
+    font-size: 13px;
+  }
 </style>

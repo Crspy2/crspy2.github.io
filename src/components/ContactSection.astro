@@ -11,10 +11,10 @@ const links = [
 <section id="contact" class="contact" aria-labelledby="contact-title">
   <SectionMarker index="04" title="CONTACT" />
   <div class="contact-inner">
-    <h2 id="contact-title" class="contact-title" data-rise>
+    <h2 id="contact-title" class="contact-title" data-reveal>
       Send me a <span class="accent">message</span>.
     </h2>
-    <p class="contact-blurb" data-rise>
+    <p class="contact-blurb" data-reveal>
       Best for: collabs or freelance requests. I'm most active on Discord.
       <br>
       <a href="https://nohello.net" target="_blank" rel="noopener noreferrer">Please don't just say hello.</a>
@@ -22,7 +22,7 @@ const links = [
 
     <ul class="contact-links">
       {links.map(({ method, handle, href }) => (
-        <li data-rise>
+        <li data-reveal>
           <a class="contact-link" href={href} target={method === "email" ? "_self" : "_blank"} rel="noopener noreferrer">
             <span class="link-method">{method}</span>
             <span class="link-handle">{handle}</span>

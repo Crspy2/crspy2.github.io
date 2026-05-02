@@ -19,23 +19,23 @@ const initialMessage =
     <SectionMarker index="500" title="EXCEPTION" />
 
     <div class="error-inner">
-      <p class="eyebrow" data-rise>
+      <p class="eyebrow" data-reveal>
         <span class="prompt">$</span>
         <span class="throw-keyword">throw</span>
         <span>{initialMessage ? `new Error(${JSON.stringify(initialMessage)})` : "new Error()"}</span>
       </p>
 
-      <h1 id="error-title" class="title" data-rise>
+      <h1 id="error-title" class="title" data-reveal>
         Something went <span class="accent">sideways</span>.
       </h1>
 
-      <p class="blurb" data-rise>
+      <p class="blurb" data-reveal>
         An unexpected error stopped the page from rendering correctly. The
         site bailed out instead of leaving you with something half-broken.
         Try reloading, or head back to "/".
       </p>
 
-      <div class="actions" data-rise>
+      <div class="actions" data-reveal>
         <button type="button" class="action-btn" data-error-reload>
           <span class="arrow" aria-hidden="true">↻</span>
           <span>reload</span>

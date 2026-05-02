@@ -58,7 +58,7 @@ a {
   text-decoration: none;
 }
 
-[data-rise] {
+[data-reveal] {
   clip-path: inset(0 100% 0 0);
 }
 [data-section-marker] [data-marker-line] {

@@ -7,25 +7,25 @@ const contacts = [
 ---
 <section id="hero" class="hero" aria-labelledby="hero-title">
   <div class="hero-inner">
-    <p class="hero-eyebrow" data-hero-eyebrow data-rise>
+    <p class="hero-eyebrow" data-hero-eyebrow data-reveal>
       <span class="prompt">$</span>
       <span class="cmd">hello --world</span><span class="caret" aria-hidden="true"></span>
     </p>
 
-    <h1 id="hero-title" class="hero-title" data-hero-title data-rise>
+    <h1 id="hero-title" class="hero-title" data-hero-title data-reveal>
       Hi, I&rsquo;m <span class="name">Crspy</span>.<br />
       I build <span class="accent">fullstack web apps</span><br />
       out of California.
     </h1>
 
-    <p class="hero-bio" data-hero-bio data-rise>
+    <p class="hero-bio" data-hero-bio data-reveal>
       CE / CS student writing TypeScript, Go, and Python. I like calm UIs, fast servers,
       and weekends that involve mountains or the ocean.
     </p>
 
     <ul class="hero-contacts" data-hero-contacts>
       {contacts.map(({ label, href }) => (
-        <li data-rise>
+        <li data-reveal>
           <a href={href} target="_blank" rel="noopener noreferrer" class="contact-pill">
             <span class="contact-arrow" aria-hidden="true">→</span>
             <span class="contact-label">{label}</span>

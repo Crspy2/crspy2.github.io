@@ -7,44 +7,44 @@ import SectionMarker from "../components/SectionMarker.astro";
     <SectionMarker index="404" title="NOT_FOUND" />
 
     <div class="not-found-inner" data-error-variant="default">
-      <p class="eyebrow" data-rise>
+      <p class="eyebrow" data-reveal>
         <span class="prompt">$</span> cat <span data-not-found-path>~/</span>
         <span class="error">→ no such file</span>
       </p>
 
-      <h1 id="not-found-title" class="title" data-rise>
+      <h1 id="not-found-title" class="title" data-reveal>
         This page <span class="accent">doesn&rsquo;t exist</span>.
       </h1>
 
-      <p class="blurb" data-rise>
+      <p class="blurb" data-reveal>
         The URL you tried isn&rsquo;t a thing on this site. It was either
         mistyped, moved, or never existed in the first place. Head back to
         &quot;/&quot; and try again.
       </p>
 
-      <a href="/" class="back-link" data-rise>
+      <a href="/" class="back-link" data-reveal>
         <span class="arrow" aria-hidden="true">↩</span>
         <span>back to home</span>
       </a>
     </div>
 
     <div class="not-found-inner not-found-blog" data-error-variant="blog" hidden>
-      <p class="eyebrow" data-rise>
+      <p class="eyebrow" data-reveal>
         <span class="prompt">$</span> wget <span data-not-found-path>~/</span>
         <span class="error">→ post not found</span>
       </p>
 
-      <h1 class="title" data-rise>
+      <h1 class="title" data-reveal>
         This post <span class="accent">doesn&rsquo;t exist</span>.
       </h1>
 
-      <p class="blurb" data-rise>
+      <p class="blurb" data-reveal>
         The post you tried isn&rsquo;t here. It was renamed,
         unpublished, or never existed in the first place. The
         archive has the ones that do.
       </p>
 
-      <a href="/blog/" class="back-link" data-rise>
+      <a href="/blog/" class="back-link" data-reveal>
         <span class="arrow" aria-hidden="true">↩</span>
         <span>back to archive</span>
       </a>
@@ -144,8 +144,6 @@ import SectionMarker from "../components/SectionMarker.astro";
   }
   .back-link .arrow { color: var(--color-accent); }
 
-  /* Blog 404 variant: only difference from default is the accent color
-     (cascades to blue) and the text content. Same .title, .blurb, .back-link. */
   .not-found-blog {
     --color-accent: var(--color-blog);
   }

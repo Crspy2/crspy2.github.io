@@ -12,7 +12,7 @@ export function initReveal(): void {
 
   const hero = document.getElementById("hero");
 
-  const all = document.querySelectorAll<HTMLElement>("[data-rise]");
+  const all = document.querySelectorAll<HTMLElement>("[data-reveal]");
   const targets = Array.from(all).filter((el) => {
     if (hero && hero.contains(el)) return false;
     if (el.matches("[data-section-marker]")) return false;

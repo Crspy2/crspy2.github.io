@@ -48,20 +48,20 @@ const pageTitle = `${post.data.title} · crspy.me`;
 
 <Base title={pageTitle} description={post.data.description}>
   <article class="post" data-page="blog-post">
-    <a href="/blog/" class="post-back" data-rise>
+    <a href="/blog/" class="post-back" data-reveal>
       <span class="post-back-arrow" aria-hidden="true">←</span>
       <span>archive</span>
     </a>
 
     <header class="post-header">
-      <p class="post-eyebrow" data-rise>
+      <p class="post-eyebrow" data-reveal>
         // {fmtDateLong(post.data.pubDate)} · {padIndex(archiveIndex)}
       </p>
 
-      <h1 class="post-title" data-rise>{post.data.title}</h1>
+      <h1 class="post-title" data-reveal>{post.data.title}</h1>
 
       {post.data.subtitle && (
-        <p class="post-subtitle" data-rise>
+        <p class="post-subtitle" data-reveal>
           <span aria-hidden="true">─</span>
           {post.data.subtitle}
           <span aria-hidden="true">─</span>
@@ -69,7 +69,7 @@ const pageTitle = `${post.data.title} · crspy.me`;
       )}
 
       {post.data.tags.length > 0 && (
-        <p class="post-tags" data-rise>
+        <p class="post-tags" data-reveal>
           {post.data.tags.map((tag, i) => (
             <>
               {i > 0 && <span class="tag-sep" aria-hidden="true">·</span>}
@@ -80,7 +80,7 @@ const pageTitle = `${post.data.title} · crspy.me`;
       )}
 
       {post.data.cover && (
-        <figure class="post-cover" data-rise>
+        <figure class="post-cover" data-reveal>
           <Image
             src={post.data.cover}
             alt={post.data.coverAlt ?? ""}
@@ -92,13 +92,13 @@ const pageTitle = `${post.data.title} · crspy.me`;
       )}
 
       {post.data.updatedDate && (
-        <p class="post-updated" data-rise>
+        <p class="post-updated" data-reveal>
           updated {fmtDateLong(post.data.updatedDate)}
         </p>
       )}
     </header>
 
-    <div class="post-body" data-rise>
+    <div class="post-body" data-reveal>
       <Content />
       <footer class="post-license">
         This post is licensed under{" "}
@@ -111,7 +111,7 @@ const pageTitle = `${post.data.title} · crspy.me`;
       </footer>
     </div>
 
-    <nav class="post-nav" aria-label="Post navigation" data-rise>
+    <nav class="post-nav" aria-label="Post navigation" data-reveal>
       <div class="post-nav-cell post-nav-prev">
         {prev && (
           <a href={`/blog/${prev.id}/`} class="post-nav-link">
@@ -136,7 +136,7 @@ const pageTitle = `${post.data.title} · crspy.me`;
       </div>
     </nav>
 
-    <p class="post-footer-links" data-rise>
+    <p class="post-footer-links" data-reveal>
       <a href="/blog/">back to archive</a>
       <span aria-hidden="true"> · </span>
       <a href="/">home</a>

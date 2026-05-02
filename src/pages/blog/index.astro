@@ -45,33 +45,33 @@ const padIndex = (n: number) => n.toString().padStart(3, "0");
     <SectionMarker index="01" title="BLOG" />
 
     <div class="archive-inner">
-      <a href="/" class="archive-back" data-rise>
+      <a href="/" class="archive-back" data-reveal>
         <span class="archive-back-arrow" aria-hidden="true">←</span>
         <span>home</span>
       </a>
 
       <header class="archive-header">
-        <h1 id="blog-archive-title" class="archive-title" data-rise>Blog</h1>
-        <p class="archive-intro" data-rise>
+        <h1 id="blog-archive-title" class="archive-title" data-reveal>Blog</h1>
+        <p class="archive-intro" data-reveal>
           Occasional posts on the things I&rsquo;m building.
         </p>
-        <div class="archive-divider" data-rise></div>
+        <div class="archive-divider" data-reveal></div>
       </header>
 
       {sorted.length === 0 ? (
-        <p class="archive-empty" data-rise>No posts yet.</p>
+        <p class="archive-empty" data-reveal>No posts yet.</p>
       ) : (
         <ol class="archive-list">
           {byYear.map((group) => (
             <li class="year-group">
-              <div class="year-label" data-rise>
+              <div class="year-label" data-reveal>
                 <span class="year-text">{group.year}</span>
                 <span class="year-line" aria-hidden="true"></span>
               </div>
 
               <ul class="entries">
                 {group.items.map(({ post, archiveIndex }) => (
-                  <li class="entry" data-rise>
+                  <li class="entry" data-reveal>
                     <a href={`/blog/${post.id}/`} class="entry-link">
                       <span class="entry-index" aria-hidden="true">{padIndex(archiveIndex)}</span>
                       <span class="entry-date" aria-hidden="true">{fmtDate(post.data.pubDate)}</span>

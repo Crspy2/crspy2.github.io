@@ -7,7 +7,7 @@ import { tools, toolCategories } from "../data/tools";
   <SectionMarker index="02" title="ABOUT" />
   <div class="about-inner">
     <div class="about-grid">
-      <div class="about-bio" data-rise>
+      <div class="about-bio" data-reveal>
         <h2 id="about-title" class="about-title">
           Hi <span class="name">there</span>!
         </h2>
@@ -22,7 +22,7 @@ import { tools, toolCategories } from "../data/tools";
         </p>
       </div>
 
-      <aside class="about-presence" aria-label="contact" data-rise>
+      <aside class="about-presence" aria-label="contact" data-reveal>
         <div class="presence-card">
           <div class="presence-row">
             <span class="presence-label">discord</span>
@@ -50,7 +50,7 @@ import { tools, toolCategories } from "../data/tools";
 
       <div class="tools-categories">
         {toolCategories.map((cat) => (
-          <div class="tools-row" data-rise>
+          <div class="tools-row" data-reveal>
             <div class="tools-row-label">{cat.name}</div>
             <ul class="tools-row-list">
               {cat.tools.map((toolName) => (

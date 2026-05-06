@@ -30,8 +30,8 @@ import SectionMarker from "../components/SectionMarker.astro"
 
     <div class="not-found-inner not-found-blog" data-error-variant="blog" hidden>
       <p class="eyebrow" data-reveal>
-        <span class="prompt">$</span> wget <span data-not-found-path>~/</span>
-        <span class="error">→ post not found</span>
+        <span class="prompt">$</span> find ~/blog -name <span data-not-found-slug>&#39;&#39;</span>
+        <span class="error">→ no matches</span>
       </p>
 
       <h1 class="title" data-reveal>
@@ -61,6 +61,11 @@ import SectionMarker from "../components/SectionMarker.astro"
     }
 
     if (path.indexOf("/blog/") === 0) {
+      var slug = path.replace(/^\/blog\//, "").replace(/\/$/, "")
+      var slugEls = document.querySelectorAll("[data-not-found-slug]")
+      for (var j = 0; j < slugEls.length; j++) {
+        slugEls[j].textContent = "'" + slug + "'"
+      }
       var def = document.querySelector('[data-error-variant="default"]')
       var blog = document.querySelector('[data-error-variant="blog"]')
       if (def) def.setAttribute("hidden", "")

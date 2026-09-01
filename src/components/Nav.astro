@@ -9,7 +9,6 @@ const links = [
 
 <nav class="site-nav" aria-label="primary" data-reveal data-nav>
   <a href="/#" class="me" aria-label="home">
-    <span class="online-dot" aria-hidden="true"></span>
     <span class="name">crspy</span><span class="tld">.me</span>
   </a>
   <ul class="nav-links">
@@ -62,26 +61,6 @@ const links = [
   .me > .tld {
     color: var(--color-dim);
   }
-
-  .online-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    box-shadow: 0 0 8px var(--color-accent);
-    animation: online-pulse 2.4s ease-in-out infinite;
-  }
-
-  @keyframes online-pulse {
-    0%,
-    100% {
-      opacity: 0.55;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-
   .nav-links {
     list-style: none;
     margin: 0;

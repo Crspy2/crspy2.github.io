@@ -1,6 +1,5 @@
 # build output
 dist/
-
 # generated types
 .astro/
 
@@ -13,19 +12,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+
 # environment variables
-.env*
-!.env.example
+.env
+.env.production
 
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
-
-# superpowers brainstorm scratch
-.superpowers/
-
-# claude code per-developer settings
-.claude/settings.local.json
-package-lock.json

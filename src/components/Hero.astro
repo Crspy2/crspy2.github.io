@@ -1,0 +1,88 @@
+<section class="hero">
+  <div class="liquid" aria-hidden="true">
+    <svg width="0" height="0" class="sr-only">
+      <filter id="goo">
+        <feGaussianBlur stdDeviation="40"></feGaussianBlur>
+        <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -12"></feColorMatrix>
+      </filter>
+    </svg>
+    <div class="blobs">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <span class="blob b3"></span>
+      <span class="blob b4"></span>
+    </div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="body">
+    <p class="intro">In the scene since 2021. I run staff teams, and build web apps and Discord bots on the side.</p>
+    <h1 class="name">Crspy</h1>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    background: var(--klar);
+    color: #fff;
+  }
+
+  .liquid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .blobs {
+    position: absolute;
+    inset: 0;
+    filter: url(#goo);
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--klar-deep);
+    will-change: transform;
+  }
+  .b1 { width: 43vw; height: 43vw; left: -8vw; top: -6vw; animation: drift-a 22s ease-in-out infinite; }
+  .b2 { width: 32vw; height: 32vw; left: 36vw; top: 26vw; animation: drift-b 26s ease-in-out infinite; }
+  .b3 { width: 49vw; height: 49vw; left: 60vw; top: -18vw; animation: drift-c 30s ease-in-out infinite; }
+  .b4 { width: 24vw; height: 24vw; left: 18vw; top: 39vw; animation: drift-c 18s ease-in-out infinite reverse; }
+
+  @keyframes drift-a { 50% { transform: translate(22vw, 11vw); } }
+  @keyframes drift-b { 50% { transform: translate(-19vw, 8vw); } }
+  @keyframes drift-c { 50% { transform: translate(10vw, -15vw); } }
+
+  .body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 var(--gutter);
+  }
+  .intro {
+    max-width: 22ch;
+    margin-bottom: clamp(20px, 2.5vw, 32px);
+    font-size: clamp(1.375rem, 2.8vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .name {
+    margin: 0 0 -0.14em -0.03em;
+    font-size: clamp(8rem, 30.5vw, 27.5rem);
+    line-height: 0.85;
+    letter-spacing: -0.045em;
+  }
+
+  @media (max-width: 640px) {
+    .hero { min-height: 92svh; text-align: center; }
+    .body { align-items: center; }
+    .intro { max-width: 20ch; }
+    .name { margin-left: 0; font-size: 33vw; }
+  }
+</style>

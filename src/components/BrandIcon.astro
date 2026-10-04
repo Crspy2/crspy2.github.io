@@ -1,0 +1,24 @@
+---
+import type { SimpleIcon } from "simple-icons"
+
+interface Props {
+  icon: SimpleIcon
+  size?: number
+  /** Fill with the brand colour instead of currentColor. */
+  brand?: boolean
+  class?: string
+}
+
+const { icon, size = 24, brand = false, class: className } = Astro.props
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill={brand ? `#${icon.hex}` : "currentColor"}
+  aria-hidden="true"
+>
+  <path d={icon.path}></path>
+</svg>

@@ -1,0 +1,299 @@
+---
+import { history, formatMonth, tenure, rail } from "../data/history"
+
+const total = String(history.length).padStart(2, "0")
+const { years, bars } = rail(history)
+const wallRow = (org: string) => `${org} `.repeat(8)
+---
+
+<section class="history" aria-labelledby="history-title" data-history>
+  <h2 id="history-title" class="sr-only">History</h2>
+
+  <div class="viewport">
+    <div class="track" data-track>
+      {
+        history.map((s, i) => (
+          <article
+            class="panel"
+            style={`--bg: ${s.bg}; --fg: ${s.fg}; --wall: ${s.bg === "#000000" ? "rgb(255 255 255 / 0.07)" : "rgb(0 0 0 / 0.14)"}; --pill: ${s.fg === "#FFFFFF" ? "rgb(11 11 15 / 0.35)" : "rgb(255 255 255 / 0.4)"}`}
+            aria-label={`${s.org}, ${formatMonth(s.from)} to ${s.to ? formatMonth(s.to) : "now"}`}
+            data-panel
+          >
+            <div class="grain" aria-hidden="true" />
+
+            <p class="index">
+              {String(i + 1).padStart(2, "0")} / {total}
+            </p>
+
+            <div class="wall" aria-hidden="true">
+              <div style="--d: 66s">{wallRow(s.org)}{wallRow(s.org)}</div>
+              <div style="--d: 60s">{wallRow(s.org)}{wallRow(s.org)}</div>
+              <div style="--d: 72s" class="rev">{wallRow(s.org)}{wallRow(s.org)}</div>
+            </div>
+
+            <div class="main">
+              <div class="title">
+                <p class="dates">
+                  {formatMonth(s.from)} – {s.to ? formatMonth(s.to) : "now"} · {tenure(s)}
+                </p>
+                <h3 class="org">{s.org}</h3>
+              </div>
+
+              <ul class="roles">
+                {s.roles.map((r, j) => (
+                  <li>
+                    <span class="pill" style={r.color ? `--role: ${r.color}` : undefined}>
+                      {r.title}
+                    </span>
+                    {s.roles.length > 1 && (
+                      <span class="when">
+                        {j === 0 ? `${formatMonth(r.from)} – ${s.to ? formatMonth(s.to) : "now"}` : formatMonth(r.from)}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <nav class="rail" aria-label="Jump to an org">
+    <div class="years" aria-hidden="true">
+      {years.map((y) => <span>{y}</span>)}
+    </div>
+    {
+      history.map((s, i) => (
+        <button
+          type="button"
+          class="bar"
+          data-bar={i}
+          aria-current={i === 0 ? "true" : "false"}
+          aria-label={`Show ${s.org}`}
+        >
+          <span style={`left: ${bars[i].left}%; width: ${bars[i].width}%; background: ${s.bar ?? s.bg}`} />
+        </button>
+      ))
+    }
+  </nav>
+</section>
+
+<style>
+  .history {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    min-height: 560px;
+    background: var(--ink);
+  }
+
+  .viewport {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  /* Without the scroll-driven version, the panels swipe sideways on their own. */
+  .track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+  .history.is-pinned .track {
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .panel {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px var(--gutter);
+    background: var(--bg);
+    color: var(--fg);
+    scroll-snap-align: start;
+  }
+
+  /* The wall fills whatever space sits between the index and the content, so it never runs into the name or dates. */
+  /* Selection inverts the panel's own colours, so it shows on every org colour. */
+  .panel ::selection {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .wall {
+    flex: 1 1 0;
+    min-height: 0;
+    margin: 16px calc(-1 * var(--gutter));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    font-family: var(--font-display), sans-serif;
+    font-weight: 800;
+    font-size: clamp(5.5rem, 14vw, 12.5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+    color: var(--wall);
+  }
+  .wall div {
+    animation: wall var(--d) linear infinite;
+  }
+  .wall .rev {
+    animation-direction: reverse;
+  }
+  @keyframes wall {
+    to { transform: translateX(-50%); }
+  }
+
+  .index {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .title {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+  }
+  .dates {
+    font-size: clamp(1.125rem, 2vw, 1.75rem);
+    font-weight: 500;
+  }
+  .org {
+    margin-left: -0.03em;
+    font-size: min(16.25rem, 15vw);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    /* Room for descenders (g, y, p) when the role list wraps underneath. */
+    padding-bottom: 0.14em;
+    /* Keep the selection highlight (the font's full height) from reaching up over the dates. */
+    overflow: visible clip;
+  }
+
+  .roles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: 340px;
+    font-size: 18px;
+  }
+  .roles li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-top: 1px solid color-mix(in srgb, var(--fg) 35%, transparent);
+  }
+  .roles li:first-child {
+    border-top: 1.5px solid color-mix(in srgb, var(--fg) 70%, transparent);
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px 4px 10px;
+    border-radius: 999px;
+    background: var(--pill);
+    font-weight: 500;
+  }
+  .pill::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--role, currentColor);
+  }
+  .roles li:first-child .pill {
+    font-weight: 700;
+  }
+
+  .rail {
+    padding: 18px var(--gutter) 22px;
+    background: var(--ink);
+  }
+  .years {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .bar {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  /* Inactive bars stay at full colour (3:1 on ink) but thin; the active one thickens. */
+  .bar span {
+    position: absolute;
+    top: 50%;
+    height: 12px;
+    transform: translateY(-50%) scaleY(0.34);
+    transition: transform 0.25s, border-radius 0.25s;
+  }
+  .bar:hover span,
+  .bar[aria-current="true"] span {
+    transform: translateY(-50%);
+    border-radius: 4px;
+  }
+  @media (pointer: coarse) {
+    .bar {
+      height: 44px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .panel {
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .main {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .title {
+      align-items: center;
+      gap: 14px;
+    }
+    .org {
+      margin-left: 0;
+    }
+    .roles {
+      min-width: 0;
+      width: 100%;
+      font-size: 15px;
+    }
+    .roles li {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+</style>

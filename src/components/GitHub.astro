@@ -1,0 +1,307 @@
+---
+import Arrow from "./Arrow.astro"
+import { GITHUB_USER } from "../data/site"
+import { getGitHub } from "../lib/github"
+
+const gh = await getGitHub()
+
+const month = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" })
+const num = (n: number | null | undefined) => (n == null ? "—" : n.toLocaleString("en-US"))
+
+const stats = [
+  { label: "Contributions this year", value: num(gh.calendar?.total) },
+  { label: "Current streak", value: gh.calendar?.streak ? `${gh.calendar.streak} ${gh.calendar.streak === 1 ? "day" : "days"}` : "—" },
+  { label: "Public repos", value: num(gh.publicRepos) },
+  { label: "Followers", value: num(gh.followers) },
+]
+
+const langColors = ["var(--klar)", "#CA58FF", "var(--paper)", "#6e6c78", "#3a3a44"]
+---
+
+<section class="gh" aria-labelledby="gh-title">
+  <div class="head">
+    <h2 id="gh-title">GitHub</h2>
+    <a href={`https://github.com/${GITHUB_USER}`} target="_blank" rel="noopener noreferrer">
+      {GITHUB_USER}{gh.since && ` · on GitHub since ${month(gh.since)}`} <Arrow />
+    </a>
+  </div>
+
+  <dl class="stats">
+    {
+      stats.map((s) => (
+        <div>
+          <dt>{s.label}</dt>
+          <dd>{s.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  {
+    gh.calendar && (
+      <div class="graph" role="img" aria-label={`${gh.calendar.total} contributions in the last year`}>
+        {gh.calendar.weeks.map((week, w) => (
+          <div class="week">
+            {week.map((level, d) => (
+              <span class={`l${level}`} style={`--i: ${w + d}`} />
+            ))}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  <div class="cols">
+    <div class="col">
+      <h3 class="label">Repos</h3>
+      <div class="repos">
+        {
+          gh.repos.map((r) => (
+            <a class="repo" href={r.url} target="_blank" rel="noopener noreferrer">
+              <strong>{r.name}</strong>
+              {r.description && <span class="desc">{r.description}</span>}
+              <span class="lang">
+                {[r.language, r.stars ? `★ ${r.stars}` : null].filter(Boolean).join(" · ")}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="col">
+      <h3 class="label">Recent pushes</h3>
+      <ul class="pushes">
+        {
+          gh.pushes.map((p) => (
+            <li>
+              <a href={p.url} target="_blank" rel="noopener noreferrer">{p.name}</a>
+              <span>{month(p.at)}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      {
+        gh.languages.length > 0 && (
+          <>
+            <h3 class="label">Languages by repo</h3>
+            <div class="langbar" aria-hidden="true">
+              {gh.languages.map((l, i) => (
+                <span style={`flex: ${l.count}; background: ${langColors[i]}`} />
+              ))}
+            </div>
+            <ul class="langs">
+              {gh.languages.map((l) => (
+                <li>
+                  {l.name} {l.count}
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .gh {
+    padding: var(--section-y) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .head a {
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .head a:hover {
+    text-decoration: underline;
+  }
+
+  .stats {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-block: 1px solid var(--line);
+  }
+  .stats div {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  dt {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  dd {
+    margin: 0;
+    font-family: var(--font-display), sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+    letter-spacing: -0.02em;
+  }
+
+  .graph {
+    display: flex;
+    gap: 3px;
+  }
+  .week {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .week span {
+    aspect-ratio: 1;
+    animation: shimmer 3.2s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.06s);
+  }
+  .l0 { background: #1a1a22; }
+  .l1 { background: #1f2a8a; }
+  .l2 { background: #2733b5; }
+  .l3 { background: var(--klar); }
+  .l4 { background: #8c94ff; }
+  @keyframes shimmer {
+    50% { filter: brightness(1.7); }
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 48px;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .label {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
+  .col .label:not(:first-child) {
+    margin-top: 12px;
+  }
+  .repos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .repo {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--ink-2);
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  .repo:hover {
+    background: #20202a;
+  }
+  .repo strong {
+    font-size: 20px;
+  }
+  .desc {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--soft);
+  }
+  .lang {
+    margin-top: auto;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .pushes,
+  .langs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pushes li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pushes a {
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .pushes a:hover {
+    text-decoration: underline;
+  }
+  .pushes span {
+    color: var(--muted);
+  }
+  .langbar {
+    display: flex;
+    height: 10px;
+  }
+  .langs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-size: 13px;
+    color: var(--soft);
+  }
+
+  @media (max-width: 900px) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .gh {
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+    }
+    .head {
+      flex-direction: column;
+      align-items: center;
+    }
+    .stats {
+      width: 100%;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .graph {
+      width: 100%;
+      gap: 2px;
+    }
+    .week {
+      gap: 2px;
+    }
+    .week:nth-child(-n + 27) {
+      display: none;
+    }
+    .cols,
+    .col {
+      width: 100%;
+    }
+    .repos {
+      grid-template-columns: 1fr;
+    }
+    .repo {
+      align-items: center;
+    }
+    .langs {
+      justify-content: center;
+    }
+  }
+</style>

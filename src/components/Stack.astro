@@ -1,0 +1,202 @@
+---
+import { Image } from "astro:assets"
+import Arrow from "./Arrow.astro"
+import { stack, projects } from "../data/stack"
+---
+
+<section class="stack" aria-label="Stack and projects">
+  <div class="tools">
+    <h2>Stack</h2>
+    {
+      stack.map((g) => (
+        <div class="group">
+          <h3 class="label">{g.group}</h3>
+          <ul>
+            {g.tools.map((t) => (
+              <li class="chip" style={`--hover: ${t.hover}`}>
+                {t.img ? (
+                  <span class="logo">
+                    <Image src={t.img} alt="" width={48} height={48} class:list={{ round: t.round }} />
+                  </span>
+                ) : (
+                  <span class="logo" set:html={t.svg} />
+                )}
+                {t.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="built">
+    <h2>Built</h2>
+    <ul>
+      {
+        projects.map((p) => (
+          <li>
+            <a href={p.url} target="_blank" rel="noopener noreferrer">
+              <span class="name">{p.name} <Arrow dir="out" /></span>
+              <span class="note">
+                {p.note} · {p.year}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stack {
+    padding: var(--section-y) var(--gutter);
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 64px;
+    background: var(--paper);
+    color: #111114;
+  }
+  ::selection {
+    background: #111114;
+    color: var(--paper);
+  }
+  .tools,
+  .built {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .label {
+    font-family: var(--font-sans), sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0;
+    color: #5c5a63;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 16px;
+    border: 1.5px solid var(--paper-line);
+    font-size: 19px;
+    font-weight: 700;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .logo {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+  }
+  .logo :global(svg),
+  .logo :global(img) {
+    width: 100%;
+    height: 100%;
+    transition: filter 0.2s;
+  }
+  .logo :global(.round) {
+    border-radius: 50%;
+  }
+  .chip:hover {
+    background: var(--hover);
+    border-color: transparent;
+    color: #fff;
+  }
+  /* Logos go white on the brand fill; a round badge-style logo keeps its own colours. */
+  .chip:hover .logo :global(svg),
+  .chip:hover .logo :global(img:not(.round)) {
+    filter: brightness(0) invert(1);
+  }
+
+  .built a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    padding: 22px 0;
+    border-top: 1px solid var(--paper-line);
+    text-decoration: none;
+  }
+  .built li:first-child a {
+    border-top: 2px solid #111114;
+  }
+  .built li:last-child a {
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .name {
+    font-family: var(--font-display), sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.625rem, 2.6vw, 2.25rem);
+    letter-spacing: 0;
+    transition: color 0.2s;
+  }
+  .built a:hover .name {
+    color: var(--klar);
+  }
+  .note {
+    font-size: 16px;
+    color: #45434c;
+    text-align: right;
+  }
+
+  @media (max-width: 900px) {
+    .stack {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .stack {
+      text-align: center;
+      gap: 48px;
+    }
+    .tools,
+    .built,
+    .group {
+      align-items: center;
+    }
+    .group ul {
+      justify-content: center;
+    }
+    .chip {
+      height: 44px;
+      padding: 0 14px;
+      font-size: 16px;
+    }
+    .logo {
+      width: 20px;
+      height: 20px;
+    }
+    .built ul {
+      width: 100%;
+    }
+    .built a {
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 16px 0;
+    }
+    .note {
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+</style>

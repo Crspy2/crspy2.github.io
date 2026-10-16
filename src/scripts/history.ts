@@ -28,7 +28,7 @@ if (section) {
       trigger: section,
       pin: true,
       scrub: reduce ? true : 0.6,
-      end: () => `+=${window.innerWidth * steps}`,
+      end: () => `+=${track.offsetWidth * steps}`,
       snap: reduce ? undefined : { snapTo: 1 / steps, directional: false, inertia: false, duration: { min: 0.2, max: 0.5 }, ease: "power2.out" },
       invalidateOnRefresh: true,
       onUpdate: (st) => setActive(Math.round(st.progress * steps)),

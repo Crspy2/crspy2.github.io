@@ -13,7 +13,7 @@ const stats = [
   { label: "Current streak", value: gh.calendar?.streak ? `${gh.calendar.streak} ${gh.calendar.streak === 1 ? "day" : "days"}` : "—" },
   { label: "Public repos", value: num(gh.publicRepos) },
   { label: "Followers", value: num(gh.followers) },
-]
+].filter((s) => s.value !== "—")
 
 const langColors = ["var(--klar)", "#CA58FF", "var(--paper)", "#6e6c78", "#3a3a44"]
 ---
@@ -130,7 +130,7 @@ const langColors = ["var(--klar)", "#CA58FF", "var(--paper)", "#6e6c78", "#3a3a4
   .stats {
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     border-block: 1px solid var(--line);
   }
   .stats div {

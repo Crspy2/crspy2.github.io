@@ -1,0 +1,86 @@
+---
+import { Image } from "astro:assets"
+import r6 from "../assets/games/rainbow-six-siege.png"
+import arc from "../assets/games/arc-raiders.png"
+import rust from "../assets/games/rust.png"
+import fortnite from "../assets/games/fortnite-icon.png"
+import bf6 from "../assets/games/battlefield-6-icon.png"
+
+// Game icons: Steam desktop icons (R6, Arc Raiders, Rust), Fortnite's lettermark icon and the BF6 mark.
+const games = [
+  { name: "Rainbow Six Siege", img: r6 },
+  { name: "Arc Raiders", img: arc },
+  { name: "Battlefield 6", img: bf6, wide: true },
+  { name: "Rust", img: rust },
+  { name: "Fortnite", img: fortnite },
+]
+---
+
+<span class="sr-only">{games.map((g) => g.name).join(", ").replace(/, (?=[^,]*$)/, " and ")}</span>
+<span class="badge" aria-hidden="true" data-rotator>
+  <span class="reel" data-reel>
+    {
+      [...games, games[0]].map((g) => (
+        <span class="game">
+          <Image src={g.img} alt="" height={64} class:list={["logo", { wide: g.wide }]} />
+          {g.name}
+        </span>
+      ))
+    }
+  </span>
+</span>
+
+<script>
+  import { gsap } from "gsap"
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-rotator]")) {
+    const reel = root.querySelector<HTMLElement>("[data-reel]")!
+    const rows = reel.children.length
+    if (reduce) continue
+
+    // Each step slides the reel up one row; the badge keeps the widest game's width, so the sentence never reflows.
+    const tl = gsap.timeline({ repeat: -1 })
+    for (let i = 1; i < rows; i++) {
+      tl.to(reel, { yPercent: (-100 / rows) * i, duration: 0.6, ease: "power3.inOut" }, "+=1.8")
+    }
+    // The last row repeats the first, so jumping back to the top is invisible.
+    tl.set(reel, { yPercent: 0 })
+  }
+</script>
+
+<style>
+  .badge {
+    display: inline-block;
+    height: 1.5em;
+    padding: 0 0.6em;
+    overflow: clip;
+    vertical-align: -0.26em;
+    background: rgb(255 255 255 / 0.12);
+    border: 1.5px solid rgb(255 255 255 / 0.35);
+    border-radius: 0.3em;
+  }
+  .reel {
+    display: flex;
+    flex-direction: column;
+  }
+  .game {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+    height: 1.5em;
+    white-space: nowrap;
+  }
+  .game :global(.logo) {
+    width: 1em;
+    height: 1em;
+    border-radius: 0.2em;
+    flex-shrink: 0;
+  }
+  .game :global(.logo.wide) {
+    width: auto;
+    border-radius: 0;
+  }
+</style>
